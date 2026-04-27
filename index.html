@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITCRM</title>
+    <title>IT-CRM</title>
     <style>
-        :root { --primary: #4f46e5; --bg: #f8fafc; --white: #ffffff; --danger: #ef4444; }
+        :root { --primary: #4f46e5; --bg: #f8fafc; --danger: #ef4444; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
 
         /* LOGIN BOX */
@@ -13,84 +13,73 @@
         input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; }
         button { cursor: pointer; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
 
-        /* HEADER & ADMIN PANEL */
-        .header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 10px; }
+        /* ADMIN PANEL */
         .admin-bar { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.05); align-items: center; }
 
-        /* JADVAL STRUKTURASI */
-        .table-wrapper { 
-            max-width: 100%; 
-            overflow-x: auto; 
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-        }
+        /* JADVAL */
+        .table-wrapper { overflow-x: auto; background: white; border-radius: 12px; border: 1px solid #e2e8f0; }
         table { border-collapse: collapse; min-width: 100%; }
         th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; min-width: 110px; }
 
-        /* ISMLAR QOTIB TURISHI (Sticky Column) */
+        /* ISM USTUNI VA O'CHIRISH EFFEKTI */
         .sticky-col {
             position: sticky;
             left: 0;
             background: #f1f5f9;
             z-index: 10;
-            min-width: 200px;
+            min-width: 220px;
             text-align: left;
             font-weight: bold;
-            border-right: 2px solid #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        th.sticky-col { background: var(--primary); color: white; }
+        th.sticky-col { background: var(--primary); color: white; display: table-cell; }
+
+        /* Axlat qutisi stili */
+        .delete-icon {
+            color: var(--danger);
+            cursor: pointer;
+            opacity: 0;
+            transition: 0.3s;
+            padding: 5px;
+            font-size: 18px;
+        }
+        tr:hover .delete-icon { opacity: 1; }
+        .delete-icon:hover { transform: scale(1.2); }
 
         .clickable { cursor: pointer; background: #fff; }
         .clickable:hover { background: #e0e7ff; }
         .btn-day { background: #22c55e; }
-        .btn-exit { background: #64748b; }
-
-        /* O'CHIRISH TUGMASI (Hover effekti) */
-        .btn-del { 
-            background: var(--danger); 
-            padding: 6px 12px; 
-            font-size: 12px; 
-            opacity: 0; /* Boshida ko'rinmaydi */
-            transition: 0.3s ease;
-            white-space: nowrap;
-        }
-        /* Sichqoncha qator ustiga kelganda ko'rinadi */
-        tr:hover .btn-del { 
-            opacity: 1; 
-        }
     </style>
 </head>
 <body>
 
 <div id="loginBox" class="login-box">
-    <h2>🔐 ITCRM Kirish</h2>
+    <h2>🔐 IT-CRM Kirish</h2>
     <input type="text" id="user" placeholder="Login">
     <input type="password" id="pass" placeholder="Parol">
-    <button onclick="auth()" style="width: 100%; margin-top: 10px;">Tizimga kirish</button>
+    <button onclick="auth()" style="width: 100%">Kirish</button>
 </div>
 
 <div id="appBox" style="display:none">
-    <div class="header">
-        <h2>IT-CRM Jurnal <span id="userName" style="font-size: 14px; color: #666; font-weight: normal;"></span></h2>
-        <button class="btn-exit" onclick="location.reload()">Chiqish</button>
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px">
+        <h2>IT-CRM Jurnal</h2>
+        <button onclick="location.reload()" style="background:#64748b">Chiqish</button>
     </div>
 
     <div id="adminPanel" class="admin-bar" style="display:none">
-        <input type="text" id="stdName" placeholder="F.I.SH" style="width:180px">
-        <input type="text" id="stdLogin" placeholder="Login yarating" style="width:120px">
-        <input type="text" id="stdPass" placeholder="Parol yarating" style="width:120px">
+        <input type="text" id="stdName" placeholder="F.I.SH">
+        <input type="text" id="stdLogin" placeholder="Login">
+        <input type="text" id="stdPass" placeholder="Parol">
         <button onclick="addStudent()">+ O'quvchi qo'shish</button>
-        <div style="border-left: 2px solid #ddd; height: 30px; margin: 0 5px;"></div>
         <button class="btn-day" onclick="addNewDay()">📅 Yangi dars kuni</button>
     </div>
 
     <div class="table-wrapper">
         <table>
             <thead>
-                <tr id="tableHead">
-                    <th class="sticky-col">O'quvchilar</th>
-                </tr>
+                <tr id="tableHead"><th class="sticky-col">O'quvchilar</th></tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
@@ -98,28 +87,22 @@
 </div>
 
 <script>
-    let students = JSON.parse(localStorage.getItem("crm_v4_stds")) || [];
-    let lessonDays = JSON.parse(localStorage.getItem("crm_v4_days")) || [];
+    let students = JSON.parse(localStorage.getItem("crm_v5_stds")) || [];
+    let lessonDays = JSON.parse(localStorage.getItem("crm_v5_days")) || [];
     let currentUser = null;
 
     function auth() {
         let u = document.getElementById("user").value;
         let p = document.getElementById("pass").value;
-
-        if(u === "admin" && p === "2013") {
-            currentUser = { role: "admin", name: "Ustoz" };
-        } else {
+        if(u === "admin" && p === "2013") currentUser = { role: "admin", name: "Ustoz" };
+        else {
             let found = students.find(s => s.login === u && s.pass === p);
             if(found) currentUser = { role: "student", ...found };
             else return alert("Xato!");
         }
-        
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("appBox").style.display = "block";
-        document.getElementById("userName").innerText = ` | ${currentUser.name}`;
-        
         if(currentUser.role === "admin") document.getElementById("adminPanel").style.display = "flex";
-        
         renderTable();
     }
 
@@ -127,45 +110,29 @@
         let name = document.getElementById("stdName").value;
         let login = document.getElementById("stdLogin").value;
         let pass = document.getElementById("stdPass").value;
-
-        if(!name || !login || !pass) return alert("Hamma kataklarni to'ldiring!");
-
-        let scores = new Array(lessonDays.length).fill("");
-        students.push({ name, login, pass, scores });
-        save();
-        renderTable();
-
+        if(!name || !login || !pass) return alert("To'ldiring!");
+        students.push({ name, login, pass, scores: new Array(lessonDays.length).fill("") });
+        save(); renderTable();
         document.getElementById("stdName").value = "";
-        document.getElementById("stdLogin").value = "";
-        document.getElementById("stdPass").value = "";
     }
 
     function addNewDay() {
         const d = new Date();
         const days = ["Ya", "Du", "Se", "Cho", "Pa", "Ju", "Sh"];
-        let dayStr = `${d.getDate()}.${d.getMonth()+1} (${days[d.getDay()]})`;
-        
-        lessonDays.push(dayStr);
+        lessonDays.push(`${d.getDate()}.${d.getMonth()+1} (${days[d.getDay()]})`);
         students.forEach(s => s.scores.push(""));
-        save();
-        renderTable();
+        save(); renderTable();
     }
 
     function editScore(sIdx, dIdx) {
         if(currentUser.role !== "admin") return;
-        let val = prompt(`${students[sIdx].name} uchun baho (%):`, students[sIdx].scores[dIdx]);
-        if(val !== null) {
-            students[sIdx].scores[dIdx] = val;
-            save();
-            renderTable();
-        }
+        let val = prompt("Baho (%):", students[sIdx].scores[dIdx]);
+        if(val !== null) { students[sIdx].scores[dIdx] = val; save(); renderTable(); }
     }
 
     function deleteStudent(index) {
-        if(confirm(students[index].name + "ni bazadan (va login-parolini) butunlay o'chirmoqchimisiz?")) {
-            students.splice(index, 1);
-            save();
-            renderTable();
+        if(confirm(students[index].name + "ni o'chiramizmi?")) {
+            students.splice(index, 1); save(); renderTable();
         }
     }
 
@@ -173,34 +140,29 @@
         const head = document.getElementById("tableHead");
         const body = document.getElementById("tableBody");
 
-        // Sarlavha
         head.innerHTML = `<th class="sticky-col">O'quvchilar</th>`;
-        lessonDays.forEach(day => {
-            head.innerHTML += `<th>${day}</th>`;
-        });
-        if(currentUser.role === "admin") head.innerHTML += `<th>Amal</th>`;
+        lessonDays.forEach(day => head.innerHTML += `<th>${day}</th>`);
 
-        // Tana
         body.innerHTML = "";
         students.forEach((s, sIdx) => {
             if(currentUser.role === "student" && s.login !== currentUser.login) return;
-
-            let row = `<tr><td class="sticky-col">${s.name}</td>`;
+            
+            let row = `<tr>
+                <td class="sticky-col">
+                    <span>${s.name}</span>
+                    ${currentUser.role === 'admin' ? `<span class="delete-icon" onclick="deleteStudent(${sIdx})">🗑</span>` : ''}
+                </td>`;
             s.scores.forEach((score, dIdx) => {
                 row += `<td class="clickable" onclick="editScore(${sIdx}, ${dIdx})">${score ? score + '%' : '-'}</td>`;
             });
-
-            if(currentUser.role === "admin") {
-                row += `<td><button class="btn-del" onclick="deleteStudent(${sIdx})">🗑 O'chirish</button></td>`;
-            }
             row += `</tr>`;
             body.innerHTML += row;
         });
     }
 
     function save() {
-        localStorage.setItem("crm_v4_stds", JSON.stringify(students));
-        localStorage.setItem("crm_v4_days", JSON.stringify(lessonDays));
+        localStorage.setItem("crm_v5_stds", JSON.stringify(students));
+        localStorage.setItem("crm_v5_days", JSON.stringify(lessonDays));
     }
 </script>
 
