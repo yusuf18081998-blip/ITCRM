@@ -1,173 +1,237 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ITCRM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITCRM</title>
+    <style>
+        :root { --primary: #4f46e5; --bg: #f1f5f9; --white: #ffffff; --gold: #ffd700; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; }
+        
+        .container { max-width: 450px; margin: 60px auto; background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        .app-container { display: none; max-width: 1100px; margin: 20px auto; background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
 
-<style>
-body{
-    font-family: Arial;
-    margin:0;
-    background:#eef2ff;
-}
+        /* MENU */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: #e2e8f0; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: var(--primary); color: white; }
 
-/* LOGIN */
-.login{
-    max-width:300px;
-    margin:100px auto;
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    text-align:center;
-}
+        .section { display: none; }
+        .section.active { display: block; }
 
-.app{
-    display:none;
-    max-width:900px;
-    margin:20px auto;
-    background:white;
-    padding:15px;
-    border-radius:10px;
-}
+        input, select, textarea { width: 95%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; }
+        button { cursor: pointer; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; }
+        
+        /* REYTING */
+        .rank-1 { background: #fff9c4 !important; border: 2px solid var(--gold); }
+        .rank-badge { font-size: 20px; margin-right: 10px; }
 
-h2{text-align:center;}
+        /* CHAT */
+        .chat-box { height: 200px; border: 1px solid #ddd; overflow-y: auto; padding: 10px; border-radius: 10px; background: #f9f9f9; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; }
+        .msg { padding: 8px 12px; border-radius: 15px; max-width: 80%; font-size: 14px; }
+        .msg.admin { background: #dcfce7; align-self: flex-start; }
+        .msg.student { background: #e0e7ff; align-self: flex-end; }
 
-input, button{
-    padding:10px;
-    margin:5px;
-    border-radius:5px;
-    border:1px solid #ccc;
-}
-
-button{
-    background:#2563eb;
-    color:white;
-    border:none;
-}
-
-/* TABLE */
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:10px;
-}
-
-th,td{
-    border:1px solid #ddd;
-    padding:8px;
-    text-align:center;
-}
-
-th{
-    background:#2563eb;
-    color:white;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-    table, thead, tbody, th, td, tr{
-        display:block;
-    }
-    tr{margin-bottom:10px;}
-}
-</style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid #e2e8f0; padding: 12px; text-align: center; }
+        .admin-only { background: #fff4f4; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #feb2b2; }
+    </style>
 </head>
-
 <body>
 
-<div class="login" id="loginBox">
-    <h2>🔐 Kirish</h2>
-    <input type="text" id="user" placeholder="Login"><br>
-    <input type="password" id="pass" placeholder="Parol"><br>
-    <button onclick="login()">Kirish</button>
+<div class="container" id="loginBox">
+    <h2>🚀 IT-CRM Kirish</h2>
+    <input type="text" id="user" placeholder="Login">
+    <input type="password" id="pass" placeholder="Parol">
+    <button onclick="auth()" style="width: 100%;">Kirish</button>
 </div>
 
-<div class="app" id="appBox">
-    <h2>📊 Baholash Tizimi</h2>
+<div class="app-container" id="appBox">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; margin-bottom: 20px; padding-bottom: 10px;">
+        <h2 id="welcomeText" style="margin:0">Salom!</h2>
+        <button onclick="location.reload()" style="background:#64748b">Chiqish</button>
+    </div>
 
-    <input type="text" id="name" placeholder="Ism">
-    <input type="number" id="score" placeholder="Ball">
-    <button onclick="add()">Qo‘shish</button>
-    <button onclick="clearAll()">Tozalash</button>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab('main')">Asosiy</button>
+        <button class="tab-btn" onclick="openTab('rating')">🏆 Reyting</button>
+        <button class="tab-btn" onclick="openTab('chat')">💬 Muloqot</button>
+        <button class="tab-btn" id="teacherReviewTab" onclick="openTab('review')">⭐ Ustozni baholash</button>
+    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>№</th>
-                <th>Ism</th>
-                <th>Ball</th>
-                <th>Baho</th>
-            </tr>
-        </thead>
-        <tbody id="list"></tbody>
-    </table>
+    <div id="main" class="section active">
+        <div id="adminPanel" class="admin-only" style="display: none;">
+            <h3>Yangi o'quvchi va Ballar</h3>
+            <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                <input type="text" id="newName" placeholder="F.I.SH" style="width: 30%">
+                <input type="text" id="newLogin" placeholder="Login" style="width: 20%">
+                <input type="text" id="newPass" placeholder="Parol" style="width: 20%">
+                <button onclick="addStudent()">Qo'shish</button>
+            </div>
+            <hr>
+            <select id="studentSelect" style="width: 30%"></select>
+            <input type="number" id="dush" placeholder="Du" style="width: 60px">
+            <input type="number" id="chor" placeholder="Cho" style="width: 60px">
+            <input type="number" id="jum" placeholder="Ju" style="width: 60px">
+            <button onclick="updateScore()">Ball qo'yish</button>
+        </div>
+        <table>
+            <thead><tr><th>F.I.SH</th><th>Du</th><th>Cho</th><th>Ju</th><th>O'rtacha</th><th>Baho</th></tr></thead>
+            <tbody id="list"></tbody>
+        </table>
+    </div>
+
+    <div id="rating" class="section">
+        <h3>🏆 Top o'quvchilar</h3>
+        <table id="ratingTable">
+            <thead><tr><th>O'rin</th><th>Ism</th><th>Umumiy Ball</th></tr></thead>
+            <tbody id="ratingList"></tbody>
+        </table>
+    </div>
+
+    <div id="chat" class="section">
+        <h3>💬 Ustoz bilan muloqot</h3>
+        <div class="chat-box" id="chatBox"></div>
+        <div style="display:flex; gap:10px">
+            <input type="text" id="chatMsg" placeholder="Xabar yozing...">
+            <button onclick="sendMsg()">Yuborish</button>
+        </div>
+    </div>
+
+    <div id="review" class="section">
+        <h3>⭐ Ustozni baholash</h3>
+        <div id="reviewForm">
+            <p>Dars o'tish sifati qanday?</p>
+            <select id="starCount">
+                <option value="5">⭐⭐⭐⭐⭐ (A'lo)</option>
+                <option value="4">⭐⭐⭐⭐ (Yaxshi)</option>
+                <option value="3">⭐⭐⭐ (O'rtacha)</option>
+                <option value="2">⭐⭐ (Qoniqarsiz)</option>
+            </select>
+            <textarea id="reviewText" placeholder="Fikringiz bo'lsa yozing..."></textarea>
+            <button onclick="submitReview()">Baholashni yuborish</button>
+        </div>
+        <div id="adminReviews" style="display:none">
+            <h4>O'quvchilar fikrlari:</h4>
+            <div id="reviewList"></div>
+        </div>
+    </div>
 </div>
 
 <script>
-function login(){
-    let u=document.getElementById("user").value;
-    let p=document.getElementById("pass").value;
+    let students = JSON.parse(localStorage.getItem("crm_s")) || [];
+    let messages = JSON.parse(localStorage.getItem("crm_m")) || [];
+    let reviews = JSON.parse(localStorage.getItem("crm_r")) || [];
+    let currentUser = null;
 
-    if(u==="admin" && p==="1234"){
-        document.getElementById("loginBox").style.display="none";
-        document.getElementById("appBox").style.display="block";
-    }else{
-        alert("Kirish yoki parol xato!");
-    }
-}
-
-function grade(s){
-    if(s>=90)return "A";
-    if(s>=80)return "B";
-    if(s>=70)return "C";
-    if(s>=60)return "D";
-    return "F";
-}
-
-let data = JSON.parse(localStorage.getItem("data")) || [];
-show();
-
-function add(){
-    let name=document.getElementById("name").value;
-    let score=document.getElementById("score").value;
-
-    if(name===""||score===""){
-        alert("To‘ldir!");
-        return;
+    function auth() {
+        let u = document.getElementById("user").value;
+        let p = document.getElementById("pass").value;
+        if(u === "admin" && p === "2013") { currentUser = { role: "admin", name: "Ustoz" }; }
+        else {
+            let s = students.find(x => x.login === u && x.pass === p);
+            if(s) currentUser = { role: "student", ...s };
+            else return alert("Xato!");
+        }
+        loadApp();
     }
 
-    data.push({name,score});
-    localStorage.setItem("data",JSON.stringify(data));
-    show();
-
-    document.getElementById("name").value="";
-    document.getElementById("score").value="";
-}
-
-function show(){
-    let list=document.getElementById("list");
-    list.innerHTML="";
-
-    data.forEach((e,i)=>{
-        list.innerHTML+=`
-        <tr>
-            <td>${i+1}</td>
-            <td>${e.name}</td>
-            <td>${e.score}</td>
-            <td>${grade(e.score)}</td>
-        </tr>`;
-    });
-}
-
-function clearAll(){
-    if(confirm("Hammasini o‘chirish kerakmi?")){
-        data=[];
-        localStorage.removeItem("data");
-        show();
+    function loadApp() {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("appBox").style.display = "block";
+        document.getElementById("welcomeText").innerText = currentUser.name;
+        if(currentUser.role === "admin") {
+            document.getElementById("adminPanel").style.display = "block";
+            document.getElementById("adminReviews").style.display = "block";
+        }
+        showData();
+        showChat();
+        showRating();
+        showReviews();
     }
-}
+
+    function openTab(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function addStudent() {
+        let n = document.getElementById("newName").value;
+        let l = document.getElementById("newLogin").value;
+        let p = document.getElementById("newPass").value;
+        if(!n || !l || !p) return;
+        students.push({ name: n, login: l, pass: p, scores: [0,0,0] });
+        save(); showData(); updateSelect();
+    }
+
+    function updateScore() {
+        let i = document.getElementById("studentSelect").value;
+        students[i].scores = [
+            parseInt(document.getElementById("dush").value)||0,
+            parseInt(document.getElementById("chor").value)||0,
+            parseInt(document.getElementById("jum").value)||0
+        ];
+        save(); showData(); showRating();
+    }
+
+    function showData() {
+        let list = document.getElementById("list"); list.innerHTML = "";
+        let sel = document.getElementById("studentSelect"); sel.innerHTML = "";
+        students.forEach((s, i) => {
+            if(currentUser.role === 'student' && s.login !== currentUser.login) return;
+            let avg = Math.round((s.scores[0]+s.scores[1]+s.scores[2])/3);
+            list.innerHTML += `<tr><td>${s.name}</td><td>${s.scores[0]}</td><td>${s.scores[1]}</td><td>${s.scores[2]}</td><td>${avg}</td><td>${avg>=60?'✅':'❌'}</td></tr>`;
+            sel.innerHTML += `<option value="${i}">${s.name}</option>`;
+        });
+    }
+
+    function showRating() {
+        let rList = document.getElementById("ratingList"); rList.innerHTML = "";
+        let sorted = [...students].sort((a,b) => (b.scores[0]+b.scores[1]+b.scores[2]) - (a.scores[0]+a.scores[1]+a.scores[2]));
+        sorted.forEach((s, i) => {
+            let total = s.scores[0]+s.scores[1]+s.scores[2];
+            rList.innerHTML += `<tr class="${i===0?'rank-1':''}"><td>${i+1}</td><td>${s.name}</td><td>${total}</td></tr>`;
+        });
+    }
+
+    function sendMsg() {
+        let txt = document.getElementById("chatMsg").value;
+        if(!txt) return;
+        messages.push({ user: currentUser.name, role: currentUser.role, text: txt });
+        localStorage.setItem("crm_m", JSON.stringify(messages));
+        document.getElementById("chatMsg").value = "";
+        showChat();
+    }
+
+    function showChat() {
+        let box = document.getElementById("chatBox"); box.innerHTML = "";
+        messages.forEach(m => {
+            box.innerHTML += `<div class="msg ${m.role}"><b>${m.user}:</b> ${m.text}</div>`;
+        });
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function submitReview() {
+        if(currentUser.role === "admin") return alert("Ustoz o'zini baholay olmaydi!");
+        let star = document.getElementById("starCount").value;
+        let msg = document.getElementById("reviewText").value;
+        reviews.push({ from: currentUser.name, star: star, text: msg });
+        localStorage.setItem("crm_r", JSON.stringify(reviews));
+        alert("Rahmat! Bahongiz qabul qilindi.");
+        document.getElementById("reviewText").value = "";
+    }
+
+    function showReviews() {
+        let rDiv = document.getElementById("reviewList"); rDiv.innerHTML = "";
+        reviews.forEach(r => {
+            rDiv.innerHTML += `<div style="border-bottom:1px solid #ddd; padding:5px"><b>${r.from}:</b> ${"⭐".repeat(r.star)} <br> <i>${r.text}</i></div>`;
+        });
+    }
+
+    function save() { localStorage.setItem("crm_s", JSON.stringify(students)); }
+    function updateSelect() { /* update logic inside showData */ }
 </script>
-
 </body>
 </html>
