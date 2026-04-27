@@ -8,16 +8,16 @@
         :root { --primary: #4f46e5; --bg: #f8fafc; --white: #ffffff; --danger: #ef4444; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
 
-        /* LOGIN */
+        /* LOGIN BOX */
         .login-box { max-width: 350px; margin: 100px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
         input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; }
         button { cursor: pointer; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
 
-        /* HEADER & ADMIN BAR */
+        /* HEADER & ADMIN PANEL */
         .header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 10px; }
         .admin-bar { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.05); align-items: center; }
 
-        /* JADVAL */
+        /* JADVAL STRUKTURASI */
         .table-wrapper { 
             max-width: 100%; 
             overflow-x: auto; 
@@ -26,7 +26,7 @@
             border: 1px solid #e2e8f0;
         }
         table { border-collapse: collapse; min-width: 100%; }
-        th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; min-width: 100px; }
+        th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; min-width: 110px; }
 
         /* ISMLAR QOTIB TURISHI (Sticky Column) */
         .sticky-col {
@@ -44,22 +44,35 @@
         .clickable { cursor: pointer; background: #fff; }
         .clickable:hover { background: #e0e7ff; }
         .btn-day { background: #22c55e; }
-        .btn-del { background: var(--danger); padding: 5px 10px; font-size: 12px; }
         .btn-exit { background: #64748b; }
+
+        /* O'CHIRISH TUGMASI (Hover effekti) */
+        .btn-del { 
+            background: var(--danger); 
+            padding: 6px 12px; 
+            font-size: 12px; 
+            opacity: 0; /* Boshida ko'rinmaydi */
+            transition: 0.3s ease;
+            white-space: nowrap;
+        }
+        /* Sichqoncha qator ustiga kelganda ko'rinadi */
+        tr:hover .btn-del { 
+            opacity: 1; 
+        }
     </style>
 </head>
 <body>
 
 <div id="loginBox" class="login-box">
-    <h2>🔐 Tizimga Kirish</h2>
+    <h2>🔐 ITCRM Kirish</h2>
     <input type="text" id="user" placeholder="Login">
     <input type="password" id="pass" placeholder="Parol">
-    <button onclick="auth()" style="width: 100%; margin-top: 10px;">Kirish</button>
+    <button onclick="auth()" style="width: 100%; margin-top: 10px;">Tizimga kirish</button>
 </div>
 
 <div id="appBox" style="display:none">
     <div class="header">
-        <h2>IT-CRM Jurnal</h2>
+        <h2>IT-CRM Jurnal <span id="userName" style="font-size: 14px; color: #666; font-weight: normal;"></span></h2>
         <button class="btn-exit" onclick="location.reload()">Chiqish</button>
     </div>
 
@@ -77,7 +90,7 @@
             <thead>
                 <tr id="tableHead">
                     <th class="sticky-col">O'quvchilar</th>
-                    </tr>
+                </tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
@@ -85,26 +98,26 @@
 </div>
 
 <script>
-    let students = JSON.parse(localStorage.getItem("it_crm_final_stds")) || [];
-    let lessonDays = JSON.parse(localStorage.getItem("it_crm_final_days")) || [];
+    let students = JSON.parse(localStorage.getItem("crm_v4_stds")) || [];
+    let lessonDays = JSON.parse(localStorage.getItem("crm_v4_days")) || [];
     let currentUser = null;
 
     function auth() {
         let u = document.getElementById("user").value;
         let p = document.getElementById("pass").value;
 
-        // Admin: login: admin, parol: 2013
         if(u === "admin" && p === "2013") {
             currentUser = { role: "admin", name: "Ustoz" };
         } else {
-            // O'quvchini bazadan qidirish
             let found = students.find(s => s.login === u && s.pass === p);
             if(found) currentUser = { role: "student", ...found };
-            else return alert("Login yoki parol xato!");
+            else return alert("Xato!");
         }
         
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("appBox").style.display = "block";
+        document.getElementById("userName").innerText = ` | ${currentUser.name}`;
+        
         if(currentUser.role === "admin") document.getElementById("adminPanel").style.display = "flex";
         
         renderTable();
@@ -115,15 +128,13 @@
         let login = document.getElementById("stdLogin").value;
         let pass = document.getElementById("stdPass").value;
 
-        if(!name || !login || !pass) return alert("Hamma ma'lumotlarni to'ldiring!");
+        if(!name || !login || !pass) return alert("Hamma kataklarni to'ldiring!");
 
-        // Yangi o'quvchi uchun mavjud darslar sonicha bo'sh joy ochish
         let scores = new Array(lessonDays.length).fill("");
         students.push({ name, login, pass, scores });
         save();
         renderTable();
 
-        // Inputlarni tozalash
         document.getElementById("stdName").value = "";
         document.getElementById("stdLogin").value = "";
         document.getElementById("stdPass").value = "";
@@ -135,7 +146,6 @@
         let dayStr = `${d.getDate()}.${d.getMonth()+1} (${days[d.getDay()]})`;
         
         lessonDays.push(dayStr);
-        // Hamma o'quvchilarga yangi dars ustuni uchun bo'sh joy qo'shish
         students.forEach(s => s.scores.push(""));
         save();
         renderTable();
@@ -143,10 +153,7 @@
 
     function editScore(sIdx, dIdx) {
         if(currentUser.role !== "admin") return;
-        
-        let currentScore = students[sIdx].scores[dIdx];
-        let val = prompt(`${students[sIdx].name} uchun baho (%) kiriting:`, currentScore);
-        
+        let val = prompt(`${students[sIdx].name} uchun baho (%):`, students[sIdx].scores[dIdx]);
         if(val !== null) {
             students[sIdx].scores[dIdx] = val;
             save();
@@ -155,7 +162,7 @@
     }
 
     function deleteStudent(index) {
-        if(confirm(students[index].name + "ni va uning login-parolini butunlay o'chirmoqchimisiz?")) {
+        if(confirm(students[index].name + "ni bazadan (va login-parolini) butunlay o'chirmoqchimisiz?")) {
             students.splice(index, 1);
             save();
             renderTable();
@@ -166,21 +173,19 @@
         const head = document.getElementById("tableHead");
         const body = document.getElementById("tableBody");
 
-        // 1. Sarlavhani chizish
+        // Sarlavha
         head.innerHTML = `<th class="sticky-col">O'quvchilar</th>`;
         lessonDays.forEach(day => {
             head.innerHTML += `<th>${day}</th>`;
         });
         if(currentUser.role === "admin") head.innerHTML += `<th>Amal</th>`;
 
-        // 2. Jadval tanasini chizish
+        // Tana
         body.innerHTML = "";
         students.forEach((s, sIdx) => {
-            // O'quvchi faqat o'zini ko'rsin
             if(currentUser.role === "student" && s.login !== currentUser.login) return;
 
             let row = `<tr><td class="sticky-col">${s.name}</td>`;
-            
             s.scores.forEach((score, dIdx) => {
                 row += `<td class="clickable" onclick="editScore(${sIdx}, ${dIdx})">${score ? score + '%' : '-'}</td>`;
             });
@@ -188,15 +193,14 @@
             if(currentUser.role === "admin") {
                 row += `<td><button class="btn-del" onclick="deleteStudent(${sIdx})">🗑 O'chirish</button></td>`;
             }
-            
             row += `</tr>`;
             body.innerHTML += row;
         });
     }
 
     function save() {
-        localStorage.setItem("it_crm_final_stds", JSON.stringify(students));
-        localStorage.setItem("it_crm_final_days", JSON.stringify(lessonDays));
+        localStorage.setItem("crm_v4_stds", JSON.stringify(students));
+        localStorage.setItem("crm_v4_days", JSON.stringify(lessonDays));
     }
 </script>
 
