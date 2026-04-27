@@ -5,120 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITCRM</title>
     <style>
-        :root { --primary: #4f46e5; --bg: #f8fafc; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
-        
+        :root { --primary: #4f46e5; --bg: #f8fafc; --white: #ffffff; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; }
+
+        /* LOGIN */
+        .login-box { max-width: 350px; margin: 100px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; }
+        button { cursor: pointer; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+
+        /* APP */
         .header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 10px; }
-        
-        /* JADVAL KONTEYNERI */
+        .admin-bar { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* JADVAL */
         .table-wrapper { 
             max-width: 100%; 
-            overflow-x: auto; /* O'ngga skroll bo'lishi uchun */
+            overflow-x: auto; 
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
         }
-
         table { border-collapse: collapse; min-width: 100%; }
-        
-        th, td { 
-            padding: 12px; 
-            border: 1px solid #e2e8f0; 
-            text-align: center; 
-            min-width: 100px; /* Har bir kun ustuni kengligi */
-        }
+        th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; min-width: 100px; }
 
-        /* ISMLAR USTUNI QOTIB TURISHI UCHUN */
+        /* ISMLAR QOTIB TURISHI */
         .sticky-col {
             position: sticky;
             left: 0;
             background: #f1f5f9;
             z-index: 10;
-            min-width: 200px;
+            min-width: 220px;
             text-align: left;
             font-weight: bold;
+            border-right: 2px solid #cbd5e1;
         }
+        th.sticky-col { background: var(--primary); color: white; }
 
-        th.sticky-col { background: #4f46e5; color: white; }
-
-        .clickable { cursor: pointer; transition: 0.2s; background: #fff; }
+        .clickable { cursor: pointer; background: #fff; font-weight: 500; }
         .clickable:hover { background: #e0e7ff; }
-
-        .admin-bar { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        
-        input, button { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; }
-        button { background: var(--primary); color: white; border: none; cursor: pointer; font-weight: bold; }
-        
-        /* LOGIN */
-        .login-box { max-width: 350px; margin: 100px auto; text-align: center; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .btn-day { background: #22c55e; }
+        .btn-exit { background: #64748b; }
     </style>
 </head>
 <body>
 
 <div id="loginBox" class="login-box">
-    <h2>🔐 ITCRM</h2>
-    <input type="text" id="user" placeholder="Login" style="width:90%"><br><br>
-    <input type="password" id="pass" placeholder="Parol" style="width:90%"><br><br>
-    <button onclick="login()" style="width:100%">Kirish</button>
+    <h2>🚀 ITCRM Kirish</h2>
+    <input type="text" id="user" placeholder="Login">
+    <input type="password" id="pass" placeholder="Parol">
+    <button onclick="auth()" style="width: 100%; margin-top: 10px;">Tizimga kirish</button>
 </div>
 
 <div id="appBox" style="display:none">
     <div class="header">
-        <h2>IT-CRM Jurnal</h2>
-        <button onclick="location.reload()" style="background:#64748b">Chiqish</button>
+        <h2>IT-CRM Jurnal <span id="userDisplay" style="font-size: 14px; color: #666;"></span></h2>
+        <button class="btn-exit" onclick="location.reload()">Chiqish</button>
     </div>
 
     <div id="adminPanel" class="admin-bar" style="display:none">
-        <input type="text" id="stdName" placeholder="Yangi o'quvchi F.I.SH">
+        <input type="text" id="stdName" placeholder="F.I.SH" style="width:200px">
+        <input type="text" id="stdLogin" placeholder="Login yarating" style="width:130px">
+        <input type="text" id="stdPass" placeholder="Parol yarating" style="width:130px">
         <button onclick="addStudent()">+ O'quvchi qo'shish</button>
-        <div style="border-left: 2px solid #ddd; height: 30px; margin: 0 10px;"></div>
-        <button onclick="addNewDay()" style="background:#22c55e">📅 Yangi dars kuni qo'shish</button>
+        <div style="border-left: 2px solid #ddd; height: 30px; margin: 0 5px;"></div>
+        <button class="btn-day" onclick="addNewDay()">📅 Yangi dars kuni</button>
     </div>
 
     <div class="table-wrapper">
-        <table id="mainTable">
+        <table>
             <thead>
-                <tr id="tableHead">
-                    <th class="sticky-col">O'quvchilar</th>
-                    </tr>
+                <tr id="tableHead"><th class="sticky-col">O'quvchilar</th></tr>
             </thead>
-            <tbody id="tableBody">
-                </tbody>
+            <tbody id="tableBody"></tbody>
         </table>
     </div>
 </div>
 
 <script>
-    let students = JSON.parse(localStorage.getItem("it_crm_long_std")) || [];
-    let lessonDays = JSON.parse(localStorage.getItem("it_crm_long_days")) || [];
+    // Ma'lumotlarni yuklash
+    let students = JSON.parse(localStorage.getItem("crm_full_stds")) || [];
+    let lessonDays = JSON.parse(localStorage.getItem("crm_full_days")) || [];
     let currentUser = null;
 
-    function login() {
+    function auth() {
         let u = document.getElementById("user").value;
         let p = document.getElementById("pass").value;
+
         if(u === "admin" && p === "2013") {
-            currentUser = "admin";
-            document.getElementById("adminPanel").style.display = "flex";
+            currentUser = { role: "admin", name: "Ustoz" };
         } else {
-            let s = students.find(x => x.login === u && x.pass === p);
-            if(s) currentUser = "student";
-            else return alert("Xato!");
+            let found = students.find(s => s.login === u && s.pass === p);
+            if(found) currentUser = { role: "student", ...found };
+            else return alert("Login yoki parol xato!");
         }
+        
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("appBox").style.display = "block";
-        renderJournal();
+        if(currentUser.role === "admin") document.getElementById("adminPanel").style.display = "flex";
+        
+        document.getElementById("userDisplay").innerText = " | Foydalanuvchi: " + currentUser.name;
+        renderTable();
     }
 
     function addStudent() {
         let name = document.getElementById("stdName").value;
-        if(!name) return;
-        // O'quvchi uchun barcha dars kunlariga bo'sh baho yaratamiz
+        let login = document.getElementById("stdLogin").value;
+        let pass = document.getElementById("stdPass").value;
+
+        if(!name || !login || !pass) return alert("Hamma ma'lumotlarni to'ldiring!");
+
         let scores = new Array(lessonDays.length).fill("");
-        students.push({ name, scores });
+        students.push({ name, login, pass, scores });
         save();
-        renderJournal();
+        renderTable();
+
         document.getElementById("stdName").value = "";
+        document.getElementById("stdLogin").value = "";
+        document.getElementById("stdPass").value = "";
     }
 
     function addNewDay() {
@@ -127,35 +130,40 @@
         let dayStr = `${d.getDate()}.${d.getMonth()+1} (${days[d.getDay()]})`;
         
         lessonDays.push(dayStr);
-        // Hamma o'quvchilarga yangi dars uchun bo'sh joy ochamiz
         students.forEach(s => s.scores.push(""));
         save();
-        renderJournal();
+        renderTable();
     }
 
     function editScore(sIdx, dIdx) {
-        if(currentUser !== "admin") return;
-        let val = prompt(`${students[sIdx].name} uchun baho (%) kiriting:`, students[sIdx].scores[dIdx]);
+        if(currentUser.role !== "admin") return;
+        
+        let currentScore = students[sIdx].scores[dIdx];
+        let val = prompt(`${students[sIdx].name} uchun baho (%) kiriting:`, currentScore);
+        
         if(val !== null) {
             students[sIdx].scores[dIdx] = val;
             save();
-            renderJournal();
+            renderTable();
         }
     }
 
-    function renderJournal() {
+    function renderTable() {
         const head = document.getElementById("tableHead");
         const body = document.getElementById("tableBody");
 
-        // Sarlavhani chizish
+        // Sarlavha
         head.innerHTML = `<th class="sticky-col">O'quvchilar</th>`;
         lessonDays.forEach(day => {
             head.innerHTML += `<th>${day}</th>`;
         });
 
-        // Tanani chizish
+        // Tana
         body.innerHTML = "";
         students.forEach((s, sIdx) => {
+            // Agar o'quvchi kirgan bo'lsa, faqat o'zini ko'radi
+            if(currentUser.role === "student" && s.login !== currentUser.login) return;
+
             let row = `<tr><td class="sticky-col">${s.name}</td>`;
             s.scores.forEach((score, dIdx) => {
                 row += `<td class="clickable" onclick="editScore(${sIdx}, ${dIdx})">${score ? score + '%' : '-'}</td>`;
@@ -166,8 +174,8 @@
     }
 
     function save() {
-        localStorage.setItem("it_crm_long_std", JSON.stringify(students));
-        localStorage.setItem("it_crm_long_days", JSON.stringify(lessonDays));
+        localStorage.setItem("crm_full_stds", JSON.stringify(students));
+        localStorage.setItem("crm_full_days", JSON.stringify(lessonDays));
     }
 </script>
 
