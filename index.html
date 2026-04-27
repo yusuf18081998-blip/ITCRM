@@ -3,168 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT-CRM</title>
+    <title>ITCRM SYSTEM</title>
     <style>
-        :root { --primary: #4f46e5; --bg: #f8fafc; --danger: #ef4444; }
+        :root { --primary: #4f46e5; --bg: #f8fafc; --success: #22c55e; --danger: #ef4444; --warning: #f59e0b; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
 
-        /* LOGIN BOX */
+        /* LOGIN */
         .login-box { max-width: 350px; margin: 100px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
         input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; }
-        button { cursor: pointer; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        button { cursor: pointer; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; }
 
-        /* ADMIN PANEL */
-        .admin-bar { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.05); align-items: center; }
+        /* MENU TABS */
+        .tabs { display: flex; gap: 10px; margin-bottom: 15px; background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .tab-btn { padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; background: #e2e8f0; }
+        .tab-btn.active { background: var(--primary); color: white; }
 
         /* JADVAL */
-        .table-wrapper { overflow-x: auto; background: white; border-radius: 12px; border: 1px solid #e2e8f0; }
-        table { border-collapse: collapse; min-width: 100%; }
-        th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; min-width: 110px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .table-wrapper { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 10px; }
+        table { border-collapse: collapse; width: 100%; min-width: 700px; }
+        th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; }
 
-        /* ISM USTUNI VA O'CHIRISH EFFEKTI */
-        .sticky-col {
-            position: sticky;
-            left: 0;
-            background: #f1f5f9;
-            z-index: 10;
-            min-width: 220px;
-            text-align: left;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* STICKY ISM VA YASHIRIN O'CHIRISH */
+        .sticky-col { 
+            position: sticky; left: 0; background: #f1f5f9; z-index: 5; min-width: 220px; 
+            text-align: left; font-weight: bold; display: flex; justify-content: space-between; align-items: center;
         }
         th.sticky-col { background: var(--primary); color: white; display: table-cell; }
-
-        /* Axlat qutisi stili */
-        .delete-icon {
-            color: var(--danger);
-            cursor: pointer;
-            opacity: 0;
-            transition: 0.3s;
-            padding: 5px;
-            font-size: 18px;
-        }
+        
+        .delete-icon { color: var(--danger); cursor: pointer; opacity: 0; transition: 0.2s; font-size: 18px; }
         tr:hover .delete-icon { opacity: 1; }
-        .delete-icon:hover { transform: scale(1.2); }
 
-        .clickable { cursor: pointer; background: #fff; }
-        .clickable:hover { background: #e0e7ff; }
-        .btn-day { background: #22c55e; }
+        /* REYTING VA STARS */
+        .rank-row { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; }
+        .stars { display: flex; gap: 10px; justify-content: center; font-size: 35px; cursor: pointer; margin: 20px 0; }
+        .star { color: #cbd5e1; transition: 0.2s; }
+        .star.active { color: var(--warning); }
     </style>
 </head>
 <body>
 
 <div id="loginBox" class="login-box">
-    <h2>🔐 IT-CRM Kirish</h2>
+    <h2 style="color:var(--primary)">ITCRM LOGIN</h2>
     <input type="text" id="user" placeholder="Login">
     <input type="password" id="pass" placeholder="Parol">
-    <button onclick="auth()" style="width: 100%">Kirish</button>
+    <button onclick="auth()" style="width: 100%; margin-top: 10px;">Kirish</button>
 </div>
 
 <div id="appBox" style="display:none">
-    <div style="display:flex; justify-content:space-between; margin-bottom:10px">
-        <h2>IT-CRM Jurnal</h2>
-        <button onclick="location.reload()" style="background:#64748b">Chiqish</button>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('journal', this)">📖 Jurnal</button>
+        <button class="tab-btn" onclick="switchTab('ranking', this)">🏆 Reyting</button>
+        <button class="tab-btn" id="tTab" onclick="switchTab('teacher', this)">⭐ Ustozga baho</button>
+        <button style="margin-left:auto; background:var(--danger)" onclick="location.reload()">Chiqish</button>
     </div>
 
-    <div id="adminPanel" class="admin-bar" style="display:none">
-        <input type="text" id="stdName" placeholder="F.I.SH">
-        <input type="text" id="stdLogin" placeholder="Login">
-        <input type="text" id="stdPass" placeholder="Parol">
-        <button onclick="addStudent()">+ O'quvchi qo'shish</button>
-        <button class="btn-day" onclick="addNewDay()">📅 Yangi dars kuni</button>
+    <div id="journalSec" class="card">
+        <div id="adminPanel" style="display:none; margin-bottom:15px; gap:10px; flex-wrap: wrap;">
+            <input type="text" id="stdName" placeholder="F.I.SH" style="width:180px">
+            <input type="text" id="stdLogin" placeholder="Login" style="width:120px">
+            <input type="text" id="stdPass" placeholder="Parol" style="width:120px">
+            <button onclick="addStudent()">+ O'quvchi</button>
+            <button style="background:var(--success)" onclick="addNewDay()">📅 Yangi dars</button>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr id="tableHead"><th class="sticky-col">O'quvchilar</th></tr></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr id="tableHead"><th class="sticky-col">O'quvchilar</th></tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+    <div id="rankingSec" class="card" style="display:none">
+        <h3>🏆 O'quvchilar Reytingi</h3>
+        <div id="rankList"></div>
+    </div>
+
+    <div id="teacherSec" class="card" style="display:none; text-align:center">
+        <div id="studentVote">
+            <h3>Darsni baholang</h3>
+            <div class="stars">
+                <span class="star" onclick="vote(1)">★</span><span class="star" onclick="vote(2)">★</span><span class="star" onclick="vote(3)">★</span><span class="star" onclick="vote(4)">★</span><span class="star" onclick="vote(5)">★</span>
+            </div>
+            <p id="voteMsg"></p>
+        </div>
+        <div id="adminStats" style="display:none">
+            <h2>Ustoz Statistikasi</h2>
+            <h1 style="color:var(--warning); font-size: 50px;" id="avgStars">0.0</h1>
+            <p>Jami ovozlar: <span id="vCount">0</span> ta</p>
+        </div>
     </div>
 </div>
 
 <script>
-    let students = JSON.parse(localStorage.getItem("crm_v5_stds")) || [];
-    let lessonDays = JSON.parse(localStorage.getItem("crm_v5_days")) || [];
+    // Boshlang'ich o'quvchilarni kiritish
+    const initialStudents = [
+        { name: "Rustamov Aliakbar", login: "alixon71", pass: "2013", scores: [] },
+        { name: "Mirahmedov Muhammadziyo", login: "ziyoxon14", pass: "2013", scores: [] }
+    ];
+
+    let students = JSON.parse(localStorage.getItem("itcrm_stds"));
+    // Agar baza bo'sh bo'lsa, tepadagi o'quvchilarni yuklaymiz
+    if (!students || students.length === 0) {
+        students = initialStudents;
+    }
+    
+    let days = JSON.parse(localStorage.getItem("itcrm_days")) || [];
+    let ratings = JSON.parse(localStorage.getItem("itcrm_ratings")) || [];
     let currentUser = null;
+
+    // Har bir o'quvchining score massivini kunlar soniga moslash
+    students.forEach(s => {
+        while(s.scores.length < days.length) s.scores.push("");
+    });
 
     function auth() {
         let u = document.getElementById("user").value;
         let p = document.getElementById("pass").value;
         if(u === "admin" && p === "2013") currentUser = { role: "admin", name: "Ustoz" };
         else {
-            let found = students.find(s => s.login === u && s.pass === p);
-            if(found) currentUser = { role: "student", ...found };
-            else return alert("Xato!");
+            let s = students.find(x => x.login === u && x.pass === p);
+            if(s) currentUser = { role: "student", ...s };
+            else return alert("Login yoki parol xato!");
         }
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("appBox").style.display = "block";
-        if(currentUser.role === "admin") document.getElementById("adminPanel").style.display = "flex";
-        renderTable();
+        if(currentUser.role === 'admin') {
+            document.getElementById("adminPanel").style.display = "flex";
+            document.getElementById("adminStats").style.display = "block";
+            document.getElementById("studentVote").style.display = "none";
+            document.getElementById("tTab").innerText = "📊 Ustoz Reytingi";
+        }
+        renderJournal();
+    }
+
+    function switchTab(tab, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById("journalSec").style.display = tab === 'journal' ? 'block' : 'none';
+        document.getElementById("rankingSec").style.display = tab === 'ranking' ? 'block' : 'none';
+        document.getElementById("teacherSec").style.display = tab === 'teacher' ? 'block' : 'none';
+        if(tab === 'ranking') renderRanking();
+        if(tab === 'teacher' && currentUser.role === 'admin') showStats();
     }
 
     function addStudent() {
-        let name = document.getElementById("stdName").value;
-        let login = document.getElementById("stdLogin").value;
-        let pass = document.getElementById("stdPass").value;
-        if(!name || !login || !pass) return alert("To'ldiring!");
-        students.push({ name, login, pass, scores: new Array(lessonDays.length).fill("") });
-        save(); renderTable();
+        let n = document.getElementById("stdName").value;
+        let l = document.getElementById("stdLogin").value;
+        let p = document.getElementById("stdPass").value;
+        if(!n || !l || !p) return alert("Ma'lumotlarni to'ldiring!");
+        students.push({ name: n, login: l, pass: p, scores: new Array(days.length).fill("") });
+        save(); renderJournal();
         document.getElementById("stdName").value = "";
     }
 
     function addNewDay() {
-        const d = new Date();
-        const days = ["Ya", "Du", "Se", "Cho", "Pa", "Ju", "Sh"];
-        lessonDays.push(`${d.getDate()}.${d.getMonth()+1} (${days[d.getDay()]})`);
+        let d = new Date();
+        days.push(`${d.getDate()}.${d.getMonth()+1}`);
         students.forEach(s => s.scores.push(""));
-        save(); renderTable();
+        save(); renderJournal();
     }
 
-    function editScore(sIdx, dIdx) {
-        if(currentUser.role !== "admin") return;
-        let val = prompt("Baho (%):", students[sIdx].scores[dIdx]);
-        if(val !== null) { students[sIdx].scores[dIdx] = val; save(); renderTable(); }
-    }
-
-    function deleteStudent(index) {
-        if(confirm(students[index].name + "ni o'chiramizmi?")) {
-            students.splice(index, 1); save(); renderTable();
-        }
-    }
-
-    function renderTable() {
+    function renderJournal() {
         const head = document.getElementById("tableHead");
         const body = document.getElementById("tableBody");
-
-        head.innerHTML = `<th class="sticky-col">O'quvchilar</th>`;
-        lessonDays.forEach(day => head.innerHTML += `<th>${day}</th>`);
-
-        body.innerHTML = "";
-        students.forEach((s, sIdx) => {
-            if(currentUser.role === "student" && s.login !== currentUser.login) return;
-            
-            let row = `<tr>
+        head.innerHTML = `<th class="sticky-col">O'quvchilar</th>` + days.map(d => `<th>${d}</th>`).join("");
+        body.innerHTML = students.filter(s => currentUser.role === 'admin' || s.login === currentUser.login).map((s, sIdx) => {
+            // Haqiqiy indeksni topish (filterdan keyin adashmaslik uchun)
+            const realIdx = students.findIndex(orig => orig.login === s.login);
+            return `<tr>
                 <td class="sticky-col">
                     <span>${s.name}</span>
-                    ${currentUser.role === 'admin' ? `<span class="delete-icon" onclick="deleteStudent(${sIdx})">🗑</span>` : ''}
-                </td>`;
-            s.scores.forEach((score, dIdx) => {
-                row += `<td class="clickable" onclick="editScore(${sIdx}, ${dIdx})">${score ? score + '%' : '-'}</td>`;
-            });
-            row += `</tr>`;
-            body.innerHTML += row;
-        });
+                    ${currentUser.role === 'admin' ? `<span class="delete-icon" onclick="delStd(${realIdx})">🗑</span>`:''}
+                </td>
+                ${s.scores.map((sc, dIdx) => `<td onclick="setSc(${realIdx},${dIdx})" style="cursor:pointer">${sc ? sc+'%' : '-'}</td>`).join("")}
+            </tr>`;
+        }).join("");
+    }
+
+    function setSc(sI, dI) {
+        if(currentUser.role !== 'admin') return;
+        let v = prompt(`${students[sI].name} uchun baho (%):`, students[sI].scores[dI]);
+        if(v !== null) { students[sI].scores[dI] = v; save(); renderJournal(); }
+    }
+
+    function delStd(i) { if(confirm(students[i].name + " o'chirilsinmi?")) { students.splice(i,1); save(); renderJournal(); } }
+
+    function renderRanking() {
+        let sorted = [...students].sort((a,b) => b.scores.reduce((t,c)=>t+(parseInt(c)||0),0) - a.scores.reduce((t,c)=>t+(parseInt(c)||0),0));
+        document.getElementById("rankList").innerHTML = sorted.map((s, i) => `
+            <div class="rank-row" style="${s.login === currentUser.login ? 'background:#fff9c4; font-weight:bold;' : ''}">
+                <span>${i+1}. ${s.name}</span>
+                <span>${s.scores.reduce((t,c)=>t+(parseInt(c)||0),0)} ball</span>
+            </div>
+        `).join("");
+    }
+
+    function vote(n) {
+        ratings.push(n);
+        localStorage.setItem("itcrm_ratings", JSON.stringify(ratings));
+        document.getElementById("voteMsg").innerText = "Rahmat! Bahongiz yuborildi.";
+        document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n));
+    }
+
+    function showStats() {
+        if(ratings.length === 0) return;
+        let avg = (ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1);
+        document.getElementById("avgStars").innerText = avg;
+        document.getElementById("vCount").innerText = ratings.length;
     }
 
     function save() {
-        localStorage.setItem("crm_v5_stds", JSON.stringify(students));
-        localStorage.setItem("crm_v5_days", JSON.stringify(lessonDays));
+        localStorage.setItem("itcrm_stds", JSON.stringify(students));
+        localStorage.setItem("itcrm_days", JSON.stringify(days));
     }
 </script>
-
 </body>
 </html>
