@@ -5,233 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITCRM</title>
     <style>
-        :root { --primary: #4f46e5; --bg: #f1f5f9; --white: #ffffff; --gold: #ffd700; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; }
+        :root { --primary: #6366f1; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; margin: 0; padding: 15px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         
-        .container { max-width: 450px; margin: 60px auto; background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-        .app-container { display: none; max-width: 1100px; margin: 20px auto; background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-
-        /* MENU */
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-btn { flex: 1; padding: 10px; border: none; background: #e2e8f0; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .tab-btn.active { background: var(--primary); color: white; }
-
-        .section { display: none; }
-        .section.active { display: block; }
-
-        input, select, textarea { width: 95%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; }
-        button { cursor: pointer; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; }
+        .login-box { max-width: 350px; margin: 100px auto; text-align: center; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         
-        /* REYTING */
-        .rank-1 { background: #fff9c4 !important; border: 2px solid var(--gold); }
-        .rank-badge { font-size: 20px; margin-right: 10px; }
+        h2 { color: #1e293b; display: flex; justify-content: space-between; align-items: center; }
+        .status-bar { font-size: 14px; background: #e0e7ff; color: #4338ca; padding: 5px 15px; border-radius: 20px; }
 
-        /* CHAT */
-        .chat-box { height: 200px; border: 1px solid #ddd; overflow-y: auto; padding: 10px; border-radius: 10px; background: #f9f9f9; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; }
-        .msg { padding: 8px 12px; border-radius: 15px; max-width: 80%; font-size: 14px; }
-        .msg.admin { background: #dcfce7; align-self: flex-start; }
-        .msg.student { background: #e0e7ff; align-self: flex-end; }
+        .admin-controls { background: #f1f5f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; gap: 10px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; border: 1px solid #e2e8f0; text-align: center; }
+        th { background: #f8fafc; font-size: 13px; color: #64748b; }
 
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border-bottom: 1px solid #e2e8f0; padding: 12px; text-align: center; }
-        .admin-only { background: #fff4f4; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #feb2b2; }
+        .clickable { cursor: pointer; transition: 0.2s; position: relative; }
+        .clickable:hover { background: #f0f9ff; border: 2px solid var(--primary); }
+        .clickable:empty::after { content: "➕"; opacity: 0.3; }
+
+        .percent-badge { padding: 4px 8px; border-radius: 6px; color: white; font-weight: bold; font-size: 14px; }
+        .p-high { background: var(--success); }
+        .p-mid { background: var(--warning); }
+        .p-low { background: var(--danger); }
+
+        input, button { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; }
+        button { background: var(--primary); color: white; border: none; cursor: pointer; font-weight: bold; }
+        .btn-exit { background: #64748b; font-size: 12px; }
+
+        /* Modal styling */
+        .modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:25px; border-radius:15px; box-shadow: 0 0 50px rgba(0,0,0,0.3); z-index:100; }
+        .overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99; }
     </style>
 </head>
 <body>
 
-<div class="container" id="loginBox">
-    <h2>🚀 IT-CRM Kirish</h2>
-    <input type="text" id="user" placeholder="Login">
-    <input type="password" id="pass" placeholder="Parol">
-    <button onclick="auth()" style="width: 100%;">Kirish</button>
+<div id="loginBox" class="login-box">
+    <h2>🔐 ITCRM</h2>
+    <input type="text" id="user" placeholder="Login" style="width:90%"><br><br>
+    <input type="password" id="pass" placeholder="Parol" style="width:90%"><br><br>
+    <button onclick="login()" style="width:100%">Kirish</button>
 </div>
 
-<div class="app-container" id="appBox">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; margin-bottom: 20px; padding-bottom: 10px;">
-        <h2 id="welcomeText" style="margin:0">Salom!</h2>
-        <button onclick="location.reload()" style="background:#64748b">Chiqish</button>
+<div id="appBox" class="container" style="display:none">
+    <h2>
+        <div>📊 Baholash Paneli <span class="status-bar" id="currentDateDisplay"></span></div>
+        <button class="btn-exit" onclick="location.reload()">Chiqish</button>
+    </h2>
+
+    <div id="adminPanel" class="admin-controls" style="display:none">
+        <input type="text" id="stdName" placeholder="F.I.SH (Yangi o'quvchi)">
+        <input type="text" id="stdLogin" placeholder="Login">
+        <input type="text" id="stdPass" placeholder="Parol">
+        <button onclick="addStudent()">O'quvchini qo'shish</button>
     </div>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="openTab('main')">Asosiy</button>
-        <button class="tab-btn" onclick="openTab('rating')">🏆 Reyting</button>
-        <button class="tab-btn" onclick="openTab('chat')">💬 Muloqot</button>
-        <button class="tab-btn" id="teacherReviewTab" onclick="openTab('review')">⭐ Ustozni baholash</button>
-    </div>
-
-    <div id="main" class="section active">
-        <div id="adminPanel" class="admin-only" style="display: none;">
-            <h3>Yangi o'quvchi va Ballar</h3>
-            <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                <input type="text" id="newName" placeholder="F.I.SH" style="width: 30%">
-                <input type="text" id="newLogin" placeholder="Login" style="width: 20%">
-                <input type="text" id="newPass" placeholder="Parol" style="width: 20%">
-                <button onclick="addStudent()">Qo'shish</button>
-            </div>
-            <hr>
-            <select id="studentSelect" style="width: 30%"></select>
-            <input type="number" id="dush" placeholder="Du" style="width: 60px">
-            <input type="number" id="chor" placeholder="Cho" style="width: 60px">
-            <input type="number" id="jum" placeholder="Ju" style="width: 60px">
-            <button onclick="updateScore()">Ball qo'yish</button>
-        </div>
+    <div style="overflow-x: auto;">
         <table>
-            <thead><tr><th>F.I.SH</th><th>Du</th><th>Cho</th><th>Ju</th><th>O'rtacha</th><th>Baho</th></tr></thead>
-            <tbody id="list"></tbody>
+            <thead>
+                <tr>
+                    <th style="text-align: left; width: 250px;">O'quvchi F.I.SH</th>
+                    <th>Dushanba</th>
+                    <th>Chorshanba</th>
+                    <th>Juma</th>
+                    <th>O'rtacha (%)</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody"></tbody>
         </table>
     </div>
+</div>
 
-    <div id="rating" class="section">
-        <h3>🏆 Top o'quvchilar</h3>
-        <table id="ratingTable">
-            <thead><tr><th>O'rin</th><th>Ism</th><th>Umumiy Ball</th></tr></thead>
-            <tbody id="ratingList"></tbody>
-        </table>
-    </div>
-
-    <div id="chat" class="section">
-        <h3>💬 Ustoz bilan muloqot</h3>
-        <div class="chat-box" id="chatBox"></div>
-        <div style="display:flex; gap:10px">
-            <input type="text" id="chatMsg" placeholder="Xabar yozing...">
-            <button onclick="sendMsg()">Yuborish</button>
-        </div>
-    </div>
-
-    <div id="review" class="section">
-        <h3>⭐ Ustozni baholash</h3>
-        <div id="reviewForm">
-            <p>Dars o'tish sifati qanday?</p>
-            <select id="starCount">
-                <option value="5">⭐⭐⭐⭐⭐ (A'lo)</option>
-                <option value="4">⭐⭐⭐⭐ (Yaxshi)</option>
-                <option value="3">⭐⭐⭐ (O'rtacha)</option>
-                <option value="2">⭐⭐ (Qoniqarsiz)</option>
-            </select>
-            <textarea id="reviewText" placeholder="Fikringiz bo'lsa yozing..."></textarea>
-            <button onclick="submitReview()">Baholashni yuborish</button>
-        </div>
-        <div id="adminReviews" style="display:none">
-            <h4>O'quvchilar fikrlari:</h4>
-            <div id="reviewList"></div>
-        </div>
-    </div>
+<div class="overlay" id="overlay" onclick="closeModal()"></div>
+<div class="modal" id="scoreModal">
+    <h3 id="modalTitle">Baho qo'yish</h3>
+    <p>Foizni kiriting (0-100):</p>
+    <input type="number" id="tempScore" min="0" max="100" style="width:100px; font-size: 20px; text-align: center;"> %
+    <br><br>
+    <button onclick="saveScore()" style="width:100%">Saqlash</button>
 </div>
 
 <script>
-    let students = JSON.parse(localStorage.getItem("crm_s")) || [];
-    let messages = JSON.parse(localStorage.getItem("crm_m")) || [];
-    let reviews = JSON.parse(localStorage.getItem("crm_r")) || [];
+    let students = JSON.parse(localStorage.getItem("it_crm_v3_students")) || [];
     let currentUser = null;
+    let activeStudentIndex = null;
+    let activeDayIndex = null;
 
-    function auth() {
+    // Sanani va kunni aniqlash
+    const days = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+    const now = new Date();
+    const dateStr = `${now.getDate()}.${now.getMonth()+1}.${now.getFullYear()} | ${days[now.getDay()]}`;
+    document.getElementById("currentDateDisplay").innerText = dateStr;
+
+    function login() {
         let u = document.getElementById("user").value;
         let p = document.getElementById("pass").value;
-        if(u === "admin" && p === "2013") { currentUser = { role: "admin", name: "Ustoz" }; }
-        else {
-            let s = students.find(x => x.login === u && x.pass === p);
-            if(s) currentUser = { role: "student", ...s };
+
+        if(u === "admin" && p === "2013") {
+            currentUser = { role: "admin" };
+            document.getElementById("adminPanel").style.display = "flex";
+        } else {
+            let found = students.find(s => s.login === u && s.pass === p);
+            if(found) currentUser = { role: "student", ...found };
             else return alert("Xato!");
         }
-        loadApp();
-    }
-
-    function loadApp() {
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("appBox").style.display = "block";
-        document.getElementById("welcomeText").innerText = currentUser.name;
-        if(currentUser.role === "admin") {
-            document.getElementById("adminPanel").style.display = "block";
-            document.getElementById("adminReviews").style.display = "block";
-        }
-        showData();
-        showChat();
-        showRating();
-        showReviews();
-    }
-
-    function openTab(id) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        event.currentTarget.classList.add('active');
+        renderTable();
     }
 
     function addStudent() {
-        let n = document.getElementById("newName").value;
-        let l = document.getElementById("newLogin").value;
-        let p = document.getElementById("newPass").value;
-        if(!n || !l || !p) return;
-        students.push({ name: n, login: l, pass: p, scores: [0,0,0] });
-        save(); showData(); updateSelect();
+        let name = document.getElementById("stdName").value;
+        let login = document.getElementById("stdLogin").value;
+        let pass = document.getElementById("stdPass").value;
+        if(!name || !login || !pass) return alert("To'ldiring!");
+
+        students.push({ name, login, pass, scores: [null, null, null] }); // Du, Cho, Ju uchun
+        saveData();
+        renderTable();
+        document.getElementById("stdName").value = "";
     }
 
-    function updateScore() {
-        let i = document.getElementById("studentSelect").value;
-        students[i].scores = [
-            parseInt(document.getElementById("dush").value)||0,
-            parseInt(document.getElementById("chor").value)||0,
-            parseInt(document.getElementById("jum").value)||0
-        ];
-        save(); showData(); showRating();
+    function openScoreModal(sIdx, dIdx) {
+        if(currentUser.role !== 'admin') return; // O'quvchi o'ziga baho qo'ya olmaydi
+        activeStudentIndex = sIdx;
+        activeDayIndex = dIdx;
+        document.getElementById("modalTitle").innerText = `${students[sIdx].name} - Baholash`;
+        document.getElementById("tempScore").value = students[sIdx].scores[dIdx] || "";
+        document.getElementById("scoreModal").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
     }
 
-    function showData() {
-        let list = document.getElementById("list"); list.innerHTML = "";
-        let sel = document.getElementById("studentSelect"); sel.innerHTML = "";
-        students.forEach((s, i) => {
+    function saveScore() {
+        let val = parseInt(document.getElementById("tempScore").value);
+        if(val >= 0 && val <= 100) {
+            students[activeStudentIndex].scores[activeDayIndex] = val;
+            saveData();
+            renderTable();
+            closeModal();
+        } else {
+            alert("0 dan 100 gacha son kiriting!");
+        }
+    }
+
+    function closeModal() {
+        document.getElementById("scoreModal").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    function renderTable() {
+        let body = document.getElementById("studentTableBody");
+        body.innerHTML = "";
+
+        students.forEach((s, sIdx) => {
+            // O'quvchi faqat o'zini ko'rsin
             if(currentUser.role === 'student' && s.login !== currentUser.login) return;
-            let avg = Math.round((s.scores[0]+s.scores[1]+s.scores[2])/3);
-            list.innerHTML += `<tr><td>${s.name}</td><td>${s.scores[0]}</td><td>${s.scores[1]}</td><td>${s.scores[2]}</td><td>${avg}</td><td>${avg>=60?'✅':'❌'}</td></tr>`;
-            sel.innerHTML += `<option value="${i}">${s.name}</option>`;
+
+            let total = 0;
+            let count = 0;
+            s.scores.forEach(v => { if(v !== null) { total += v; count++; } });
+            let avg = count > 0 ? Math.round(total / count) : 0;
+            let colorClass = avg >= 80 ? 'p-high' : (avg >= 60 ? 'p-mid' : 'p-low');
+
+            body.innerHTML += `
+                <tr>
+                    <td style="text-align: left; font-weight: bold;">${s.name}</td>
+                    <td class="clickable" onclick="openScoreModal(${sIdx}, 0)">${s.scores[0] !== null ? s.scores[0] + '%' : ''}</td>
+                    <td class="clickable" onclick="openScoreModal(${sIdx}, 1)">${s.scores[1] !== null ? s.scores[1] + '%' : ''}</td>
+                    <td class="clickable" onclick="openScoreModal(${sIdx}, 2)">${s.scores[2] !== null ? s.scores[2] + '%' : ''}</td>
+                    <td><span class="percent-badge ${colorClass}">${avg}%</span></td>
+                </tr>
+            `;
         });
     }
 
-    function showRating() {
-        let rList = document.getElementById("ratingList"); rList.innerHTML = "";
-        let sorted = [...students].sort((a,b) => (b.scores[0]+b.scores[1]+b.scores[2]) - (a.scores[0]+a.scores[1]+a.scores[2]));
-        sorted.forEach((s, i) => {
-            let total = s.scores[0]+s.scores[1]+s.scores[2];
-            rList.innerHTML += `<tr class="${i===0?'rank-1':''}"><td>${i+1}</td><td>${s.name}</td><td>${total}</td></tr>`;
-        });
+    function saveData() {
+        localStorage.setItem("it_crm_v3_students", JSON.stringify(students));
     }
-
-    function sendMsg() {
-        let txt = document.getElementById("chatMsg").value;
-        if(!txt) return;
-        messages.push({ user: currentUser.name, role: currentUser.role, text: txt });
-        localStorage.setItem("crm_m", JSON.stringify(messages));
-        document.getElementById("chatMsg").value = "";
-        showChat();
-    }
-
-    function showChat() {
-        let box = document.getElementById("chatBox"); box.innerHTML = "";
-        messages.forEach(m => {
-            box.innerHTML += `<div class="msg ${m.role}"><b>${m.user}:</b> ${m.text}</div>`;
-        });
-        box.scrollTop = box.scrollHeight;
-    }
-
-    function submitReview() {
-        if(currentUser.role === "admin") return alert("Ustoz o'zini baholay olmaydi!");
-        let star = document.getElementById("starCount").value;
-        let msg = document.getElementById("reviewText").value;
-        reviews.push({ from: currentUser.name, star: star, text: msg });
-        localStorage.setItem("crm_r", JSON.stringify(reviews));
-        alert("Rahmat! Bahongiz qabul qilindi.");
-        document.getElementById("reviewText").value = "";
-    }
-
-    function showReviews() {
-        let rDiv = document.getElementById("reviewList"); rDiv.innerHTML = "";
-        reviews.forEach(r => {
-            rDiv.innerHTML += `<div style="border-bottom:1px solid #ddd; padding:5px"><b>${r.from}:</b> ${"⭐".repeat(r.star)} <br> <i>${r.text}</i></div>`;
-        });
-    }
-
-    function save() { localStorage.setItem("crm_s", JSON.stringify(students)); }
-    function updateSelect() { /* update logic inside showData */ }
 </script>
+
 </body>
 </html>
