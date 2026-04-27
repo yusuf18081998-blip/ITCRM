@@ -4,67 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT-CRM</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        :root { --primary: #4f46e5; --bg: #f8fafc; --success: #22c55e; --danger: #ef4444; --warning: #f59e0b; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
-
-        /* LOGIN */
-        .login-box { max-width: 350px; margin: 100px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-        input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; }
-        button { cursor: pointer; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; }
-
-        /* MENU TABS */
-        .tabs { display: flex; gap: 10px; margin-bottom: 15px; background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .tab-btn { padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; background: #e2e8f0; }
+        :root { --primary: #4f46e5; --bg: #f1f5f9; --success: #22c55e; --danger: #ef4444; --warning: #f59e0b; --dark: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
+        
+        /* DASHBOARD & NEWS */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
+        .news-bar { background: var(--dark); color: white; padding: 12px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        /* TABS */
+        .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 15px; }
+        .tab-btn { padding: 10px 18px; border-radius: 8px; border: none; cursor: pointer; background: white; font-weight: 600; transition: 0.3s; white-space: nowrap; }
         .tab-btn.active { background: var(--primary); color: white; }
 
-        /* JADVAL */
+        /* JADVAL & KARTALAR */
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .table-wrapper { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 10px; }
-        table { border-collapse: collapse; width: 100%; min-width: 700px; }
-        th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; }
-
-        /* STICKY ISM VA YASHIRIN O'CHIRISH */
-        .sticky-col { 
-            position: sticky; left: 0; background: #f1f5f9; z-index: 5; min-width: 220px; 
-            text-align: left; font-weight: bold; display: flex; justify-content: space-between; align-items: center;
-        }
-        th.sticky-col { background: var(--primary); color: white; display: table-cell; }
+        .table-wrapper { overflow-x: auto; border-radius: 10px; border: 1px solid #e2e8f0; }
+        table { border-collapse: collapse; width: 100%; min-width: 900px; }
+        th, td { padding: 12px; border: 1px solid #e2e8f0; text-align: center; }
         
-        .delete-icon { color: var(--danger); cursor: pointer; opacity: 0; transition: 0.2s; font-size: 18px; }
+        .sticky-col { position: sticky; left: 0; background: #f8fafc; z-index: 5; min-width: 200px; text-align: left; font-weight: bold; }
+        .delete-icon { color: var(--danger); cursor: pointer; opacity: 0; float: right; transition: 0.2s; }
         tr:hover .delete-icon { opacity: 1; }
 
-        /* REYTING VA STARS */
-        .rank-row { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; }
-        .stars { display: flex; gap: 10px; justify-content: center; font-size: 35px; cursor: pointer; margin: 20px 0; }
-        .star { color: #cbd5e1; transition: 0.2s; }
-        .star.active { color: var(--warning); }
+        /* ISH REJASI (TO-DO) */
+        .todo-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; align-items: center; }
+        .todo-item.done { text-decoration: line-through; color: #94a3b8; }
+        
+        .login-box { max-width: 350px; margin: 80px auto; background: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        input, select { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; }
+        .btn { cursor: pointer; padding: 10px 20px; border-radius: 8px; border: none; font-weight: bold; transition: 0.3s; }
+        .btn-primary { background: var(--primary); color: white; }
     </style>
 </head>
 <body>
 
 <div id="loginBox" class="login-box">
-    <h2 style="color:var(--primary)">IT-CRM LOGIN</h2>
+    <h2 style="color:var(--primary)">ITCRM PRO</h2>
     <input type="text" id="user" placeholder="Login">
     <input type="password" id="pass" placeholder="Parol">
-    <button onclick="auth()" style="width: 100%; margin-top: 10px;">Kirish</button>
+    <button class="btn btn-primary" style="width:100%" onclick="auth()">Kirish</button>
 </div>
 
 <div id="appBox" style="display:none">
+    <div class="news-bar" id="newsBar">
+        <span>📢</span> <marquee id="newsText">Xush kelibsiz!</marquee>
+    </div>
+
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><h3>O'rtacha o'zlashtirish</h3><p id="avgTotal">0%</p></div>
+        <div class="stat-card"><h3>Top O'quvchi</h3><p id="topStudent">-</p></div>
+        <div class="stat-card"><h3>Darslar soni</h3><p id="lessonCount">0</p></div>
+    </div>
+
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('journal', this)">📖 Jurnal</button>
         <button class="tab-btn" onclick="switchTab('ranking', this)">🏆 Reyting</button>
-        <button class="tab-btn" id="tTab" onclick="switchTab('teacher', this)">⭐ Ustozga baho</button>
-        <button style="margin-left:auto; background:var(--danger)" onclick="location.reload()">Chiqish</button>
+        <button class="tab-btn" id="planTabBtn" onclick="switchTab('plan', this)" style="display:none">📝 Ish reja</button>
+        <button class="tab-btn" onclick="switchTab('teacher', this)" id="teacherTab">⭐ Ustozga baho</button>
+        <button class="btn btn-primary" onclick="exportExcel()" style="margin-left:auto; background:#107c10">Excel yuklash</button>
+        <button class="btn" style="background:var(--danger); color:white" onclick="location.reload()">Chiqish</button>
     </div>
 
     <div id="journalSec" class="card">
-        <div id="adminPanel" style="display:none; margin-bottom:15px; gap:10px; flex-wrap: wrap;">
+        <div id="adminPanel" style="display:none; margin-bottom:15px; gap:10px; flex-wrap:wrap">
             <input type="text" id="stdName" placeholder="F.I.SH" style="width:180px">
             <input type="text" id="stdLogin" placeholder="Login" style="width:120px">
             <input type="text" id="stdPass" placeholder="Parol" style="width:120px">
-            <button onclick="addStudent()">+ O'quvchi</button>
-            <button style="background:var(--success)" onclick="addNewDay()">📅 Yangi dars</button>
+            <button class="btn btn-primary" onclick="addStudent()">+ O'quvchi</button>
+            <button class="btn" style="background:var(--success); color:white" onclick="addNewDay()">📅 Yangi dars</button>
+            <input type="text" id="newsInp" placeholder="E'lon yozish..." style="width:250px">
+            <button class="btn" onclick="updateNews()">Yangilash</button>
         </div>
         <div class="table-wrapper">
             <table>
@@ -79,144 +91,151 @@
         <div id="rankList"></div>
     </div>
 
-    <div id="teacherSec" class="card" style="display:none; text-align:center">
-        <div id="studentVote">
-            <h3>Darsni baholang</h3>
-            <div class="stars">
-                <span class="star" onclick="vote(1)">★</span><span class="star" onclick="vote(2)">★</span><span class="star" onclick="vote(3)">★</span><span class="star" onclick="vote(4)">★</span><span class="star" onclick="vote(5)">★</span>
-            </div>
-            <p id="voteMsg"></p>
+    <div id="planSec" class="card" style="display:none">
+        <h3>📝 Shaxsiy Ish Rejangiz</h3>
+        <div style="display:flex; gap:10px; margin-bottom:20px">
+            <input type="text" id="todoInp" placeholder="Yangi reja yozing..." style="flex:1">
+            <button class="btn btn-primary" onclick="addTodo()">Qo'shish</button>
         </div>
-        <div id="adminStats" style="display:none">
-            <h2>Ustoz Statistikasi</h2>
-            <h1 style="color:var(--warning); font-size: 50px;" id="avgStars">0.0</h1>
+        <div id="todoList"></div>
+    </div>
+
+    <div id="teacherSec" class="card" style="display:none; text-align:center">
+        <div id="adminTeacherStats" style="display:none">
+            <h2>Ustoz Reytingi: <span id="avgStars" style="color:var(--warning)">0.0</span> ★</h2>
             <p>Jami ovozlar: <span id="vCount">0</span> ta</p>
+        </div>
+        <div id="studentVote">
+            <h3>Bugungi darsni baholang</h3>
+            <div style="font-size:40px; cursor:pointer" id="starBox">
+                <span onclick="vote(1)">★</span><span onclick="vote(2)">★</span><span onclick="vote(3)">★</span><span onclick="vote(4)">★</span><span onclick="vote(5)">★</span>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Boshlang'ich o'quvchilarni kiritish
-    const initialStudents = [
-        { name: "Rustamov Aliakbar", login: "alixon71", pass: "2013", scores: [] },
-        { name: "Mirahmedov Muhammadziyo", login: "ziyoxon14", pass: "2014", scores: [] }
+    let students = JSON.parse(localStorage.getItem("itcrm_pro_stds")) || [
+        { name: "Rustamov Aliakbar", login: "alixon71", pass: "2013", scores: [], attend: [], homework: [] },
+        { name: "Mirahmedov Muhammadziyo", login: "ziyoxon14", pass: "2014", scores: [], attend: [], homework: [] }
     ];
-
-    let students = JSON.parse(localStorage.getItem("itcrm_stds"));
-    // Agar baza bo'sh bo'lsa, tepadagi o'quvchilarni yuklaymiz
-    if (!students || students.length === 0) {
-        students = initialStudents;
-    }
-    
-    let days = JSON.parse(localStorage.getItem("itcrm_days")) || [];
-    let ratings = JSON.parse(localStorage.getItem("itcrm_ratings")) || [];
+    let days = JSON.parse(localStorage.getItem("itcrm_pro_days")) || [];
+    let todos = JSON.parse(localStorage.getItem("itcrm_todos")) || [];
+    let news = localStorage.getItem("itcrm_news") || "Xush kelibsiz!";
+    let ratings = JSON.parse(localStorage.getItem("itcrm_pro_ratings")) || [];
     let currentUser = null;
-
-    // Har bir o'quvchining score massivini kunlar soniga moslash
-    students.forEach(s => {
-        while(s.scores.length < days.length) s.scores.push("");
-    });
 
     function auth() {
         let u = document.getElementById("user").value;
         let p = document.getElementById("pass").value;
-        if(u === "admin" && p === "2013") currentUser = { role: "admin", name: "Ustoz" };
+        if(u === "admin" && p === "2013") currentUser = { role: "admin" };
         else {
             let s = students.find(x => x.login === u && x.pass === p);
             if(s) currentUser = { role: "student", ...s };
-            else return alert("Login yoki parol xato!");
+            else return alert("Xato!");
         }
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("appBox").style.display = "block";
+        document.getElementById("newsText").innerText = news;
         if(currentUser.role === 'admin') {
             document.getElementById("adminPanel").style.display = "flex";
-            document.getElementById("adminStats").style.display = "block";
+            document.getElementById("adminTeacherStats").style.display = "block";
             document.getElementById("studentVote").style.display = "none";
-            document.getElementById("tTab").innerText = "📊 Ustoz Reytingi";
+            document.getElementById("planTabBtn").style.display = "block";
         }
         renderJournal();
     }
 
-    function switchTab(tab, btn) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById("journalSec").style.display = tab === 'journal' ? 'block' : 'none';
-        document.getElementById("rankingSec").style.display = tab === 'ranking' ? 'block' : 'none';
-        document.getElementById("teacherSec").style.display = tab === 'teacher' ? 'block' : 'none';
-        if(tab === 'ranking') renderRanking();
-        if(tab === 'teacher' && currentUser.role === 'admin') showStats();
+    function switchTab(t, b) {
+        document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        document.getElementById("journalSec").style.display = t==='journal'?'block':'none';
+        document.getElementById("rankingSec").style.display = t==='ranking'?'block':'none';
+        document.getElementById("planSec").style.display = t==='plan'?'block':'none';
+        document.getElementById("teacherSec").style.display = t==='teacher'?'block':'none';
+        if(t==='plan') renderTodos();
+        if(t==='ranking') renderRanking();
     }
 
-    function addStudent() {
-        let n = document.getElementById("stdName").value;
-        let l = document.getElementById("stdLogin").value;
-        let p = document.getElementById("stdPass").value;
-        if(!n || !l || !p) return alert("Ma'lumotlarni to'ldiring!");
-        students.push({ name: n, login: l, pass: p, scores: new Array(days.length).fill("") });
-        save(); renderJournal();
-        document.getElementById("stdName").value = "";
+    // ISH REJASI FUNKSIYALARI
+    function addTodo() {
+        let txt = document.getElementById("todoInp").value;
+        if(!txt) return;
+        todos.push({ text: txt, done: false });
+        localStorage.setItem("itcrm_todos", JSON.stringify(todos));
+        document.getElementById("todoInp").value = "";
+        renderTodos();
     }
 
-    function addNewDay() {
-        let d = new Date();
-        days.push(`${d.getDate()}.${d.getMonth()+1}`);
-        students.forEach(s => s.scores.push(""));
-        save(); renderJournal();
-    }
-
-    function renderJournal() {
-        const head = document.getElementById("tableHead");
-        const body = document.getElementById("tableBody");
-        head.innerHTML = `<th class="sticky-col">O'quvchilar</th>` + days.map(d => `<th>${d}</th>`).join("");
-        body.innerHTML = students.filter(s => currentUser.role === 'admin' || s.login === currentUser.login).map((s, sIdx) => {
-            // Haqiqiy indeksni topish (filterdan keyin adashmaslik uchun)
-            const realIdx = students.findIndex(orig => orig.login === s.login);
-            return `<tr>
-                <td class="sticky-col">
-                    <span>${s.name}</span>
-                    ${currentUser.role === 'admin' ? `<span class="delete-icon" onclick="delStd(${realIdx})">🗑</span>`:''}
-                </td>
-                ${s.scores.map((sc, dIdx) => `<td onclick="setSc(${realIdx},${dIdx})" style="cursor:pointer">${sc ? sc+'%' : '-'}</td>`).join("")}
-            </tr>`;
-        }).join("");
-    }
-
-    function setSc(sI, dI) {
-        if(currentUser.role !== 'admin') return;
-        let v = prompt(`${students[sI].name} uchun baho (%):`, students[sI].scores[dI]);
-        if(v !== null) { students[sI].scores[dI] = v; save(); renderJournal(); }
-    }
-
-    function delStd(i) { if(confirm(students[i].name + " o'chirilsinmi?")) { students.splice(i,1); save(); renderJournal(); } }
-
-    function renderRanking() {
-        let sorted = [...students].sort((a,b) => b.scores.reduce((t,c)=>t+(parseInt(c)||0),0) - a.scores.reduce((t,c)=>t+(parseInt(c)||0),0));
-        document.getElementById("rankList").innerHTML = sorted.map((s, i) => `
-            <div class="rank-row" style="${s.login === currentUser.login ? 'background:#fff9c4; font-weight:bold;' : ''}">
-                <span>${i+1}. ${s.name}</span>
-                <span>${s.scores.reduce((t,c)=>t+(parseInt(c)||0),0)} ball</span>
+    function renderTodos() {
+        const list = document.getElementById("todoList");
+        list.innerHTML = todos.map((t, i) => `
+            <div class="todo-item ${t.done ? 'done' : ''}">
+                <span onclick="toggleTodo(${i})" style="cursor:pointer; flex:1">${i+1}. ${t.text}</span>
+                <button class="btn" onclick="delTodo(${i})" style="background:var(--danger); color:white; padding:5px 10px">X</button>
             </div>
         `).join("");
     }
 
-    function vote(n) {
-        ratings.push(n);
-        localStorage.setItem("itcrm_ratings", JSON.stringify(ratings));
-        document.getElementById("voteMsg").innerText = "Rahmat! Bahongiz yuborildi.";
-        document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n));
-    }
+    function toggleTodo(i) { todos[i].done = !todos[i].done; localStorage.setItem("itcrm_todos", JSON.stringify(todos)); renderTodos(); }
+    function delTodo(i) { todos.splice(i, 1); localStorage.setItem("itcrm_todos", JSON.stringify(todos)); renderTodos(); }
 
-    function showStats() {
-        if(ratings.length === 0) return;
-        let avg = (ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1);
-        document.getElementById("avgStars").innerText = avg;
-        document.getElementById("vCount").innerText = ratings.length;
+    // Boshqa funksiyalar (avvalgi koddan)
+    function updateNews() { news = document.getElementById("newsInp").value; localStorage.setItem("itcrm_news", news); document.getElementById("newsText").innerText = news; }
+    function addStudent() {
+        let n = document.getElementById("stdName").value;
+        let l = document.getElementById("stdLogin").value;
+        let p = document.getElementById("stdPass").value;
+        students.push({ name: n, login: l, pass: p, scores: new Array(days.length).fill(""), attend: new Array(days.length).fill(""), homework: new Array(days.length).fill("") });
+        save(); renderJournal();
     }
-
-    function save() {
-        localStorage.setItem("itcrm_stds", JSON.stringify(students));
-        localStorage.setItem("itcrm_days", JSON.stringify(days));
+    function addNewDay() {
+        let d = prompt("Sana:", new Date().getDate() + "." + (new Date().getMonth()+1));
+        if(d) { days.push(d); students.forEach(s => { s.scores.push(""); s.attend.push(""); s.homework.push(""); }); save(); renderJournal(); }
     }
+    function renderJournal() {
+        const head = document.getElementById("tableHead");
+        const body = document.getElementById("tableBody");
+        head.innerHTML = `<th class="sticky-col">O'quvchilar</th>` + days.map(d => `<th colspan="3">${d}</th>`).join("");
+        body.innerHTML = `<tr><th class="sticky-col">Kriteriyalar</th>` + days.map(() => `<th>D</th><th>B</th><th>V</th>`).join("") + `</tr>` +
+        students.filter(s => currentUser.role === 'admin' || s.login === currentUser.login).map((s, sIdx) => {
+            const rI = students.findIndex(x => x.login === s.login);
+            let row = `<tr><td class="sticky-col"><span>${s.name}</span> ${currentUser.role==='admin'?`<span class="delete-icon" onclick="delStd(${rI})">🗑</span>`:''}</td>`;
+            days.forEach((_, dIdx) => {
+                row += `<td onclick="setAtt(${rI},${dIdx})">${s.attend[dIdx]||'-'}</td>`;
+                row += `<td onclick="setSc(${rI},${dIdx})">${s.scores[dIdx]||'-'}</td>`;
+                row += `<td onclick="setHW(${rI},${dIdx})">${s.homework[dIdx]||'-'}</td>`;
+            });
+            return row + `</tr>`;
+        }).join("");
+        updateStats();
+    }
+    function setSc(i, d) { if(currentUser.role==='admin') { let v = prompt("Baho:"); if(v!==null) {students[i].scores[d]=v; save(); renderJournal();} } }
+    function setAtt(i, d) { if(currentUser.role==='admin') { let v = prompt("Davomat (+/-):"); if(v!==null) {students[i].attend[d]=v; save(); renderJournal();} } }
+    function setHW(i, d) { if(currentUser.role==='admin') { let v = prompt("Vazifa (+/-):"); if(v!==null) {students[i].homework[d]=v; save(); renderJournal();} } }
+    function delStd(i) { if(confirm("O'chirilsinmi?")) {students.splice(i,1); save(); renderJournal();} }
+    function updateStats() {
+        let allScores = students.flatMap(s => s.scores).filter(v => v !== "").map(Number);
+        document.getElementById("avgTotal").innerText = (allScores.length ? (allScores.reduce((a,b)=>a+b,0)/allScores.length).toFixed(1) : 0) + "%";
+        document.getElementById("lessonCount").innerText = days.length;
+        let topS = students.map(s => ({name: s.name, total: s.scores.reduce((a,b)=>a+(parseInt(b)||0),0)})).sort((a,b)=>b.total-a.total)[0];
+        document.getElementById("topStudent").innerText = topS ? topS.name : "-";
+    }
+    function exportExcel() {
+        let data = students.map(s => ({ "Ism": s.name, "Ball": s.scores.reduce((a,b)=>a+(parseInt(b)||0),0) }));
+        const ws = XLSX.utils.json_to_sheet(data); const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Natijalar"); XLSX.writeFile(wb, "IT-CRM_Report.xlsx");
+    }
+    function renderRanking() {
+        let sorted = [...students].sort((a,b) => b.scores.reduce((t,c)=>t+(parseInt(c)||0),0) - a.scores.reduce((t,c)=>t+(parseInt(c)||0),0));
+        document.getElementById("rankList").innerHTML = sorted.map((s,i) => `<div style="padding:10px; border-bottom:1px solid #eee"><b>${i+1}. ${s.name}</b> - ${s.scores.reduce((t,c)=>t+(parseInt(c)||0),0)} ball</div>`).join("");
+    }
+    function vote(n) { ratings.push(n); localStorage.setItem("itcrm_pro_ratings", JSON.stringify(ratings)); alert("Rahmat!"); }
+    function showTeacherStats() {
+        let avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1) : 0;
+        document.getElementById("avgStars").innerText = avg; document.getElementById("vCount").innerText = ratings.length;
+    }
+    function save() { localStorage.setItem("itcrm_pro_stds", JSON.stringify(students)); localStorage.setItem("itcrm_pro_days", JSON.stringify(days)); }
 </script>
 </body>
 </html>
