@@ -3,39 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT-CRM</title>
+    <title>ITCRM</title>
     <style>
-        :root { --primary: #6366f1; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444; }
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; margin: 0; padding: 15px; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        :root { --primary: #4f46e5; --bg: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
         
-        .login-box { max-width: 350px; margin: 100px auto; text-align: center; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 10px; }
         
-        h2 { color: #1e293b; display: flex; justify-content: space-between; align-items: center; }
-        .status-bar { font-size: 14px; background: #e0e7ff; color: #4338ca; padding: 5px 15px; border-radius: 20px; }
+        /* JADVAL KONTEYNERI */
+        .table-wrapper { 
+            max-width: 100%; 
+            overflow-x: auto; /* O'ngga skroll bo'lishi uchun */
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
 
-        .admin-controls { background: #f1f5f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; gap: 10px; }
+        table { border-collapse: collapse; min-width: 100%; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; border: 1px solid #e2e8f0; text-align: center; }
-        th { background: #f8fafc; font-size: 13px; color: #64748b; }
+        th, td { 
+            padding: 12px; 
+            border: 1px solid #e2e8f0; 
+            text-align: center; 
+            min-width: 100px; /* Har bir kun ustuni kengligi */
+        }
 
-        .clickable { cursor: pointer; transition: 0.2s; position: relative; }
-        .clickable:hover { background: #f0f9ff; border: 2px solid var(--primary); }
-        .clickable:empty::after { content: "➕"; opacity: 0.3; }
+        /* ISMLAR USTUNI QOTIB TURISHI UCHUN */
+        .sticky-col {
+            position: sticky;
+            left: 0;
+            background: #f1f5f9;
+            z-index: 10;
+            min-width: 200px;
+            text-align: left;
+            font-weight: bold;
+        }
 
-        .percent-badge { padding: 4px 8px; border-radius: 6px; color: white; font-weight: bold; font-size: 14px; }
-        .p-high { background: var(--success); }
-        .p-mid { background: var(--warning); }
-        .p-low { background: var(--danger); }
+        th.sticky-col { background: #4f46e5; color: white; }
 
+        .clickable { cursor: pointer; transition: 0.2s; background: #fff; }
+        .clickable:hover { background: #e0e7ff; }
+
+        .admin-bar { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        
         input, button { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; }
         button { background: var(--primary); color: white; border: none; cursor: pointer; font-weight: bold; }
-        .btn-exit { background: #64748b; font-size: 12px; }
-
-        /* Modal styling */
-        .modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:25px; border-radius:15px; box-shadow: 0 0 50px rgba(0,0,0,0.3); z-index:100; }
-        .overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99; }
+        
+        /* LOGIN */
+        .login-box { max-width: 350px; margin: 100px auto; text-align: center; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -47,140 +63,111 @@
     <button onclick="login()" style="width:100%">Kirish</button>
 </div>
 
-<div id="appBox" class="container" style="display:none">
-    <h2>
-        <div>📊 Baholash Paneli <span class="status-bar" id="currentDateDisplay"></span></div>
-        <button class="btn-exit" onclick="location.reload()">Chiqish</button>
-    </h2>
-
-    <div id="adminPanel" class="admin-controls" style="display:none">
-        <input type="text" id="stdName" placeholder="F.I.SH (Yangi o'quvchi)">
-        <input type="text" id="stdLogin" placeholder="Login">
-        <input type="text" id="stdPass" placeholder="Parol">
-        <button onclick="addStudent()">O'quvchini qo'shish</button>
+<div id="appBox" style="display:none">
+    <div class="header">
+        <h2>IT-CRM Jurnal</h2>
+        <button onclick="location.reload()" style="background:#64748b">Chiqish</button>
     </div>
 
-    <div style="overflow-x: auto;">
-        <table>
+    <div id="adminPanel" class="admin-bar" style="display:none">
+        <input type="text" id="stdName" placeholder="Yangi o'quvchi F.I.SH">
+        <button onclick="addStudent()">+ O'quvchi qo'shish</button>
+        <div style="border-left: 2px solid #ddd; height: 30px; margin: 0 10px;"></div>
+        <button onclick="addNewDay()" style="background:#22c55e">📅 Yangi dars kuni qo'shish</button>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="mainTable">
             <thead>
-                <tr>
-                    <th style="text-align: left; width: 250px;">O'quvchi F.I.SH</th>
-                    <th>Dushanba</th>
-                    <th>Chorshanba</th>
-                    <th>Juma</th>
-                    <th>O'rtacha (%)</th>
-                </tr>
+                <tr id="tableHead">
+                    <th class="sticky-col">O'quvchilar</th>
+                    </tr>
             </thead>
-            <tbody id="studentTableBody"></tbody>
+            <tbody id="tableBody">
+                </tbody>
         </table>
     </div>
 </div>
 
-<div class="overlay" id="overlay" onclick="closeModal()"></div>
-<div class="modal" id="scoreModal">
-    <h3 id="modalTitle">Baho qo'yish</h3>
-    <p>Foizni kiriting (0-100):</p>
-    <input type="number" id="tempScore" min="0" max="100" style="width:100px; font-size: 20px; text-align: center;"> %
-    <br><br>
-    <button onclick="saveScore()" style="width:100%">Saqlash</button>
-</div>
-
 <script>
-    let students = JSON.parse(localStorage.getItem("it_crm_v3_students")) || [];
+    let students = JSON.parse(localStorage.getItem("it_crm_long_std")) || [];
+    let lessonDays = JSON.parse(localStorage.getItem("it_crm_long_days")) || [];
     let currentUser = null;
-    let activeStudentIndex = null;
-    let activeDayIndex = null;
-
-    // Sanani va kunni aniqlash
-    const days = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
-    const now = new Date();
-    const dateStr = `${now.getDate()}.${now.getMonth()+1}.${now.getFullYear()} | ${days[now.getDay()]}`;
-    document.getElementById("currentDateDisplay").innerText = dateStr;
 
     function login() {
         let u = document.getElementById("user").value;
         let p = document.getElementById("pass").value;
-
         if(u === "admin" && p === "2013") {
-            currentUser = { role: "admin" };
+            currentUser = "admin";
             document.getElementById("adminPanel").style.display = "flex";
         } else {
-            let found = students.find(s => s.login === u && s.pass === p);
-            if(found) currentUser = { role: "student", ...found };
+            let s = students.find(x => x.login === u && x.pass === p);
+            if(s) currentUser = "student";
             else return alert("Xato!");
         }
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("appBox").style.display = "block";
-        renderTable();
+        renderJournal();
     }
 
     function addStudent() {
         let name = document.getElementById("stdName").value;
-        let login = document.getElementById("stdLogin").value;
-        let pass = document.getElementById("stdPass").value;
-        if(!name || !login || !pass) return alert("To'ldiring!");
-
-        students.push({ name, login, pass, scores: [null, null, null] }); // Du, Cho, Ju uchun
-        saveData();
-        renderTable();
+        if(!name) return;
+        // O'quvchi uchun barcha dars kunlariga bo'sh baho yaratamiz
+        let scores = new Array(lessonDays.length).fill("");
+        students.push({ name, scores });
+        save();
+        renderJournal();
         document.getElementById("stdName").value = "";
     }
 
-    function openScoreModal(sIdx, dIdx) {
-        if(currentUser.role !== 'admin') return; // O'quvchi o'ziga baho qo'ya olmaydi
-        activeStudentIndex = sIdx;
-        activeDayIndex = dIdx;
-        document.getElementById("modalTitle").innerText = `${students[sIdx].name} - Baholash`;
-        document.getElementById("tempScore").value = students[sIdx].scores[dIdx] || "";
-        document.getElementById("scoreModal").style.display = "block";
-        document.getElementById("overlay").style.display = "block";
+    function addNewDay() {
+        const d = new Date();
+        const days = ["Ya", "Du", "Se", "Cho", "Pa", "Ju", "Sh"];
+        let dayStr = `${d.getDate()}.${d.getMonth()+1} (${days[d.getDay()]})`;
+        
+        lessonDays.push(dayStr);
+        // Hamma o'quvchilarga yangi dars uchun bo'sh joy ochamiz
+        students.forEach(s => s.scores.push(""));
+        save();
+        renderJournal();
     }
 
-    function saveScore() {
-        let val = parseInt(document.getElementById("tempScore").value);
-        if(val >= 0 && val <= 100) {
-            students[activeStudentIndex].scores[activeDayIndex] = val;
-            saveData();
-            renderTable();
-            closeModal();
-        } else {
-            alert("0 dan 100 gacha son kiriting!");
+    function editScore(sIdx, dIdx) {
+        if(currentUser !== "admin") return;
+        let val = prompt(`${students[sIdx].name} uchun baho (%) kiriting:`, students[sIdx].scores[dIdx]);
+        if(val !== null) {
+            students[sIdx].scores[dIdx] = val;
+            save();
+            renderJournal();
         }
     }
 
-    function closeModal() {
-        document.getElementById("scoreModal").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-    }
+    function renderJournal() {
+        const head = document.getElementById("tableHead");
+        const body = document.getElementById("tableBody");
 
-    function renderTable() {
-        let body = document.getElementById("studentTableBody");
+        // Sarlavhani chizish
+        head.innerHTML = `<th class="sticky-col">O'quvchilar</th>`;
+        lessonDays.forEach(day => {
+            head.innerHTML += `<th>${day}</th>`;
+        });
+
+        // Tanani chizish
         body.innerHTML = "";
-
         students.forEach((s, sIdx) => {
-            // O'quvchi faqat o'zini ko'rsin
-            if(currentUser.role === 'student' && s.login !== currentUser.login) return;
-
-            let total = 0;
-            let count = 0;
-            s.scores.forEach(v => { if(v !== null) { total += v; count++; } });
-            let avg = count > 0 ? Math.round(total / count) : 0;
-            let colorClass = avg >= 80 ? 'p-high' : (avg >= 60 ? 'p-mid' : 'p-low');
-
-            body.innerHTML += `
-                <tr>
-                    <td style="text-align: left; font-weight: bold;">${s.name}</td>
-                    <td class="clickable" onclick="openScoreModal(${sIdx}, 0)">${s.scores[0] !== null ? s.scores[0] + '%' : ''}</td>
-                    <td class="clickable" onclick="openScoreModal(${sIdx}, 1)">${s.scores[1] !== null ? s.scores[1] + '%' : ''}</td>
-                    <td class="clickable" onclick="openScoreModal(${sIdx}, 2)">${s.scores[2] !== null ? s.scores[2] + '%' : ''}</td>
-                    <td><span class="percent-badge ${colorClass}">${avg}%</span></td>
-                </tr>
-            `;
+            let row = `<tr><td class="sticky-col">${s.name}</td>`;
+            s.scores.forEach((score, dIdx) => {
+                row += `<td class="clickable" onclick="editScore(${sIdx}, ${dIdx})">${score ? score + '%' : '-'}</td>`;
+            });
+            row += `</tr>`;
+            body.innerHTML += row;
         });
     }
 
-    function saveData() {
-        localStorage.setItem("it_crm_v3_students", JSON.stringify(students));
+    function save() {
+        localStorage.setItem("it_crm_long_std", JSON.stringify(students));
+        localStorage.setItem("it_crm_long_days", JSON.stringify(lessonDays));
     }
 </script>
 
