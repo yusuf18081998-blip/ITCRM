@@ -1,0 +1,126 @@
+ <!DOCTYPE html> 
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baholash Tizimi</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: #f2f6ff;
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align: center;
+    color: #1e3a8a;
+}
+
+input, button{
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button{
+    background: #2563eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover{
+    background: #1d4ed8;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td{
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th{
+    background: #2563eb;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>📊 O‘quvchilar Baholash Tizimi</h1>
+
+    <input type="text" id="name" placeholder="Ism">
+    <input type="number" id="score" placeholder="Ball">
+    <button onclick="addStudent()">Qo‘shish</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Ism</th>
+                <th>Ball</th>
+                <th>Baho</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<script>
+let count = 0;
+
+function getGrade(score){
+    if(score >= 90) return "A";
+    if(score >= 80) return "B";
+    if(score >= 70) return "C";
+    if(score >= 60) return "D";
+    return "F";
+}
+
+function addStudent(){
+    let name = document.getElementById("name").value;
+    let score = document.getElementById("score").value;
+
+    if(name === "" || score === ""){
+        alert("Ma'lumot kiriting!");
+        return;
+    }
+
+    count++;
+
+    let table = document.getElementById("tableBody");
+    let row = table.insertRow();
+
+    row.insertCell(0).innerText = count;
+    row.insertCell(1).innerText = name;
+    row.insertCell(2).innerText = score;
+    row.insertCell(3).innerText = getGrade(score);
+
+    document.getElementById("name").value = "";
+    document.getElementById("score").value = "";
+}
+</script>
+
+</body>
+</html>
+ 
