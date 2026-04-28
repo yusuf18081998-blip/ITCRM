@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITCRM PRO MAX | GitHub Kursi</title>
+    <title>ITCRM|Github kursi</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
@@ -11,132 +11,124 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-bottom: 20px; }
         .stat-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; border-bottom: 5px solid var(--primary); }
-        .news-bar { background: var(--dark); color: white; padding: 12px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
         .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; }
-        .tab-btn { padding: 12px 24px; border-radius: 10px; border: none; cursor: pointer; background: white; font-weight: 600; white-space: nowrap; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .tab-btn { padding: 12px 20px; border-radius: 10px; border: none; cursor: pointer; background: white; font-weight: 600; white-space: nowrap; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .tab-btn.active { background: var(--primary); color: white; }
-        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.05); display: none; min-height: 400px; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.05); display: none; min-height: 450px; }
         .card.active { display: block; }
         .table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 15px; }
-        table { border-collapse: collapse; width: 100%; min-width: 700px; }
-        th, td { padding: 18px; border: 1px solid #e2e8f0; text-align: center; }
+        table { border-collapse: collapse; width: 100%; min-width: 800px; }
+        th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; }
         .sticky-col { position: sticky; left: 0; background: #fff; z-index: 5; font-weight: bold; border-right: 3px solid #e2e8f0; text-align: left; }
-        .btn { cursor: pointer; padding: 12px 20px; border-radius: 10px; border: none; font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn { cursor: pointer; padding: 12px 18px; border-radius: 10px; border: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-warn { background: var(--warning); color: white; }
         .btn-success { background: var(--success); color: white; }
-        .todo-item { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #f1f5f9; align-items: center; background: #fafafa; margin-bottom: 8px; border-radius: 10px; }
-        .todo-item:hover { background: #f1f5f9; }
-        input, textarea, select { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 1px solid #cbd5e1; box-sizing: border-box; }
-        
-        /* CERTIFICATE HIDDEN TEMPLATE */
+        .btn-danger { background: var(--danger); color: white; }
+        .todo-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; align-items: center; }
+        .kanban-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
+        .kanban-col { background: #f1f5f9; padding: 15px; border-radius: 12px; min-height: 300px; }
+        .kanban-item { background: white; padding: 10px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-size: 13px; }
+        .login-box { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 25px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; box-sizing: border-box; }
         #certTemplate { width: 800px; height: 560px; padding: 40px; background: white; position: absolute; left: -9999px; }
-        .cert-inner { border: 15px solid var(--primary); height: 450px; padding: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative; }
-        .cert-name { font-size: 45px; color: #1e3a8a; border-bottom: 2px solid #333; margin: 25px auto; width: 85%; font-family: 'Brush Script MT', cursive; }
-        
-        .login-box { max-width: 400px; margin: 120px auto; background: white; padding: 45px; border-radius: 25px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.1); }
+        .cert-inner { border: 15px solid var(--primary); height: 450px; padding: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
     </style>
 </head>
 <body>
 
 <div id="loginBox" class="login-box">
-    <h1 style="color:var(--primary); margin-bottom:30px;">ITCRM PRO 2026</h1>
+    <h1 style="color:var(--primary)">ITCRM PRO MAX</h1>
     <input type="text" id="user" placeholder="Login">
     <input type="password" id="pass" placeholder="Parol">
-    <button class="btn btn-primary" style="width:100%; justify-content: center; font-size: 16px;" onclick="auth()">Kirish</button>
+    <button class="btn btn-primary" style="width:100%; justify-content:center" onclick="auth()">Kirish</button>
 </div>
 
 <div id="appBox" style="display:none">
-    <div class="news-bar">📢 <marquee id="newsText">Xush kelibsiz! Darslarimizni GitHub'dan boshlaymiz. Oylik reja 25-maygacha belgilangan.</marquee></div>
-
     <div class="stats-grid">
-        <div class="stat-card"><h2>Guruh %</h2><p id="avgTotal" style="font-size:24px; font-weight:bold; color:var(--primary);">0%</p></div>
-        <div class="stat-card"><h2>Lider</h2><p id="topStudent" style="font-size:24px; font-weight:bold; color:var(--success);">-</p></div>
-        <div class="stat-card"><h2>Darslar</h2><p id="lessonCount" style="font-size:24px; font-weight:bold; color:var(--warning);">0</p></div>
+        <div class="stat-card"><h3>Guruh %</h3><p id="avgTotal">60.0%</p></div>
+        <div class="stat-card"><h3>Lider</h3><p id="topStudent">Muhammadziyo</p></div>
+        <div class="stat-card"><h3>Darslar</h3><p id="lessonCount">0</p></div>
     </div>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('journal', this)">📊 Baholar</button>
         <button class="tab-btn" onclick="switchTab('attend', this)">✅ Davomat</button>
-        <button class="tab-btn" onclick="switchTab('ranking', this)">🏆 Reyting</button>
         <button class="tab-btn" onclick="switchTab('plan', this)">📝 Ish reja</button>
-        <button id="adminSmsTab" class="tab-btn" onclick="switchTab('sms', this)" style="display:none">📱 SMS Panel</button>
-        <button id="adminCertTab" class="tab-btn" onclick="switchTab('cert', this)" style="display:none">📜 Sertifikat Berish</button>
-        <button class="btn btn-warn" style="margin-left:auto;" onclick="resetDB()">🔄 Tozalash</button>
-        <button class="btn btn-danger" onclick="location.reload()">Chiqish</button>
+        <button class="tab-btn" onclick="switchTab('lms', this)">🎓 O'quv Material</button>
+        <button id="adminSmsTab" class="tab-btn" onclick="switchTab('sms', this)" style="display:none">📢 Telegram</button>
+        <button id="adminSalesTab" class="tab-btn" onclick="switchTab('sales', this)" style="display:none">💰 Sotuv</button>
+        <button id="adminCertTab" class="tab-btn" onclick="switchTab('cert', this)" style="display:none">📜 Sertifikat</button>
+        <button class="btn btn-danger" style="margin-left:auto" onclick="location.reload()">Chiqish</button>
     </div>
 
     <div id="journalSec" class="card active">
-        <div id="adminJ" style="display:none; margin-bottom:15px;"><button class="btn btn-primary" onclick="addNewDay()">📅 Yangi dars kuni</button></div>
+        <div id="adminJ" style="display:none; margin-bottom:15px;">
+            <button class="btn btn-primary" onclick="addNewDay()">📅 Yangi Dars</button>
+        </div>
         <div class="table-wrapper"><table><thead><tr id="hJ"></tr></thead><tbody id="bJ"></tbody></table></div>
     </div>
 
     <div id="attendSec" class="card">
         <h3>✅ Davomat jurnali</h3>
+        <p style="font-size: 13px; color: #666;">Admin paneldan "+" (keldi) yoki "-" (kelmadi) deb belgilang.</p>
         <div class="table-wrapper"><table><thead><tr id="hA"></tr></thead><tbody id="bA"></tbody></table></div>
-    </div>
-
-    <div id="rankingSec" class="card">
-        <h3>🏆 O'quvchilar reytingi</h3>
-        <div id="rankList"></div>
     </div>
 
     <div id="planSec" class="card">
         <h3>📝 Oylik Ish Reja (25-maygacha)</h3>
-        <div id="adminPlan" style="display:none; margin-bottom:15px; display:flex; gap:10px;">
-            <input type="text" id="newPlanInput" placeholder="Yangi reja yozing...">
-            <button class="btn btn-primary" onclick="addPlan()">Qo'shish</button>
-        </div>
         <div id="todoList"></div>
     </div>
 
+    <div id="lmsSec" class="card">
+        <h3>🎓 O'quv Materiallari</h3>
+        <div style="background:#eef2ff; padding:20px; border-radius:15px; margin-bottom:20px;">
+            <p>Vazifalar va testlar uchun Google Classroom-ga ulaning:</p>
+            <a href="https://classroom.google.com/" target="_blank" class="btn btn-primary">Classroom-ga o'tish</a>
+        </div>
+        <div class="todo-item"><span>📖 Git & GitHub Guide (PDF)</span><button class="btn">Ko'rish</button></div>
+    </div>
+
     <div id="smsSec" class="card">
-        <h3>📱 Bildirishnomalar yuborish</h3>
-        <textarea id="smsText" placeholder="Xabar matni..."></textarea>
-        <button class="btn btn-primary" onclick="sendFakeSMS()">Barchaga yuborish</button>
-        <div id="smsLog" style="margin-top:20px;"></div>
+        <h3>📢 Telegram Bot orqali xabar yuborish</h3>
+        <textarea id="msgBody" placeholder="Xabar matni..."></textarea>
+        <button class="btn btn-primary" onclick="alert('Telegram Bot orqali yuborildi!')">🚀 Yuborish</button>
+    </div>
+
+    <div id="salesSec" class="card">
+        <h3>💰 Sotuv Voronkasi</h3>
+        <div class="kanban-grid">
+            <div class="kanban-col"><h4>Yangi</h4><div class="kanban-item">Lid #104</div></div>
+            <div class="kanban-col"><h4>O'ylayapti</h4></div>
+            <div class="kanban-col"><h4>Kelmadi</h4></div>
+            <div class="kanban-col" style="background:#dcfce7"><h4>To'lov qildi</h4></div>
+        </div>
     </div>
 
     <div id="certSec" class="card">
-        <h3>📜 Sertifikat generatsiya qilish</h3>
-        <div class="table-wrapper">
-            <table>
-                <thead><tr><th>O'quvchi</th><th>Yarim Kurs</th><th>To'liq Kurs</th></tr></thead>
-                <tbody id="certList"></tbody>
-            </table>
-        </div>
+        <h3>📜 Sertifikat Berish</h3>
+        <div class="table-wrapper"><table><thead><tr><th>O'quvchi</th><th>Amal</th></tr></thead><tbody id="certList"></tbody></table></div>
     </div>
 </div>
 
 <div id="certTemplate">
     <div class="cert-inner">
-        <div id="certLabel" style="font-weight:bold; color:var(--primary); letter-spacing:3px;">KURS BITIRUVCHISI</div>
-        <h1 style="font-size:50px; margin:15px 0;">SERTIFIKAT</h1>
-        <p>Ushbu hujjat kurs o'quvchisi</p>
-        <div class="cert-name" id="pdfName">NAME</div>
-        <p id="pdfDesc" style="font-size:18px; width:80%; margin:auto;">Muvaffaqiyatli tamomlagani uchun topshirildi.</p>
-        <div style="margin-top:50px; display:flex; justify-content:space-around; width:100%;">
-            <div><p>_________</p><p><b>M. Yusuf</b><br>O'qituvchi</p></div>
-            <div><p style="font-size:24px; color:var(--primary); font-weight:bold;">ITCRM PRO</p><p>2026-yil</p></div>
-        </div>
+        <h1>SERTIFIKAT</h1>
+        <div id="pdfName" style="font-size:35px; margin:20px 0; font-family:cursive;"></div>
+        <p>Muvaffaqiyatli tamomlagani uchun topshirildi.</p>
+        <p><b>ITCRM PRO | 2026</b></p>
     </div>
 </div>
 
 <script>
-    function resetDB() { if(confirm("Hamma ma'lumotlar o'chirilsinmi?")) { localStorage.clear(); location.reload(); } }
-
     let students = JSON.parse(localStorage.getItem("crm_stds")) || [
         { name: "Rustamov Aliakbar", login: "alixon71", pass: "2013", scores: [], attend: [] },
         { name: "Mirahmedov Muhammadziyo", login: "ziyoxon14", pass: "2014", scores: [], attend: [] }
     ];
     let days = JSON.parse(localStorage.getItem("crm_days")) || [];
-    let todos = JSON.parse(localStorage.getItem("crm_todos")) || [
-        { text: "27-Apr: GitHub profil ochish", done: false },
-        { text: "29-Apr: Repo va Pages", done: false },
-        { text: "1-May: Markdown README", done: false },
-        { text: "4-May: Git Desktop o'rnatish", done: false },
-        { text: "25-May: Final va Sertifikat", done: false }
+    let todos = [
+        { text: "27-Apr: Profil sozlash", done: true },
+        { text: "29-Apr: Repo yaratish", done: false },
+        { text: "25-May: Final imtihon", done: false }
     ];
     let currentUser = null;
 
@@ -152,8 +144,8 @@
         document.getElementById("appBox").style.display = "block";
         if(currentUser.role === 'admin') {
             document.getElementById("adminJ").style.display = "block";
-            document.getElementById("adminPlan").style.display = "flex";
             document.getElementById("adminSmsTab").style.display = "block";
+            document.getElementById("adminSalesTab").style.display = "block";
             document.getElementById("adminCertTab").style.display = "block";
         }
         renderAll();
@@ -167,8 +159,9 @@
     }
 
     function renderAll() {
-        const h = `<th class="sticky-col">O'quvchi</th>` + days.map(d => `<th>${d}</th>`).join("");
-        document.getElementById("hJ").innerHTML = h; document.getElementById("hA").innerHTML = h;
+        const h = `<th class="sticky-col">F.I.SH</th>` + days.map(d => `<th>${d}</th>`).join("");
+        document.getElementById("hJ").innerHTML = h;
+        document.getElementById("hA").innerHTML = h;
         
         let bJ = "", bA = "", cL = "";
         students.forEach((s, si) => {
@@ -176,67 +169,34 @@
             let n = `<td class="sticky-col">${s.name}</td>`;
             bJ += `<tr>${n}${s.scores.map((v, di) => `<td onclick="editVal(${si},${di},'scores')">${v||'-'}</td>`).join("")}</tr>`;
             bA += `<tr>${n}${s.attend.map((v, di) => `<td onclick="editVal(${si},${di},'attend')">${v||'-'}</td>`).join("")}</tr>`;
-            cL += `<tr><td>${s.name}</td>
-                <td><button class="btn btn-primary" onclick="makeCert('${s.name}', 'intermediate')">🥉 Yuklash</button></td>
-                <td><button class="btn btn-success" onclick="makeCert('${s.name}', 'final')">🎓 Yuklash</button></td></tr>`;
+            cL += `<tr><td>${s.name}</td><td><button class="btn btn-primary" onclick="makeCert('${s.name}')">PDF Yuklash</button></td></tr>`;
         });
         document.getElementById("bJ").innerHTML = bJ;
         document.getElementById("bA").innerHTML = bA;
         document.getElementById("certList").innerHTML = cL;
-        
-        renderRanking(); renderTodos(); updateStats();
+        document.getElementById("todoList").innerHTML = todos.map(t => `<div class="todo-item">${t.text} <span>${t.done?'✅':'⏳'}</span></div>`).join("");
+        document.getElementById("lessonCount").innerText = days.length;
     }
 
     function editVal(si, di, type) {
         if(currentUser.role !== 'admin') return;
-        let v = prompt("Qiymat:");
+        let v = prompt("Qiymat kiriting:");
         if(v !== null) { students[si][type][di] = v; save(); renderAll(); }
     }
 
     function addNewDay() {
-        let d = prompt("Sana (masalan 27-Apr):");
+        let d = prompt("Sana (masalan: 28.04):");
         if(d) { days.push(d); students.forEach(s => { s.scores.push(""); s.attend.push(""); }); save(); renderAll(); }
     }
 
-    function updateStats() {
-        let scs = students.flatMap(s => s.scores).filter(v => v !== "" && !isNaN(v)).map(Number);
-        document.getElementById("avgTotal").innerText = (scs.length ? (scs.reduce((a,b)=>a+b,0)/scs.length).toFixed(1) : 0) + "%";
-        document.getElementById("lessonCount").innerText = days.length;
-        let top = students.map(s => ({n:s.name, t:s.scores.reduce((a,b)=>a+(parseInt(b)||0),0)})).sort((a,b)=>b.t-a.t)[0];
-        document.getElementById("topStudent").innerText = top ? top.n.split(" ")[1] : "-";
-    }
-
-    function renderRanking() {
-        let sorted = [...students].sort((a,b) => b.scores.reduce((t,c)=>t+(parseInt(c)||0),0) - a.scores.reduce((t,c)=>t+(parseInt(c)||0),0));
-        document.getElementById("rankList").innerHTML = sorted.map((s,i) => `<div class="todo-item"><b>${i+1}. ${s.name}</b> <span>${s.scores.reduce((t,c)=>t+(parseInt(c)||0),0)} ball</span></div>`).join("");
-    }
-
-    function renderTodos() {
-        document.getElementById("todoList").innerHTML = todos.map((t, i) => `
-            <div class="todo-item">
-                <span style="${t.done?'text-decoration:line-through':''}" onclick="toggleTodo(${i})">${i+1}. ${t.text}</span>
-                ${currentUser.role === 'admin' ? `<button onclick="delPlan(${i})" style="color:red; background:none; border:none; cursor:pointer;">❌</button>` : ''}
-            </div>`).join("");
-    }
-
-    function toggleTodo(i) { if(currentUser.role==='admin'){ todos[i].done = !todos[i].done; save(); renderTodos(); } }
-    function addPlan() { let v = document.getElementById("newPlanInput").value; if(v){ todos.push({text:v, done:false}); save(); renderTodos(); document.getElementById("newPlanInput").value=""; } }
-    function delPlan(i) { todos.splice(i,1); save(); renderTodos(); }
-
-    function makeCert(name, type) {
+    function makeCert(name) {
         document.getElementById("pdfName").innerText = name.toUpperCase();
-        document.getElementById("certLabel").innerText = type === 'intermediate' ? "INTERMEDIATE" : "FINAL";
         const el = document.getElementById('certTemplate');
         el.style.position = "static";
-        html2pdf().from(el).save(`Sertifikat_${name}.pdf`).then(() => { el.style.position = "absolute"; el.style.left = "-9999px"; });
+        html2pdf().from(el).save(`Cert_${name}.pdf`).then(() => el.style.position = "absolute");
     }
 
-    function sendFakeSMS() {
-        let t = document.getElementById("smsText").value;
-        if(t) { alert("Xabar yuborildi!"); document.getElementById("smsLog").innerHTML += `<div class="todo-item">✅ ${t}</div>`; document.getElementById("smsText").value=""; }
-    }
-
-    function save() { localStorage.setItem("crm_stds", JSON.stringify(students)); localStorage.setItem("crm_days", JSON.stringify(days)); localStorage.setItem("crm_todos", JSON.stringify(todos)); }
+    function save() { localStorage.setItem("crm_stds", JSON.stringify(students)); localStorage.setItem("crm_days", JSON.stringify(days)); }
 </script>
 </body>
 </html>
