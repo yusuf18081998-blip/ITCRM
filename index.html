@@ -3,29 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITCRM | GitHub Kursi</title>
+    <title>ITCRM|GitHub Kursi</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root { --primary: #2563eb; --bg: #f8fafc; --success: #22c55e; --danger: #ef4444; --warning: #f59e0b; --dark: #1e293b; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .stat-card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid var(--primary); }
-        .news-bar { background: var(--dark); color: white; padding: 10px; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; overflow: hidden; }
+        .news-bar { background: var(--dark); color: white; padding: 10px; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
         .tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; }
-        .tab-btn { padding: 12px 20px; border-radius: 8px; border: none; cursor: pointer; background: white; font-weight: 600; transition: 0.3s; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .tab-btn.active { background: var(--primary); color: white; transform: translateY(-2px); }
+        .tab-btn { padding: 12px 20px; border-radius: 8px; border: none; cursor: pointer; background: white; font-weight: 600; white-space: nowrap; }
+        .tab-btn.active { background: var(--primary); color: white; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; }
         .card.active { display: block; }
         .table-wrapper { overflow-x: auto; border-radius: 10px; border: 1px solid #e2e8f0; }
         table { border-collapse: collapse; width: 100%; min-width: 600px; }
         th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: center; }
         .sticky-col { position: sticky; left: 0; background: #fff; z-index: 5; font-weight: bold; border-right: 2px solid #e2e8f0; text-align: left; }
-        .btn { cursor: pointer; padding: 10px 15px; border-radius: 8px; border: none; font-weight: bold; }
+        .btn { cursor: pointer; padding: 10px 15px; border-radius: 8px; border: none; font-weight: bold; transition: 0.3s; }
         .btn-primary { background: var(--primary); color: white; }
-        .todo-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #f1f5f9; align-items: center; background: #fafafa; margin-bottom: 5px; border-radius: 8px; cursor: pointer; }
-        .todo-item.done { text-decoration: line-through; opacity: 0.6; background: #e2e8f0; }
+        .btn-success { background: var(--success); color: white; }
+        .todo-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #f1f5f9; align-items: center; background: #fafafa; margin-bottom: 5px; border-radius: 8px; }
+        .todo-item.done { text-decoration: line-through; opacity: 0.6; }
+        .sms-card { border-left: 4px solid var(--warning); padding: 10px; margin-bottom: 10px; background: #fffbeb; border-radius: 8px; text-align: left; }
+        
+        /* CERTIFICATE DESIGN */
+        #certTemplate { width: 800px; height: 560px; padding: 40px; background: white; position: absolute; left: -9999px; }
+        .cert-inner { border: 10px solid var(--primary); height: 460px; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .cert-name { font-size: 40px; color: #1e3a8a; border-bottom: 2px solid #333; margin: 25px auto; width: 80%; font-family: 'Brush Script MT', cursive; }
+        
         .login-box { max-width: 380px; margin: 100px auto; background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 20px 25px rgba(0,0,0,0.1); }
-        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #cbd5e1; }
+        input, select, textarea { width: 95%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #cbd5e1; }
     </style>
 </head>
 <body>
@@ -38,7 +47,7 @@
 </div>
 
 <div id="appBox" style="display:none">
-    <div class="news-bar">📢 <marquee id="newsText">Xush kelibsiz! Bu sayitni Xo'jayev Muhammad Yusuf tumonidan yaratilgan boxolash sistemasi shaxsiy.</marquee></div>
+    <div class="news-bar">📢 <marquee>ITCRM PRO MAX: GitHub kursi muvaffaqiyatli davom etmoqda!</marquee></div>
 
     <div class="stats-grid">
         <div class="stat-card"><h3>Guruh %</h3><p id="avgTotal">0%</p></div>
@@ -49,27 +58,23 @@
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('journal', this)">📊 Baholar</button>
         <button class="tab-btn" onclick="switchTab('attend', this)">✅ Davomat</button>
-        <button class="tab-btn" onclick="switchTab('homework', this)">🏠 Uy vazifasi</button>
         <button class="tab-btn" onclick="switchTab('ranking', this)">🏆 Reyting</button>
         <button class="tab-btn" id="planTab" onclick="switchTab('plan', this)" style="display:none">📝 Ish reja</button>
-        <button class="tab-btn" onclick="switchTab('teacher', this)" id="teacherTab">⭐ Ustozga baho</button>
-        <button class="btn" style="margin-left:auto; background:var(--danger); color:white" onclick="logout()">Chiqish</button>
+        <button class="tab-btn" id="smsTab" onclick="switchTab('sms', this)" style="display:none">📱 SMS</button>
+        <button class="tab-btn" onclick="switchTab('cert', this)">📜 Sertifikat</button>
+        <button class="btn" style="margin-left:auto; background:var(--warning); color:white" onclick="resetDatabase()">🔄 Yangilash</button>
+        <button class="btn" style="background:var(--danger); color:white" onclick="location.reload()">Chiqish</button>
     </div>
 
     <div id="journalSec" class="card active">
-        <div id="adminJ" style="display:none; margin-bottom:15px; gap:10px; flex-wrap:wrap">
-            <input type="text" id="stdName" placeholder="F.I.SH" style="width:180px">
-            <input type="text" id="stdLogin" placeholder="Login" style="width:100px">
-            <input type="text" id="stdPass" placeholder="Parol" style="width:100px">
-            <button class="btn btn-primary" onclick="addStudent()">+ O'quvchi</button>
-            <button class="btn" style="background:var(--success); color:white" onclick="addNewDay()">📅 Yangi dars</button>
-            <button class="btn" onclick="exportExcel()" style="background:#107c10; color:white">Excel yuklash</button>
+        <div id="adminJ" style="display:none; margin-bottom:15px; gap:10px;">
+            <button class="btn btn-primary" onclick="addNewDay()">📅 Yangi dars</button>
+            <button class="btn" onclick="exportExcel()" style="background:#107c10; color:white">Excel</button>
         </div>
         <div class="table-wrapper"><table><thead><tr id="hJ"></tr></thead><tbody id="bJ"></tbody></table></div>
     </div>
 
     <div id="attendSec" class="card"><h3>✅ Davomat</h3><div class="table-wrapper"><table><thead><tr id="hA"></tr></thead><tbody id="bA"></tbody></table></div></div>
-    <div id="homeworkSec" class="card"><h3>🏠 Uy vazifasi</h3><div class="table-wrapper"><table><thead><tr id="hH"></tr></thead><tbody id="bH"></tbody></table></div></div>
     <div id="rankingSec" class="card"><h3>🏆 Reyting</h3><div id="rankList"></div></div>
 
     <div id="planSec" class="card">
@@ -77,43 +82,73 @@
         <div id="todoList"></div>
     </div>
 
-    <div id="teacherSec" class="card" style="text-align:center">
-        <div id="adminStats" style="display:none"><h2>Ustoz Reytingi: <span id="avgStars" style="color:var(--warning)">9.9</span> ★</h2></div>
-        <div id="studentVote"><h3>Dars yoqdimi?</h3><div style="font-size:50px; cursor:pointer" id="stars"><span onclick="vote(1)">★</span><span onclick="vote(2)">★</span><span onclick="vote(3)">★</span><span onclick="vote(4)">★</span><span onclick="vote(5)">★</span></div></div>
+    <div id="smsSec" class="card">
+        <h3>📱 SMS va Xabarnomalar</h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+            <div>
+                <select id="smsType">
+                    <option value="payment">💳 To'lov muddati</option>
+                    <option value="attendance">🚫 Dars qoldirildi</option>
+                    <option value="custom">✍️ Maxsus xabar</option>
+                </select>
+                <textarea id="smsText" placeholder="Xabar matni..."></textarea>
+                <button class="btn btn-primary" style="width:100%" onclick="sendSMS()">Yuborish</button>
+            </div>
+            <div id="smsHistory" style="max-height:200px; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <div id="certSec" class="card" style="text-align:center">
+        <h3>📜 Sertifikatlarni yuklab olish</h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:20px;">
+            <div style="border:1px solid #ddd; padding:15px; border-radius:10px;">
+                <h4>🥉 Yarim Kurs</h4>
+                <button class="btn btn-primary" onclick="generateCert('intermediate')">📥 Yuklab olish</button>
+            </div>
+            <div style="border:1px solid #ddd; padding:15px; border-radius:10px;">
+                <h4>🥇 To'liq Kurs</h4>
+                <button class="btn btn-success" onclick="generateCert('final')">🎓 Yuklab olish</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="certTemplate">
+    <div class="cert-inner">
+        <div id="certTypeLabel" style="font-weight:bold; color:var(--primary)">KURS BITIRUVCHISI</div>
+        <h1 style="font-size:50px; margin:10px 0;">SERTIFIKAT</h1>
+        <div class="cert-name" id="pdfName">ISMI SHARIF</div>
+        <p id="pdfText" style="font-size:18px; width:80%; margin:auto;">Kursni muvaffaqiyatli tamomlagani uchun topshirildi.</p>
+        <div style="margin-top:40px; display:flex; justify-content:space-around; width:100%;">
+            <div><p>_________</p><p><b>M. Yusuf</b><br>Ustoz</p></div>
+            <div><p style="font-size:24px; color:var(--primary); font-weight:bold;">ITCRM PRO</p></div>
+        </div>
     </div>
 </div>
 
 <script>
-    // Muhammadziyo paroli 2014
+    function resetDatabase() { if(confirm("Tozalansinmi?")) { localStorage.clear(); location.reload(); } }
+
     let students = JSON.parse(localStorage.getItem("crm_stds")) || [
         { name: "Rustamov Aliakbar", login: "alixon71", pass: "2013", scores: [], attend: [], homework: [] },
         { name: "Mirahmedov Muhammadziyo", login: "ziyoxon14", pass: "2014", scores: [], attend: [], homework: [] }
     ];
     let days = JSON.parse(localStorage.getItem("crm_days")) || [];
+    let smsLogs = JSON.parse(localStorage.getItem("crm_sms")) || [];
     
-    // 25-maygacha Du-Cho-Ju kunlari sanasi bilan
     const defaultTodos = [
-        { text: "27-Apr (Du): GitHub profil ochish va README sozlash", done: false },
-        { text: "29-Apr (Cho): Repository yaratish va Pages hostingni yoqish", done: false },
-        { text: "1-May (Ju): Markdown tili va index.html yuklash", done: false },
-        { text: "4-May (Du): Git Desktop dasturini o'rnatish va ulash", done: false },
-        { text: "6-May (Cho): Commit va Push - o'zgarishlarni yuborish", done: false },
-        { text: "8-May (Ju): Amaliyot: Birinchi web-loyiha GitHub'da", done: false },
-        { text: "11-May (Du): Branchlar (shoxlanish) bilan ishlash", done: false },
-        { text: "13-May (Cho): Fork va Clone - jamoaviy ishlash", done: false },
-        { text: "15-May (Ju): Pull Request (PR) yuborish va tekshirish", done: false },
-        { text: "18-May (Du): Issues va loyiha boshqaruvi (GitHub Projects)", done: false },
-        { text: "20-May (Cho): Yakuniy loyiha ustida ishlash (Final Project)", done: false },
-        { text: "22-May (Ju): Final taqdimot va kurs yakuni", done: false },
-        { text: "25-May (Du): Sertifikat topshirish va yarimcha bitiruv", done: false }
+        { text: "27-Apr (Du): GitHub profil ochish", done: false },
+        { text: "29-Apr (Cho): Repository yaratish", done: false },
+        { text: "1-May (Ju): Markdown tili", done: false },
+        { text: "4-May (Du): Git Desktop o'rnatish", done: false },
+        { text: "6-May (Cho): Commit va Push", done: false },
+        { text: "25-May (Du): Sertifikat va Bitiruv", done: false }
     ];
     let todos = JSON.parse(localStorage.getItem("crm_todos")) || defaultTodos;
-    let rates = JSON.parse(localStorage.getItem("crm_rates")) || [];
     let currentUser = null;
 
     function auth() {
-        let u = document.getElementById("user").value;
-        let p = document.getElementById("pass").value;
+        let u = document.getElementById("user").value, p = document.getElementById("pass").value;
         if(u === "admin" && p === "2013") currentUser = { role: "admin" };
         else {
             let s = students.find(x => x.login === u && x.pass === p);
@@ -125,8 +160,7 @@
         if(currentUser.role === 'admin') {
             document.getElementById("adminJ").style.display = "flex";
             document.getElementById("planTab").style.display = "block";
-            document.getElementById("adminStats").style.display = "block";
-            document.getElementById("studentVote").style.display = "none";
+            document.getElementById("smsTab").style.display = "block";
         }
         renderAll();
     }
@@ -138,55 +172,50 @@
         btn.classList.add('active');
     }
 
+    function sendSMS() {
+        const text = document.getElementById("smsText").value;
+        if(!text) return alert("Matnni kiriting!");
+        smsLogs.unshift({ date: new Date().toLocaleString(), text: text });
+        localStorage.setItem("crm_sms", JSON.stringify(smsLogs));
+        renderSMS();
+        alert("Xabar yuborildi!");
+    }
+
+    function renderSMS() {
+        document.getElementById("smsHistory").innerHTML = smsLogs.map(l => `<div class="sms-card"><small>${l.date}</small><p>${l.text}</p></div>`).join("");
+    }
+
+    function generateCert(type) {
+        if(currentUser.role === 'admin') return alert("Admin sertifikat ololmaydi!");
+        document.getElementById("pdfName").innerText = currentUser.name.toUpperCase();
+        document.getElementById("pdfText").innerText = type === 'intermediate' ? "Kursning yarmini muvaffaqiyatli o'tagani uchun." : "Kursni to'liq tamomlagani uchun.";
+        const element = document.getElementById('certTemplate');
+        element.style.position = "static"; 
+        html2pdf().from(element).save().then(() => { element.style.position = "absolute"; element.style.left = "-9999px"; });
+    }
+
     function renderAll() {
         const h = `<th class="sticky-col">O'quvchi</th>` + days.map(d => `<th>${d}</th>`).join("");
-        document.getElementById("hJ").innerHTML = h; document.getElementById("hA").innerHTML = h; document.getElementById("hH").innerHTML = h;
-        let bH = "", aH = "", hH = "";
-        students.filter(s => currentUser.role==='admin' || s.login===currentUser.login).forEach((s, idx) => {
+        document.getElementById("hJ").innerHTML = h; document.getElementById("hA").innerHTML = h;
+        let bJ = "", bA = "";
+        students.filter(s => currentUser.role==='admin' || s.login===currentUser.login).forEach((s) => {
             let rI = students.findIndex(x => x.login === s.login);
-            let n = `<td class="sticky-col">${s.name}</td>`;
-            bH += `<tr>${n}${s.scores.map((v, i) => `<td onclick="setVal(${rI},${i},'scores')">${v||'-'}</td>`).join("")}</tr>`;
-            aH += `<tr>${n}${s.attend.map((v, i) => `<td onclick="setVal(${rI},${i},'attend')">${v||'-'}</td>`).join("")}</tr>`;
-            hH += `<tr>${n}${s.homework.map((v, i) => `<td onclick="setVal(${rI},${i},'homework')">${v||'-'}</td>`).join("")}</tr>`;
+            bJ += `<tr><td class="sticky-col">${s.name}</td>${s.scores.map((v, i) => `<td onclick="setVal(${rI},${i},'scores')">${v||'-'}</td>`).join("")}</tr>`;
+            bA += `<tr><td class="sticky-col">${s.name}</td>${s.attend.map((v, i) => `<td onclick="setVal(${rI},${i},'attend')">${v||'-'}</td>`).join("")}</tr>`;
         });
-        document.getElementById("bJ").innerHTML = bH; document.getElementById("bA").innerHTML = aH; document.getElementById("bH").innerHTML = hH;
-        updateStats(); renderRanking(); renderTodos();
+        document.getElementById("bJ").innerHTML = bJ; document.getElementById("bA").innerHTML = bA;
+        renderSMS(); renderTodos(); updateStats();
     }
 
     function setVal(si, di, type) { if(currentUser.role==='admin'){ let v = prompt("Qiymat:"); if(v!==null){students[si][type][di]=v; save(); renderAll();} } }
-    function renderTodos() { document.getElementById("todoList").innerHTML = todos.map((t, i) => `<div class="todo-item ${t.done?'done':''}" onclick="toggleTodo(${i})"><span>${t.text}</span></div>`).join(""); }
+    function renderTodos() { document.getElementById("todoList").innerHTML = todos.map((t, i) => `<div class="todo-item ${t.done?'done':''}" onclick="toggleTodo(${i})">${t.text}</div>`).join(""); }
     function toggleTodo(i) { if(currentUser.role==='admin'){ todos[i].done = !todos[i].done; save(); renderTodos(); } }
     function save() { localStorage.setItem("crm_stds", JSON.stringify(students)); localStorage.setItem("crm_days", JSON.stringify(days)); localStorage.setItem("crm_todos", JSON.stringify(todos)); }
-    function logout() { localStorage.removeItem("crm_todos"); location.reload(); } // Rejani yangilash uchun logoutda to-doni tozalaydi
-    
+    function addNewDay() { let d = prompt("Sana:"); if(d){ days.push(d); students.forEach(s => {s.scores.push(""); s.attend.push("");}); save(); renderAll(); } }
     function updateStats() {
         let scs = students.flatMap(s => s.scores).filter(v => v!=="" && !isNaN(v)).map(Number);
         document.getElementById("avgTotal").innerText = (scs.length ? (scs.reduce((a,b)=>a+b,0)/scs.length).toFixed(1) : 0) + "%";
         document.getElementById("lessonCount").innerText = days.length;
-        let top = students.map(s => ({n:s.name, t:s.scores.reduce((a,b)=>a+(parseInt(b)||0),0)})).sort((a,b)=>b.t-a.t)[0];
-        document.getElementById("topStudent").innerText = top ? top.n.split(" ")[1] : "-";
-    }
-    
-    function renderRanking() {
-        let sorted = [...students].sort((a,b) => b.scores.reduce((t,c)=>t+(parseInt(c)||0),0) - a.scores.reduce((t,c)=>t+(parseInt(c)||0),0));
-        document.getElementById("rankList").innerHTML = sorted.map((s,i) => `<div class="todo-item"><b>${i+1}. ${s.name}</b> <span>${s.scores.reduce((t,c)=>t+(parseInt(c)||0),0)} ball</span></div>`).join("");
-    }
-    
-    function vote(n) { rates.push(n); localStorage.setItem("crm_rates", JSON.stringify(rates)); alert("Rahmat!"); }
-    
-    function addNewDay() {
-        let d = prompt("Dars sanasi (masalan, 27.04):");
-        if(d) { days.push(d); students.forEach(s => { s.scores.push(""); s.attend.push(""); s.homework.push(""); }); save(); renderAll(); }
-    }
-    
-    function addStudent() {
-        let n = document.getElementById("stdName").value, l = document.getElementById("stdLogin").value, p = document.getElementById("stdPass").value;
-        if(n && l && p){ students.push({name:n, login:l, pass:p, scores:new Array(days.length).fill(""), attend:new Array(days.length).fill(""), homework:new Array(days.length).fill("")}); save(); renderAll(); }
-    }
-
-    function exportExcel() {
-        let ws = XLSX.utils.json_to_sheet(students.map(s => ({Ism: s.name, Ball: s.scores.reduce((a,b)=>a+(parseInt(b)||0),0)})));
-        let wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Report"); XLSX.writeFile(wb, "ITCRM_Report.xlsx");
     }
 </script>
 </body>
