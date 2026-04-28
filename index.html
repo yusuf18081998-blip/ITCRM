@@ -90,7 +90,6 @@
         <button class="tab-btn" onclick="switchTab('plan', this)">📝 Ish reja</button>
         <button class="tab-btn" onclick="switchTab('lms', this)">🎓 LMS</button>
         <button id="admS" class="tab-btn" style="display:none" onclick="switchTab('sms', this)">📢 Bot</button>
-        <button id="admC" class="tab-btn" style="display:none" onclick="switchTab('cert', this)">📜 Sertifikat</button>
         <button class="btn btn-danger" style="margin-left:auto" onclick="location.reload()">Chiqish</button>
     </div>
 
@@ -116,41 +115,7 @@
     <div id="smsSec" class="card-content" style="display:none">
         <div class="glass"><h3>📢 Telegram Xabarnoma</h3><textarea id="msg" placeholder="Xabarni yozing..."></textarea><button class="btn btn-primary" onclick="alert('Yuborildi!')">Bot orqali yuborish</button></div>
     </div>
-
-    <div id="certSec" class="card-content" style="display:none">
-        <div class="glass"><h3>📜 Sertifikat Berish (A4 To'liq)</h3><table><thead><tr><th>F.I.SH</th><th>Amal</th></tr></thead><tbody id="certList"></tbody></table></div>
-    </div>
 </div>
-
-<div id="certTemplate">
-    <div class="cert-border">
-        <div style="font-size: 80px; margin-bottom: 20px;">🎓</div>
-        <h1 style="font-size:70px; color:var(--primary); margin: 0; font-family: serif;">SERTIFIKAT</h1>
-        <p style="letter-spacing:5px; font-size: 20px; margin-top: 10px; color: #64748b;">MUVAFFAQIYATLI TAMOMLAGANLIK UCHUN</p>
-        
-        <p style="font-size:24px; margin-top:80px; color: #475569;">Ushbu hujjat bilan tasdiqlanadi:</p>
-        <div id="pdfName" style="font-size:55px; margin:40px 0; font-family: 'Brush Script MT', cursive; border-bottom:3px solid var(--primary); width:85%; padding-bottom: 10px; color: #1e293b;"></div>
-        
-        <p style="width:80%; font-size:22px; line-height: 1.6; color: #334155;">
-            <b>GitHub va Web Development</b> texnologiyalari bo'yicha nazariy bilimlarni o'zlashtirib, amaliy vazifalarni muvaffaqiyatli yakunlagani uchun topshirildi.
-        </p>
-
-        <div style="margin-top:auto; width:100%; display:flex; justify-content:space-around; padding-bottom:60px; font-size: 20px;">
-            <div style="text-align: center;">
-                <div style="border-bottom: 1px solid #94a3b8; width: 200px; margin-bottom: 5px;"></div>
-                <p style="margin:0;">Direktor:</p>
-                <b style="font-size: 22px;">Muhammad Yusuf</b>
-            </div>
-            <div style="text-align: center;">
-                <div style="border-bottom: 1px solid #94a3b8; width: 200px; margin-bottom: 5px;"></div>
-                <p style="margin:0;">Sana:</p>
-                <b style="font-size: 22px;">25.05.2026</b>
-            </div>
-        </div>
-        <div style="font-weight: 800; color: var(--primary); font-size: 18px;">ITCRM | Github kursi</div>
-    </div>
-</div>
-
 <script>
     let students = JSON.parse(localStorage.getItem("crm_stds")) || [
         { name: "Rustamov Aliakbar", login: "alixon71", pass: "2013", scores: [], attend: [] },
@@ -170,7 +135,7 @@
         { text: "18-May (Du): GitHub Projects", done: false },
         { text: "20-May (Cho): Final Project boshlash", done: false },
         { text: "22-May (Ju): Final taqdimot", done: false },
-        { text: "25-May (Du): Sertifikat va Bitiruv", done: false }
+        { text: "25-May (Du): Xayirlashuv va savol-javob", done: false }
     ];
     let currentUser = null;
 
