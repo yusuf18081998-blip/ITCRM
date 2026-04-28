@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITCRM|Github kursi</title>
+    <title>ITCRM | Github kursi</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -39,9 +39,29 @@
         .todo-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: white; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid var(--primary); }
         .todo-done { opacity: 0.6; text-decoration: line-through; border-left-color: var(--success); }
 
-        /* KNIJNIY SERTIFIKAT */
-        #certTemplate { width: 595px; height: 842px; background: white; position: absolute; left: -9999px; }
-        .cert-border { margin: 30px; height: calc(100% - 90px); border: 15px double var(--primary); padding: 40px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        /* SERTIFIKAT A4 TO'LIQ FORMAT */
+        #certTemplate { 
+            width: 794px; /* A4 piksellarda (96 DPI) */
+            height: 1122px; 
+            background: white; 
+            position: absolute; 
+            left: -10000px; 
+            top: 0;
+            box-sizing: border-box;
+        }
+        .cert-border { 
+            margin: 40px; 
+            height: calc(100% - 80px); 
+            border: 20px double var(--primary); 
+            padding: 60px; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
 
         .login-box { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         input, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #ddd; box-sizing: border-box; font-family: inherit; }
@@ -50,7 +70,8 @@
 <body>
 
 <div id="loginBox" class="login-box">
-    <h1 style="color:var(--primary); font-weight:800;">ITCRM|Github kursi</h1>
+    <h1 style="color:var(--primary); font-weight:800; font-size: 24px;">ITCRM | Github kursi</h1>
+    <p style="color: #64748b; margin-bottom: 20px;">Tizimga kirish</p>
     <input type="text" id="user" placeholder="Login">
     <input type="password" id="pass" placeholder="Parol">
     <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px;" onclick="auth()">Kirish</button>
@@ -58,8 +79,8 @@
 
 <div id="appBox" style="display:none">
     <div class="stats-grid">
-        <div class="stat-item"><h3>Guruh %</h3><p id="avgTotal">60%</p></div>
-        <div class="stat-item"><h3>Lider</h3><p id="topStudent">Muhammadziyo</p></div>
+        <div class="stat-item"><h3>Guruh %</h3><p id="avgTotal">0%</p></div>
+        <div class="stat-item"><h3>Lider</h3><p id="topStudent">-</p></div>
         <div class="stat-item"><h3>Darslar</h3><p id="lessonCount">0</p></div>
     </div>
 
@@ -97,20 +118,36 @@
     </div>
 
     <div id="certSec" class="card-content" style="display:none">
-        <div class="glass"><h3>📜 Sertifikat Berish (Portret)</h3><table><thead><tr><th>F.I.SH</th><th>Amal</th></tr></thead><tbody id="certList"></tbody></table></div>
+        <div class="glass"><h3>📜 Sertifikat Berish (A4 To'liq)</h3><table><thead><tr><th>F.I.SH</th><th>Amal</th></tr></thead><tbody id="certList"></tbody></table></div>
     </div>
 </div>
 
 <div id="certTemplate">
     <div class="cert-border">
-        <h1 style="font-size:50px; color:var(--primary); margin-top:60px;">SERTIFIKAT</h1>
-        <p style="letter-spacing:3px;">MUVAFFAQIYATLI TAMOMLAGANLIK UCHUN</p>
-        <div id="pdfName" style="font-size:40px; margin:60px 0; font-family:cursive; border-bottom:2px solid #ddd; width:80%;"></div>
-        <p style="width:80%; font-size:18px;">GitHub va Web Development kursini muvaffaqiyatli yakunlagani munosabati bilan topshirildi.</p>
-        <div style="margin-top:auto; width:100%; display:flex; justify-content:space-around; padding-bottom:50px;">
-            <div><p>Direktor:</p><b>Muhammad Yusuf</b></div>
-            <div><p>Sana:</p><b>25.05.2026</b></div>
+        <div style="font-size: 80px; margin-bottom: 20px;">🎓</div>
+        <h1 style="font-size:70px; color:var(--primary); margin: 0; font-family: serif;">SERTIFIKAT</h1>
+        <p style="letter-spacing:5px; font-size: 20px; margin-top: 10px; color: #64748b;">MUVAFFAQIYATLI TAMOMLAGANLIK UCHUN</p>
+        
+        <p style="font-size:24px; margin-top:80px; color: #475569;">Ushbu hujjat bilan tasdiqlanadi:</p>
+        <div id="pdfName" style="font-size:55px; margin:40px 0; font-family: 'Brush Script MT', cursive; border-bottom:3px solid var(--primary); width:85%; padding-bottom: 10px; color: #1e293b;"></div>
+        
+        <p style="width:80%; font-size:22px; line-height: 1.6; color: #334155;">
+            <b>GitHub va Web Development</b> texnologiyalari bo'yicha nazariy bilimlarni o'zlashtirib, amaliy vazifalarni muvaffaqiyatli yakunlagani uchun topshirildi.
+        </p>
+
+        <div style="margin-top:auto; width:100%; display:flex; justify-content:space-around; padding-bottom:60px; font-size: 20px;">
+            <div style="text-align: center;">
+                <div style="border-bottom: 1px solid #94a3b8; width: 200px; margin-bottom: 5px;"></div>
+                <p style="margin:0;">Direktor:</p>
+                <b style="font-size: 22px;">Muhammad Yusuf</b>
+            </div>
+            <div style="text-align: center;">
+                <div style="border-bottom: 1px solid #94a3b8; width: 200px; margin-bottom: 5px;"></div>
+                <p style="margin:0;">Sana:</p>
+                <b style="font-size: 22px;">25.05.2026</b>
+            </div>
         </div>
+        <div style="font-weight: 800; color: var(--primary); font-size: 18px;">ITCRM | Github kursi</div>
     </div>
 </div>
 
@@ -177,7 +214,15 @@
                 <span>${t.text}</span>
                 <input type="checkbox" ${t.done?'checked':''} ${currentUser.role==='admin' ? `onclick="toggle(${i})"` : 'disabled'}>
             </div>`).join("");
+        updateStats();
+    }
+
+    function updateStats() {
+        let scs = students.flatMap(s => s.scores).filter(v => v !== "" && !isNaN(v)).map(Number);
+        document.getElementById("avgTotal").innerText = (scs.length ? (scs.reduce((a,b)=>a+b,0)/scs.length).toFixed(1) : 0) + "%";
         document.getElementById("lessonCount").innerText = days.length;
+        let top = [...students].sort((a,b) => b.scores.reduce((t,c)=>t+(parseInt(c)||0),0) - a.scores.reduce((t,c)=>t+(parseInt(c)||0),0))[0];
+        document.getElementById("topStudent").innerText = top ? top.name.split(" ")[1] : "-";
     }
 
     function edit(si, di, type) {
@@ -193,11 +238,29 @@
         localStorage.setItem("crm_days", JSON.stringify(days)); 
         localStorage.setItem("crm_todos", JSON.stringify(todos)); 
     }
+
     function makeCert(n) {
         document.getElementById("pdfName").innerText = n.toUpperCase();
-        const el = document.getElementById('certTemplate');
-        el.style.position = "static";
-        html2pdf().from(el).set({jsPDF: {format: [595, 842]}}).save(`Cert_${n}.pdf`).then(()=>el.style.position="absolute");
+        const element = document.getElementById('certTemplate');
+        
+        // PDF sozlamalari: A4 to'liq varaqni egallashi uchun scale va margin to'g'irlangan
+        const opt = {
+            margin: 0,
+            filename: `Sertifikat_${n}.pdf`,
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                letterRendering: true 
+            },
+            jsPDF: { 
+                unit: 'pt', 
+                format: 'a4', 
+                orientation: 'portrait' 
+            }
+        };
+
+        html2pdf().set(opt).from(element).save();
     }
 </script>
 </body>
