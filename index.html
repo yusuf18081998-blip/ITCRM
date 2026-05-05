@@ -1,272 +1,477 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITCRM | Github Kursi</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root { 
-            --primary: #4f46e5; --bg: #f1f5f9; --card-bg: rgba(255, 255, 255, 0.9);
-            --success: #10b981; --danger: #ef4444; --text: #1e293b;
-        }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 100%);
-            margin: 0; padding: 20px; color: var(--text); min-height: 100vh;
-        }
-        .glass { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); border-radius: 24px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        .stat-item { background: white; padding: 20px; border-radius: 20px; text-align: center; border-bottom: 4px solid var(--primary); }
-        .stat-item p { font-size: 24px; font-weight: 800; color: var(--primary); margin: 5px 0 0; }
-        
-        .nav-tabs { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; margin-bottom: 20px; scrollbar-width: none; }
-        .tab-btn { padding: 12px 24px; border-radius: 14px; border: none; background: white; font-weight: 600; cursor: pointer; transition: 0.3s; white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .tab-btn.active { background: var(--primary); color: white; transform: translateY(-2px); }
-        
-        .btn { padding: 10px 18px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 14px; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-success { background: var(--success); color: white; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITCRM | Github Kursi</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@200;300;400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;font-family:'Exo 2',sans-serif;color:#e0d0ff;user-select:none}
 
-        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; min-width: 600px; }
-        td, th { padding: 15px; text-align: center; }
-        td { background: white; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-        td:first-child { border-radius: 15px 0 0 15px; text-align: left; font-weight: 700; border-left: 1px solid #eee; }
-        td:last-child { border-radius: 0 15px 15px 0; border-right: 1px solid #eee; }
+#bgCanvas{position:fixed;inset:0;z-index:0;cursor:grab;touch-action:none}
+#bgCanvas:active{cursor:grabbing}
 
-        .todo-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: white; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid var(--primary); }
-        .todo-done { opacity: 0.6; text-decoration: line-through; border-left-color: var(--success); }
+/* ====== LOGIN ====== */
+#loginPage{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.login-card{pointer-events:all;width:370px;background:rgba(6,3,22,0.82);border:1px solid rgba(180,100,255,0.25);border-radius:24px;padding:42px 34px 34px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 0 100px rgba(140,60,255,0.2),inset 0 1px 0 rgba(255,255,255,0.07);position:relative;overflow:hidden;animation:card-in 1.2s cubic-bezier(.16,1,.3,1) both}
+@keyframes card-in{from{opacity:0;transform:scale(.9) translateY(40px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.top-beam{position:absolute;top:0;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,#bb66ff,#66ffee,#bb66ff,transparent);border-radius:2px;animation:beam 3s ease-in-out infinite}
+@keyframes beam{0%,100%{opacity:.4}50%{opacity:1}}
+.scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(180,100,255,0.3),transparent);animation:scan 6s linear infinite;pointer-events:none}
+@keyframes scan{from{top:0}to{top:100%}}
+.cn{position:absolute;width:18px;height:18px;border-style:solid;border-color:rgba(180,100,255,0.4)}
+.c-tl{top:10px;left:10px;border-width:2px 0 0 2px;border-radius:3px 0 0 0}
+.c-tr{top:10px;right:10px;border-width:2px 2px 0 0;border-radius:0 3px 0 0}
+.c-bl{bottom:10px;left:10px;border-width:0 0 2px 2px;border-radius:0 0 0 3px}
+.c-br{bottom:10px;right:10px;border-width:0 2px 2px 0;border-radius:0 0 3px 0}
+.logo-wrap{text-align:center;margin-bottom:26px}
+.logo-main{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,#cc88ff,#ff44ee,#8844ff,#44eeff,#cc88ff);background-size:400% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:logo-flow 5s linear infinite}
+@keyframes logo-flow{to{background-position:400% center}}
+.logo-sub{font-family:'Exo 2',sans-serif;font-size:10px;letter-spacing:4px;color:rgba(180,100,255,0.4);margin-top:5px;font-weight:300}
+.ldiv{height:1px;background:linear-gradient(90deg,transparent,rgba(160,80,255,0.3),transparent);margin:0 0 22px}
+.fl{font-size:10px;letter-spacing:3px;color:rgba(180,100,255,0.45);margin-bottom:7px;font-weight:700;display:block}
+.fi{width:100%;padding:13px 16px;background:rgba(10,4,35,0.75);border:1px solid rgba(140,60,255,0.22);border-radius:10px;color:#d8b4ff;font-family:'Exo 2',sans-serif;font-size:15px;font-weight:300;letter-spacing:1px;outline:none;margin-bottom:16px;transition:border-color .3s,box-shadow .3s}
+.fi:focus{border-color:rgba(200,80,255,0.6);box-shadow:0 0 0 3px rgba(160,60,255,0.1)}
+.fi::placeholder{color:rgba(140,80,200,0.28)}
+.fbtn{width:100%;padding:15px;background:linear-gradient(135deg,rgba(90,20,180,0.9),rgba(50,10,120,0.9));border:1px solid rgba(160,80,255,0.4);border-radius:11px;color:#cc88ff;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;margin-top:4px}
+.fbtn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(210,130,255,0.16),transparent);animation:bsw 2.5s ease-in-out infinite}
+@keyframes bsw{0%{left:-100%}60%,100%{left:100%}}
+.fbtn:hover{background:linear-gradient(135deg,rgba(120,30,220,0.95),rgba(70,15,160,0.95));border-color:rgba(210,100,255,0.7);box-shadow:0 0 35px rgba(160,60,255,0.35);color:#f0ccff;transform:translateY(-2px)}
+.fbtn:active{transform:translateY(0)}
+.lfoot{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid rgba(140,60,255,0.1)}
+.pd{width:7px;height:7px;border-radius:50%;background:#cc44ff;box-shadow:0 0 10px #cc44ff;animation:pdb 1.8s ease-in-out infinite;display:inline-block;margin-right:7px;vertical-align:middle}
+@keyframes pdb{0%,100%{opacity:1}50%{opacity:.25}}
+.pt{font-size:9px;letter-spacing:2.5px;color:rgba(180,80,255,0.4);font-weight:700}
+.vr{font-size:9px;letter-spacing:1.5px;color:rgba(120,80,180,0.35)}
+.drag-hint{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;color:rgba(180,100,255,0.35);pointer-events:none;z-index:5;animation:hint-blink 3s ease-in-out infinite}
+@keyframes hint-blink{0%,100%{opacity:.3}50%{opacity:.7}}
 
-        #certTemplate { width: 794px; height: 1122px; background: white; position: absolute; left: -10000px; top: 0; box-sizing: border-box; }
-        .cert-border { margin: 40px; height: calc(100% - 80px); border: 20px double var(--primary); padding: 60px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; background-color: #fff; }
+/* ====== APP ====== */
+#appBox{display:none;position:fixed;inset:0;z-index:10;overflow-y:auto}
 
-        .login-box { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        input, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #ddd; box-sizing: border-box; font-family: inherit; }
-    </style>
+/* HEADER */
+.app-header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(4,2,16,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(140,60,255,0.18);
+  padding:0 24px;
+  display:flex;align-items:center;gap:20px;
+  box-shadow:0 4px 30px rgba(100,30,200,0.15);
+}
+.app-header .h-logo{
+  font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;
+  letter-spacing:4px;
+  background:linear-gradient(135deg,#cc88ff,#ff44ee,#44eeff,#cc88ff);
+  background-size:300% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:logo-flow 5s linear infinite;
+  padding:16px 0;white-space:nowrap;
+}
+.h-nav{display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:none;padding:12px 0}
+.tab-btn{
+  padding:9px 18px;border-radius:10px;
+  border:1px solid rgba(140,60,255,0.18);
+  background:rgba(20,8,50,0.5);
+  color:rgba(200,140,255,0.65);
+  font-weight:600;cursor:pointer;transition:.25s;white-space:nowrap;
+  font-family:'Exo 2',sans-serif;font-size:12px;letter-spacing:.5px;
+}
+.tab-btn.active{
+  background:rgba(110,35,210,0.75);color:#eeccff;
+  border-color:rgba(180,80,255,0.5);
+  box-shadow:0 0 16px rgba(140,60,255,0.25);
+}
+.tab-btn:hover:not(.active){background:rgba(60,20,120,0.55);color:#ddaaff}
+.h-exit{
+  padding:9px 16px;border-radius:10px;
+  border:1px solid rgba(200,40,80,0.3);
+  background:rgba(140,20,50,0.4);color:#ffaacc;
+  font-family:'Exo 2',sans-serif;font-size:12px;font-weight:600;
+  cursor:pointer;transition:.25s;white-space:nowrap;
+}
+.h-exit:hover{background:rgba(200,30,80,0.7);box-shadow:0 0 16px rgba(200,40,80,0.3)}
+
+/* STATS */
+.app-body{max-width:1200px;margin:0 auto;padding:24px 20px}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px;
+}
+.stat-card{
+  background:rgba(12,5,35,0.82);
+  border:1px solid rgba(140,60,255,0.2);
+  border-radius:18px;padding:20px 18px;
+  text-align:center;
+  backdrop-filter:blur(12px);
+  position:relative;overflow:hidden;
+  transition:.3s;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(180,80,255,0.6),transparent);
+}
+.stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(140,60,255,0.2)}
+.stat-card h3{font-size:9px;letter-spacing:3px;color:rgba(180,100,255,0.45);font-weight:700;margin-bottom:10px}
+.stat-card p{font-size:28px;font-weight:900;font-family:'Orbitron',sans-serif;color:#dd88ff;text-shadow:0 0 20px rgba(200,100,255,0.4)}
+
+/* GLASS PANELS */
+.glass{
+  background:rgba(8,3,28,0.82);
+  border:1px solid rgba(140,60,255,0.15);
+  border-radius:20px;padding:24px;
+  backdrop-filter:blur(16px);
+  margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.glass::before{
+  content:'';position:absolute;top:0;left:5%;right:5%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(160,80,255,0.3),transparent);
+}
+.glass-title{
+  font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;
+  color:#cc88ff;margin-bottom:18px;display:flex;align-items:center;gap:10px;
+}
+.glass-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(140,60,255,0.3),transparent)}
+
+/* BUTTONS */
+.btn{padding:9px 16px;border-radius:9px;border:1px solid rgba(140,60,255,0.28);font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.25s;font-size:12px;font-family:'Exo 2',sans-serif}
+.btn-primary{background:rgba(90,25,190,0.6);color:#ddaaff}
+.btn-primary:hover{background:rgba(120,35,230,0.85);box-shadow:0 0 18px rgba(140,60,255,0.35);transform:translateY(-1px)}
+.btn-danger{background:rgba(140,15,50,0.55);color:#ffaacc;border-color:rgba(200,40,80,0.28)}
+.btn-danger:hover{background:rgba(190,25,70,0.8);box-shadow:0 0 14px rgba(200,40,80,0.3)}
+.btn-success{background:rgba(20,120,65,0.55);color:#aaffcc;border-color:rgba(50,180,100,0.28)}
+.btn-success:hover{background:rgba(30,160,85,0.8);box-shadow:0 0 14px rgba(50,180,100,0.3)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:separate;border-spacing:0 6px;min-width:580px}
+th{font-size:9px;letter-spacing:2.5px;color:rgba(180,100,255,0.45);font-weight:700;padding:10px 14px;text-align:center}
+td{padding:12px 14px;text-align:center;background:rgba(14,5,40,0.8);border-top:1px solid rgba(100,40,200,0.12);border-bottom:1px solid rgba(100,40,200,0.12);color:#cdb8f0;font-size:13px;transition:.2s}
+td:hover{background:rgba(30,10,70,0.85)}
+td:first-child{border-radius:11px 0 0 11px;text-align:left;font-weight:600;border-left:1px solid rgba(100,40,200,0.12);border-left-width:3px;border-left-color:rgba(140,60,255,0.3)}
+td:last-child{border-radius:0 11px 11px 0;border-right:1px solid rgba(100,40,200,0.12)}
+
+/* TODO */
+.todo-item{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:rgba(14,5,40,0.8);border-radius:11px;margin-bottom:8px;border-left:3px solid rgba(140,60,255,0.5);color:#cdb8f0;transition:.2s}
+.todo-item:hover{background:rgba(25,8,60,0.9);transform:translateX(3px)}
+.todo-done{opacity:.45;text-decoration:line-through;border-left-color:rgba(50,180,100,0.5)}
+input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
+
+/* FORM INPUTS inside app */
+.app-input{padding:11px 14px;border-radius:9px;border:1px solid rgba(140,60,255,0.2);background:rgba(10,4,35,0.75);color:#d8b4ff;font-family:'Exo 2',sans-serif;font-size:14px;outline:none;transition:border-color .3s;width:100%}
+.app-input:focus{border-color:rgba(200,80,255,0.55);box-shadow:0 0 0 2px rgba(160,60,255,0.08)}
+textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
+
+/* CERT */
+#certTemplate{width:794px;height:1122px;background:white;position:absolute;left:-10000px;top:0;box-sizing:border-box}
+.cert-border{margin:40px;height:calc(100% - 80px);border:20px double #7c3aed;padding:60px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:rgba(10,4,35,0.5)}
+::-webkit-scrollbar-thumb{background:rgba(140,60,255,0.35);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(180,80,255,0.55)}
+</style>
 </head>
 <body>
 
-<div id="loginBox" class="login-box">
-    <h1 style="color:var(--primary); font-weight:800; font-size: 24px;">ITCRM | Github kursi</h1>
-    <p style="color: #64748b; margin-bottom: 20px;">Tizimga kirish</p>
-    <input type="text" id="user" placeholder="Login" value="admin">
-    <input type="password" id="pass" placeholder="Parol" value="2013">
-    <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px;" onclick="auth()">Kirish</button>
+<canvas id="bgCanvas"></canvas>
+
+<!-- LOGIN -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="top-beam"></div>
+    <div class="scan-line"></div>
+    <div class="cn c-tl"></div><div class="cn c-tr"></div>
+    <div class="cn c-bl"></div><div class="cn c-br"></div>
+    <div class="logo-wrap">
+      <div class="logo-main">ITCRM</div>
+      <div class="logo-sub">GITHUB KURSI &middot; PORTAL</div>
+    </div>
+    <div class="ldiv"></div>
+    <label class="fl">LOGIN</label>
+    <input class="fi" type="text" id="user" placeholder="admin" value="admin">
+    <label class="fl">PAROL</label>
+    <input class="fi" type="password" id="pass" placeholder="••••" value="2013">
+    <button class="fbtn" onclick="auth()">TIZIMGA KIRISH</button>
+    <div class="lfoot">
+      <div><span class="pd"></span><span class="pt">ONLINE &middot; XAVFSIZ</span></div>
+      <span class="vr">v2.0.1</span>
+    </div>
+  </div>
 </div>
 
-<div id="appBox" style="display:none">
+<div class="drag-hint" id="dragHint">⟳ &nbsp;AYLANTIRING &nbsp;·&nbsp; SCROLL: ZOOM</div>
+
+<!-- APP -->
+<div id="appBox">
+
+  <!-- STICKY HEADER -->
+  <div class="app-header">
+    <div class="h-logo">ITCRM</div>
+    <div class="h-nav" id="hNav">
+      <button class="tab-btn active" onclick="switchTab('journal',this)">📊 Baholar</button>
+      <button class="tab-btn" onclick="switchTab('attend',this)">✅ Davomat</button>
+      <button id="admSt" class="tab-btn" style="display:none" onclick="switchTab('students',this)">👥 O'quvchilar</button>
+      <button class="tab-btn" onclick="switchTab('plan',this)">📝 Ish reja</button>
+      <button id="admC" class="tab-btn" style="display:none" onclick="switchTab('cert',this)">📜 Sertifikat</button>
+      <button id="admS" class="tab-btn" style="display:none" onclick="switchTab('sms',this)">📢 Bot</button>
+    </div>
+    <button class="h-exit" onclick="location.reload()">⏻ Chiqish</button>
+  </div>
+
+  <div class="app-body">
+    <!-- STATS -->
     <div class="stats-grid">
-        <div class="stat-item"><h3>Guruh %</h3><p id="avgTotal">0%</p></div>
-        <div class="stat-item"><h3>Lider</h3><p id="topStudent">-</p></div>
-        <div class="stat-item"><h3>Darslar</h3><p id="lessonCount">0</p></div>
+      <div class="stat-card"><h3>GURUH O'RTACHA</h3><p id="avgTotal">0%</p></div>
+      <div class="stat-card"><h3>LIDER</h3><p id="topStudent" style="font-size:18px">—</p></div>
+      <div class="stat-card"><h3>JAMI DARSLAR</h3><p id="lessonCount">0</p></div>
     </div>
 
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('journal', this)">📊 Baholar</button>
-        <button class="tab-btn" onclick="switchTab('attend', this)">✅ Davomat</button>
-        <button id="admSt" class="tab-btn" style="display:none" onclick="switchTab('students', this)">👥 O'quvchilar</button>
-        <button class="tab-btn" onclick="switchTab('plan', this)">📝 Ish reja</button>
-        <button id="admC" class="tab-btn" style="display:none" onclick="switchTab('cert', this)">📜 Sertifikat</button>
-        <button id="admS" class="tab-btn" style="display:none" onclick="switchTab('sms', this)">📢 Bot</button>
-        <button class="btn btn-danger" style="margin-left:auto" onclick="location.reload()">Chiqish</button>
-    </div>
-
+    <!-- SECTIONS -->
     <div id="studentsSec" class="card-content" style="display:none">
-        <div class="glass">
-            <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:15px;">
-                <h3>O'quvchilar ro'yxati</h3>
-                <button class="btn btn-success" onclick="addStudent()">+ Yangi O'quvchi</button>
-            </div>
-            <div style="overflow-x:auto">
-                <table>
-                    <thead><tr><th>F.I.SH</th><th>Login</th><th>Parol</th><th>Amal</th></tr></thead>
-                    <tbody id="stList"></tbody>
-                </table>
-            </div>
-        </div>
+      <div class="glass">
+        <div class="glass-title">👥 O'QUVCHILAR RO'YXATI</div>
+        <div style="margin-bottom:14px"><button class="btn btn-success" onclick="addStudent()">+ Yangi O'quvchi</button></div>
+        <div class="tbl-wrap"><table><thead><tr><th>F.I.SH</th><th>Login</th><th>Parol</th><th>Amal</th></tr></thead><tbody id="stList"></tbody></table></div>
+      </div>
     </div>
 
     <div id="journalSec" class="card-content">
-        <div class="glass">
-            <div id="admJ" style="display:none; margin-bottom:15px;"><button class="btn btn-primary" onclick="addNewDay()">+ Dars Qo'shish</button></div>
-            <div style="overflow-x:auto"><table><thead><tr id="hJ"></tr></thead><tbody id="bJ"></tbody></table></div>
-        </div>
+      <div class="glass">
+        <div class="glass-title">📊 BAHOLAR JURNALI</div>
+        <div id="admJ" style="display:none;margin-bottom:14px"><button class="btn btn-primary" onclick="addNewDay()">+ Dars Qo'shish</button></div>
+        <div class="tbl-wrap"><table><thead><tr id="hJ"></tr></thead><tbody id="bJ"></tbody></table></div>
+      </div>
     </div>
 
     <div id="attendSec" class="card-content" style="display:none">
-        <div class="glass"><div style="overflow-x:auto"><table><thead><tr id="hA"></tr></thead><tbody id="bA"></tbody></table></div></div>
+      <div class="glass">
+        <div class="glass-title">✅ DAVOMAT</div>
+        <div class="tbl-wrap"><table><thead><tr id="hA"></tr></thead><tbody id="bA"></tbody></table></div>
+      </div>
     </div>
 
     <div id="planSec" class="card-content" style="display:none">
-        <div class="glass"><h3>Oylik Kurs Rejasi</h3><div id="todoList"></div></div>
+      <div class="glass">
+        <div class="glass-title">📝 OYLIK KURS REJASI</div>
+        <div id="todoList"></div>
+      </div>
     </div>
 
     <div id="certSec" class="card-content" style="display:none">
-        <div class="glass">
-            <h3>📜 Sertifikatlar generatsiyasi</h3>
-            <div style="overflow-x:auto"><table><thead><tr><th>O'quvchi</th><th>Amal</th></tr></thead><tbody id="certList"></tbody></table></div>
-        </div>
+      <div class="glass">
+        <div class="glass-title">📜 SERTIFIKATLAR</div>
+        <div class="tbl-wrap"><table><thead><tr><th>O'quvchi</th><th>Amal</th></tr></thead><tbody id="certList"></tbody></table></div>
+      </div>
     </div>
 
     <div id="smsSec" class="card-content" style="display:none">
-        <div class="glass"><h3>📢 Telegram Xabarnoma</h3><textarea id="msg" placeholder="Xabarni yozing..."></textarea><button class="btn btn-primary" onclick="alert('Yuborildi!')">Bot orqali yuborish</button></div>
+      <div class="glass">
+        <div class="glass-title">📢 TELEGRAM XABARNOMA</div>
+        <textarea class="app-input" id="msg" placeholder="Xabarni yozing..."></textarea>
+        <button class="btn btn-primary" onclick="alert('Yuborildi!')">✈ Yuborish</button>
+      </div>
     </div>
-</div>
+
+  </div><!-- app-body -->
+</div><!-- appBox -->
 
 <div id="certTemplate">
-    <div class="cert-border">
-        <h1 style="font-size: 60px; color: #4f46e5;">SERTIFIKAT</h1>
-        <p style="font-size: 20px;">Ushbu hujjat kursni muvaffaqiyatli tamomlaganini tasdiqlaydi:</p>
-        <h2 id="pdfName" style="font-size: 45px; margin: 30px 0; border-bottom: 2px solid #4f46e5; min-width: 400px;"></h2>
-        <p style="font-size: 18px;">Yo'nalish: <b>GitHub va Versiyalarni boshqarish kursi</b></p>
-        <p style="margin-top: 50px;">Sana: <span id="currDate"></span></p>
-    </div>
+  <div class="cert-border">
+    <h1 style="font-size:60px;color:#7c3aed">SERTIFIKAT</h1>
+    <p style="font-size:20px">Ushbu hujjat kursni muvaffaqiyatli tamomlaganini tasdiqlaydi:</p>
+    <h2 id="pdfName" style="font-size:45px;margin:30px 0;border-bottom:2px solid #7c3aed;min-width:400px"></h2>
+    <p style="font-size:18px">Yo'nalish: <b>GitHub va Versiyalarni boshqarish kursi</b></p>
+    <p style="margin-top:50px">Sana: <span id="currDate"></span></p>
+  </div>
 </div>
 
 <script>
-    let students = JSON.parse(localStorage.getItem("crm_stds")) || [
-        { name: "Rustamov Aliakbar", login: "alixon71", pass: "2013", scores: [], attend: [] },
-        { name: "Mirahmedov Muhammadziyo", login: "ziyoxon14", pass: "2014", scores: [], attend: [] }
-    ];
-    let days = JSON.parse(localStorage.getItem("crm_days")) || [];
-    let todos = JSON.parse(localStorage.getItem("crm_todos")) || [
-        { text: "27-Apr: GitHub profil va README sozlash", done: false },
-        { text: "29-Apr: Repository yaratish va Pages", done: false }
-    ];
-    let currentUser = null;
+// ============================================================
+//  PARTICLE NETWORK  3D + DRAG + SCROLL ZOOM
+// ============================================================
+const CV = document.getElementById('bgCanvas');
+const cx = CV.getContext('2d');
+let W,H;
+function resize(){ W=CV.width=window.innerWidth; H=CV.height=window.innerHeight; }
+resize(); window.addEventListener('resize',resize);
 
-    function auth() {
-        let u = document.getElementById("user").value, p = document.getElementById("pass").value;
-        if(u === "admin" && p === "2013") currentUser = { role: "admin" };
-        else {
-            let s = students.find(x => x.login === u && x.pass === p);
-            if(s) currentUser = { role: "student", ...s }; else return alert("Xato!");
-        }
-        document.getElementById("loginBox").style.display = "none";
-        document.getElementById("appBox").style.display = "block";
-        
-        if(currentUser.role === 'admin') {
-            ["admJ", "admS", "admC", "admSt"].forEach(id => {
-                if(document.getElementById(id)) document.getElementById(id).style.display = "block";
-            });
-        }
-        renderAll();
+let rotY=0, rotX=0.25, velY=0.006, velX=0;
+let dragging=false, lastX=0, lastY=0;
+let hue=270, zoom=1.0;
+const ZOOM_MIN=0.3, ZOOM_MAX=3.0;
+const N=160; const pts=[];
+
+function mkPt(){
+  const u=Math.random(),v=Math.random();
+  const theta=2*Math.PI*u, phi=Math.acos(2*v-1);
+  const r=280+Math.random()*180;
+  return{ox:r*Math.sin(phi)*Math.cos(theta),oy:r*Math.sin(phi)*Math.sin(theta),oz:r*Math.cos(phi),
+    size:1.2+Math.random()*2.8,bright:0.35+Math.random()*0.65,phase:Math.random()*Math.PI*2,speed:0.018+Math.random()*0.025};
+}
+for(let i=0;i<N;i++) pts.push(mkPt());
+
+function project(ox,oy,oz){
+  const zox=ox*zoom,zoy=oy*zoom,zoz=oz*zoom;
+  let x= zox*Math.cos(rotY)+zoz*Math.sin(rotY);
+  let z0=-zox*Math.sin(rotY)+zoz*Math.cos(rotY);
+  let y= zoy*Math.cos(rotX)-z0*Math.sin(rotX);
+  let z= zoy*Math.sin(rotX)+z0*Math.cos(rotX);
+  const fov=900, scale=fov/(fov+z+600);
+  return{sx:W/2+x*scale, sy:H/2+y*scale, scale, z};
+}
+
+let frame=0;
+function draw(){
+  frame++;
+  hue=(hue+0.25)%360;
+  if(!dragging){rotY+=velY;velY*=0.999;rotX+=velX;velX*=0.95;}
+  const bg=cx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.hypot(W,H)*0.7);
+  bg.addColorStop(0,`hsla(${hue},55%,9%,1)`);
+  bg.addColorStop(0.45,`hsla(${(hue+25)%360},45%,5%,1)`);
+  bg.addColorStop(1,`hsla(${(hue+50)%360},30%,2%,1)`);
+  cx.fillStyle=bg; cx.fillRect(0,0,W,H);
+  const proj=pts.map(p=>({p,...project(p.ox,p.oy,p.oz)}));
+  proj.sort((a,b)=>a.z-b.z);
+  for(let i=0;i<proj.length;i++){
+    for(let j=i+1;j<proj.length;j++){
+      const dx=proj[i].sx-proj[j].sx, dy=proj[i].sy-proj[j].sy;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<150){
+        const a=(1-d/150)*0.5*proj[i].scale*proj[j].scale*2.5;
+        cx.beginPath();cx.moveTo(proj[i].sx,proj[i].sy);cx.lineTo(proj[j].sx,proj[j].sy);
+        cx.strokeStyle=`hsla(${hue},85%,72%,${a})`;cx.lineWidth=0.6;cx.stroke();
+      }
     }
-
-    function switchTab(id, btn) {
-        document.querySelectorAll('.card-content').forEach(c => c.style.display = 'none');
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id + "Sec").style.display = "block";
-        btn.classList.add('active');
+  }
+  proj.forEach(({p,sx,sy,scale})=>{
+    const pulse=0.65+0.35*Math.sin(frame*p.speed+p.phase);
+    const s=p.size*scale*pulse, alpha=Math.min(1,p.bright*scale*1.8*pulse);
+    const g=cx.createRadialGradient(sx,sy,0,sx,sy,s*7);
+    g.addColorStop(0,`hsla(${hue},90%,80%,${alpha*0.7})`);
+    g.addColorStop(0.35,`hsla(${hue},80%,65%,${alpha*0.25})`);
+    g.addColorStop(1,'transparent');
+    cx.fillStyle=g; cx.beginPath();cx.arc(sx,sy,s*7,0,Math.PI*2);cx.fill();
+    cx.beginPath();cx.arc(sx,sy,s,0,Math.PI*2);
+    cx.fillStyle=`hsla(${hue},95%,92%,${Math.min(1,alpha*2.2)})`;cx.fill();
+    if(p.bright>0.75){
+      cx.save();cx.translate(sx,sy);cx.rotate(frame*0.008+p.phase);
+      cx.strokeStyle=`hsla(${hue},95%,88%,${alpha*0.9})`;cx.lineWidth=0.9;
+      for(let k=0;k<4;k++){cx.beginPath();cx.moveTo(0,0);cx.lineTo(0,-s*4.5);cx.stroke();cx.rotate(Math.PI/2);}
+      cx.restore();
     }
+  });
+  requestAnimationFrame(draw);
+}
+draw();
 
-    function renderAll() {
-        const h = `<th>O'quvchi</th>` + days.map(d => `<th>${d}</th>`).join("");
-        document.getElementById("hJ").innerHTML = h; 
-        document.getElementById("hA").innerHTML = h;
-        
-        let bJ = "", bA = "", cL = "", sL = "";
-        
-        students.forEach((s, si) => {
-            // O'quvchi ro'yxati (Admin uchun)
-            sL += `<tr>
-                <td>${s.name}</td>
-                <td>${s.login}</td>
-                <td>${s.pass}</td>
-                <td><button class="btn btn-danger" onclick="deleteStudent(${si})">O'chirish</button></td>
-            </tr>`;
+function onDown(ex,ey){dragging=true;lastX=ex;lastY=ey;CV.style.cursor='grabbing'}
+function onMove(ex,ey){if(!dragging)return;const dx=ex-lastX,dy=ey-lastY;rotY+=dx*0.007;rotX+=dy*0.007;velY=dx*0.007;velX=dy*0.003;lastX=ex;lastY=ey}
+function onUp(){dragging=false;CV.style.cursor='grab'}
+CV.addEventListener('mousedown',e=>onDown(e.clientX,e.clientY));
+window.addEventListener('mousemove',e=>onMove(e.clientX,e.clientY));
+window.addEventListener('mouseup',onUp);
+CV.addEventListener('touchstart',e=>{e.preventDefault();onDown(e.touches[0].clientX,e.touches[0].clientY)},{passive:false});
+window.addEventListener('touchmove',e=>{if(dragging){e.preventDefault();onMove(e.touches[0].clientX,e.touches[0].clientY)}},{passive:false});
+window.addEventListener('touchend',onUp);
+CV.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,zoom*(e.deltaY>0?0.92:1.09)))},{passive:false});
+let lastPinch=null;
+CV.addEventListener('touchstart',e=>{if(e.touches.length===2)lastPinch=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)},{passive:true});
+window.addEventListener('touchmove',e=>{if(e.touches.length===2&&lastPinch){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);zoom=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,zoom*(d/lastPinch)));lastPinch=d;}},{passive:true});
+window.addEventListener('touchend',()=>lastPinch=null);
+CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.display='none',{once:true});
 
-            if(currentUser.role === 'student' && s.login !== currentUser.login) return;
-            
-            bJ += `<tr><td>${s.name}</td>${days.map((_, di) => `<td onclick="edit(${si},${di},'scores')">${s.scores[di] || '-'}</td>`).join("")}</tr>`;
-            bA += `<tr><td>${s.name}</td>${days.map((_, di) => `<td onclick="edit(${si},${di},'attend')">${s.attend[di] || '-'}</td>`).join("")}</tr>`;
-            cL += `<tr><td>${s.name}</td><td><button class="btn btn-primary" onclick="makeCert('${s.name}')">📜 PDF</button></td></tr>`;
-        });
+// ============================================================
+//  CRM LOGIC
+// ============================================================
+let students=JSON.parse(localStorage.getItem("crm_stds"))||[
+  {name:"Rustamov Aliakbar",login:"alixon71",pass:"2013",scores:[],attend:[]},
+  {name:"Mirahmedov Muhammadziyo",login:"ziyoxon14",pass:"2014",scores:[],attend:[]}
+];
+let days=JSON.parse(localStorage.getItem("crm_days"))||[];
+let todos=JSON.parse(localStorage.getItem("crm_todos"))||[
+  {text:"27-Apr: GitHub profil va README sozlash",done:false},
+  {text:"29-Apr: Repository yaratish va Pages",done:false}
+];
+let currentUser=null;
 
-        document.getElementById("bJ").innerHTML = bJ; 
-        document.getElementById("bA").innerHTML = bA; 
-        document.getElementById("certList").innerHTML = cL;
-        document.getElementById("stList").innerHTML = sL;
-        
-        document.getElementById("todoList").innerHTML = todos.map((t, i) => `
-            <div class="todo-item ${t.done?'todo-done':''}">
-                <span>${t.text}</span>
-                <input type="checkbox" ${t.done?'checked':''} ${currentUser.role==='admin' ? `onclick="toggle(${i})"` : 'disabled'}>
-            </div>`).join("");
-        updateStats();
-    }
+function auth(){
+  const u=document.getElementById("user").value, p=document.getElementById("pass").value;
+  if(u==="admin"&&p==="2013"){currentUser={role:"admin"};}
+  else{const s=students.find(x=>x.login===u&&x.pass===p);if(s)currentUser={role:"student",...s};else return alert("Login yoki parol xato!");}
+  document.getElementById("loginPage").style.display="none";
+  document.getElementById("dragHint").style.display="none";
+  document.getElementById("appBox").style.display="block";
+  if(currentUser.role==="admin"){
+    ["admJ","admS","admC","admSt"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="block";});
+  }
+  renderAll();
+}
 
-    // YANGI: O'quvchi qo'shish funksiyasi
-    function addStudent() {
-        let name = prompt("F.I.SH:");
-        let login = prompt("Login:");
-        let pass = prompt("Parol:");
-        if(name && login && pass) {
-            // Yangi o'quvchi uchun mavjud darslar miqdoricha bo'sh joy ochish
-            let sc = new Array(days.length).fill("");
-            let at = new Array(days.length).fill("");
-            students.push({ name, login, pass, scores: sc, attend: at });
-            save();
-            renderAll();
-        }
-    }
+function switchTab(id,btn){
+  document.querySelectorAll('.card-content').forEach(c=>c.style.display='none');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id+"Sec").style.display="block";
+  btn.classList.add('active');
+}
 
-    // YANGI: O'quvchini o'chirish
-    function deleteStudent(i) {
-        if(confirm("Haqiqatan ham ushbu o'quvchini o'chirmoqchimisiz?")) {
-            students.splice(i, 1);
-            save();
-            renderAll();
-        }
-    }
+function renderAll(){
+  const h=`<th>O'QUVCHI</th>`+days.map(d=>`<th>${d}</th>`).join("");
+  document.getElementById("hJ").innerHTML=h;
+  document.getElementById("hA").innerHTML=h;
+  let bJ="",bA="",cL="",sL="";
+  students.forEach((s,si)=>{
+    sL+=`<tr><td>${s.name}</td><td>${s.login}</td><td>${s.pass}</td><td><button class="btn btn-danger" onclick="deleteStudent(${si})">O'chirish</button></td></tr>`;
+    if(currentUser.role==='student'&&s.login!==currentUser.login)return;
+    bJ+=`<tr><td>${s.name}</td>${days.map((_,di)=>`<td onclick="edit(${si},${di},'scores')">${s.scores[di]||'—'}</td>`).join("")}</tr>`;
+    bA+=`<tr><td>${s.name}</td>${days.map((_,di)=>`<td onclick="edit(${si},${di},'attend')">${s.attend[di]||'—'}</td>`).join("")}</tr>`;
+    cL+=`<tr><td>${s.name}</td><td><button class="btn btn-primary" onclick="makeCert('${s.name}')">📜 PDF</button></td></tr>`;
+  });
+  document.getElementById("bJ").innerHTML=bJ;
+  document.getElementById("bA").innerHTML=bA;
+  document.getElementById("certList").innerHTML=cL;
+  document.getElementById("stList").innerHTML=sL;
+  document.getElementById("todoList").innerHTML=todos.map((t,i)=>`
+    <div class="todo-item ${t.done?'todo-done':''}">
+      <span>${t.text}</span>
+      <input type="checkbox" ${t.done?'checked':''} ${currentUser.role==='admin'?`onclick="toggle(${i})"`:' disabled'}>
+    </div>`).join("");
+  updateStats();
+}
 
-    function updateStats() {
-        let scs = students.flatMap(s => s.scores).filter(v => v !== "" && !isNaN(v)).map(Number);
-        document.getElementById("avgTotal").innerText = (scs.length ? (scs.reduce((a,b)=>a+b,0)/scs.length).toFixed(1) : 0) + "%";
-        document.getElementById("lessonCount").innerText = days.length;
-        let top = [...students].sort((a,b) => (b.scores.reduce((t,c)=>t+(parseInt(c)||0),0)) - (a.scores.reduce((t,c)=>t+(parseInt(c)||0),0)))[0];
-        document.getElementById("topStudent").innerText = (top && top.name) ? top.name.split(" ")[1] : "-";
-    }
-
-    function edit(si, di, type) {
-        if(currentUser.role !== 'admin') return;
-        let v = prompt("Qiymat:");
-        if(v !== null) { 
-            students[si][type][di] = v; 
-            save(); 
-            renderAll(); 
-        }
-    }
-
-    function addNewDay() { 
-        let d = prompt("Sana:"); 
-        if(d) { 
-            days.push(d); 
-            students.forEach(s => { 
-                s.scores.push(""); 
-                s.attend.push(""); 
-            }); 
-            save(); 
-            renderAll(); 
-        } 
-    }
-
-    function toggle(i) { todos[i].done = !todos[i].done; save(); renderAll(); }
-    function save() { 
-        localStorage.setItem("crm_stds", JSON.stringify(students)); 
-        localStorage.setItem("crm_days", JSON.stringify(days)); 
-        localStorage.setItem("crm_todos", JSON.stringify(todos)); 
-    }
-
-    function makeCert(n) {
-        document.getElementById("pdfName").innerText = n.toUpperCase();
-        document.getElementById("currDate").innerText = new Date().toLocaleDateString();
-        html2pdf().set({ margin: 0, filename: `Cert_${n}.pdf`, jsPDF: { unit: 'pt', format: 'a4' } })
-                 .from(document.getElementById('certTemplate')).save();
-    }
+function updateStats(){
+  const scs=students.flatMap(s=>s.scores).filter(v=>v!==""&&!isNaN(v)).map(Number);
+  document.getElementById("avgTotal").innerText=(scs.length?(scs.reduce((a,b)=>a+b,0)/scs.length).toFixed(1):0)+"%";
+  document.getElementById("lessonCount").innerText=days.length;
+  const top=[...students].sort((a,b)=>b.scores.reduce((t,c)=>t+(+c||0),0)-a.scores.reduce((t,c)=>t+(+c||0),0))[0];
+  document.getElementById("topStudent").innerText=(top&&top.name)?top.name.split(" ").slice(0,2).join(" "):"—";
+}
+function edit(si,di,type){
+  if(currentUser.role!=='admin')return;
+  const v=prompt("Qiymat:");if(v!==null){students[si][type][di]=v;save();renderAll();}
+}
+function addNewDay(){
+  const d=prompt("Sana:");if(d){days.push(d);students.forEach(s=>{s.scores.push("");s.attend.push("");});save();renderAll();}
+}
+function addStudent(){
+  const name=prompt("F.I.SH:"),login=prompt("Login:"),pass=prompt("Parol:");
+  if(name&&login&&pass){students.push({name,login,pass,scores:new Array(days.length).fill(""),attend:new Array(days.length).fill("")});save();renderAll();}
+}
+function deleteStudent(i){if(confirm("O'chirishni tasdiqlaysizmi?")){students.splice(i,1);save();renderAll();}}
+function toggle(i){todos[i].done=!todos[i].done;save();renderAll();}
+function save(){
+  localStorage.setItem("crm_stds",JSON.stringify(students));
+  localStorage.setItem("crm_days",JSON.stringify(days));
+  localStorage.setItem("crm_todos",JSON.stringify(todos));
+}
+function makeCert(n){
+  document.getElementById("pdfName").innerText=n.toUpperCase();
+  document.getElementById("currDate").innerText=new Date().toLocaleDateString();
+  html2pdf().set({margin:0,filename:`Cert_${n}.pdf`,jsPDF:{unit:'pt',format:'a4'}}).from(document.getElementById('certTemplate')).save();
+}
 </script>
 </body>
 </html>
