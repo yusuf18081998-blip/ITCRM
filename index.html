@@ -15,7 +15,7 @@ html,body{width:100%;height:100%;background:#000;font-family:'Exo 2',sans-serif;
 
 /* ====== LOGIN ====== */
 #loginPage{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.login-card{pointer-events:all;width:370px;background:rgba(6,3,22,0.82);border:1px solid rgba(180,100,255,0.25);border-radius:24px;padding:42px 34px 34px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 0 100px rgba(140,60,255,0.2),inset 0 1px 0 rgba(255,255,255,0.07);position:relative;overflow:hidden;animation:card-in 1.2s cubic-bezier(.16,1,.3,1) both}
+.login-card{pointer-events:all;width:370px;background:transparent;border:1px solid rgba(180,100,255,0.25);border-radius:24px;padding:42px 34px 34px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 0 100px rgba(140,60,255,0.2),inset 0 1px 0 rgba(255,255,255,0.07);position:relative;overflow:hidden;animation:card-in 1.2s cubic-bezier(.16,1,.3,1) both}
 @keyframes card-in{from{opacity:0;transform:scale(.9) translateY(40px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .top-beam{position:absolute;top:0;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,#bb66ff,#66ffee,#bb66ff,transparent);border-radius:2px;animation:beam 3s ease-in-out infinite}
 @keyframes beam{0%,100%{opacity:.4}50%{opacity:1}}
@@ -179,7 +179,6 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
 
 <canvas id="bgCanvas"></canvas>
 
-<!-- LOGIN -->
 <div id="loginPage">
   <div class="login-card">
     <div class="top-beam"></div>
@@ -205,10 +204,8 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
 
 <div class="drag-hint" id="dragHint">⟳ &nbsp;AYLANTIRING &nbsp;·&nbsp; SCROLL: ZOOM</div>
 
-<!-- APP -->
 <div id="appBox">
 
-  <!-- STICKY HEADER -->
   <div class="app-header">
     <div class="h-logo">ITCRM</div>
     <div class="h-nav" id="hNav">
@@ -223,14 +220,12 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
   </div>
 
   <div class="app-body">
-    <!-- STATS -->
     <div class="stats-grid">
       <div class="stat-card"><h3>GURUH O'RTACHA</h3><p id="avgTotal">0%</p></div>
       <div class="stat-card"><h3>LIDER</h3><p id="topStudent" style="font-size:18px">—</p></div>
       <div class="stat-card"><h3>JAMI DARSLAR</h3><p id="lessonCount">0</p></div>
     </div>
 
-    <!-- SECTIONS -->
     <div id="studentsSec" class="card-content" style="display:none">
       <div class="glass">
         <div class="glass-title">👥 O'QUVCHILAR RO'YXATI</div>
@@ -276,10 +271,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
       </div>
     </div>
 
-  </div><!-- app-body -->
-</div><!-- appBox -->
-
-<div id="certTemplate">
+  </div></div><div id="certTemplate">
   <div class="cert-border">
     <h1 style="font-size:60px;color:#7c3aed">SERTIFIKAT</h1>
     <p style="font-size:20px">Ushbu hujjat kursni muvaffaqiyatli tamomlaganini tasdiqlaydi:</p>
