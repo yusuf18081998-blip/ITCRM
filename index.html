@@ -379,7 +379,8 @@ CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.di
 // ============================================================
 //  CRM LOGIC
 // ============================================================
-let students=JSON.parse(localStorage.getItem("crm_stds"))||[
+  let days = JSON.parse(localStorage.getItem("crm_days")) || ["1-dars"];
+  let students=JSON.parse(localStorage.getItem("crm_stds"))||[
   {name:"Nematova Gulsanam",login:"23870965",pass:"nematova",scores:[],attend:[]},
 let todos=JSON.parse(localStorage.getItem("crm_todos"))||[
   {text:"1-soat: Dasturlash nima? Dasturchi kim?",done:false},
