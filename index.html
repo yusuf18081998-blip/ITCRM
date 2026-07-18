@@ -560,13 +560,16 @@ CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.di
 
 // ============================================================
 //  CRM LOGIC
-// ============================================================let days = JSON.parse(localStorage.getItem("crm_days")) || ["1-dars"];
+// ============================================================let savedDays = JSON.parse(localStorage.getItem("crm_days"));
+let days = Array.isArray(savedDays) && savedDays.length ? savedDays : ["1-dars"];
 
-let students = JSON.parse(localStorage.getItem("crm_stds")) || 
+let savedStudents = JSON.parse(localStorage.getItem("crm_stds"));
+let students = Array.isArray(savedStudents) && savedStudents.length ? savedStudents :
   [
-  {name:"Nematova Gulsanam", login:"23870965", pass:"nematova", scores:[], attend:[]}
-];
-let todos=JSON.parse(localStorage.getItem("crm_todos"))||
+    {name:"Nematova Gulsanam", login:"23870965", pass:"nematova", scores:[], attend:[]}
+  ];
+let savedTodos=JSON.parse(localStorage.getItem("crm_todos"));
+let todos=(Array.isArray(savedTodos) && savedTodos.length ? savedTodos :
   [
   {text:"1-soat: Dasturlash nima? Dasturchi kim?",done:false},
   {text:"2-soat: Kompyuter va dasturchi ish muhiti",done:false},
@@ -735,8 +738,15 @@ let todos=JSON.parse(localStorage.getItem("crm_todos"))||
   {text:"142-soat: Portfolio tekshiruvi",done:false},
   {text:"143-soat: Yakuniy imtihon",done:false},
   {text:"144-soat: COMPUTER INSTITUTE kursini yakunlash",done:false}
-];
+]);
 let currentUser=null;
+
+function restoreDefaultData(){
+  localStorage.removeItem("crm_days");
+  localStorage.removeItem("crm_stds");
+  localStorage.removeItem("crm_todos");
+  location.reload();
+}
 
 function auth(){
   const u=document.getElementById("user").value, p=document.getElementById("pass").value;
@@ -810,7 +820,7 @@ function save(){
 }
 function joinLiveLesson(){
   // Google Meet'da yaratilgan haqiqiy dars havolasini shu yerga qo'ying.
-  const meetingLink = "https://meet.google.com/pat-cyfm-fpv";
+  const meetingLink = "https://meet.google.com/XXXXX-XXXXX-XXX";
   window.open(meetingLink, "_blank");
 }
 
