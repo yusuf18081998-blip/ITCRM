@@ -378,11 +378,13 @@ CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.di
 
 // ============================================================
 //  CRM LOGIC
-// ============================================================
-  let days = JSON.parse(localStorage.getItem("crm_days")) || ["1-dars"];
-  let students=JSON.parse(localStorage.getItem("crm_stds"))||[
-  {name:"Nematova Gulsanam",login:"23870965",pass:"nematova",scores:[],attend:[]},
-let todos=JSON.parse(localStorage.getItem("crm_todos"))||[
+// ============================================================let days = JSON.parse(localStorage.getItem("crm_days")) || ["1-dars"];
+
+let students = JSON.parse(localStorage.getItem("crm_stds")) || [
+  {name:"Nematova Gulsanam", login:"23870965", pass:"nematova", scores:[], attend:[]}
+];
+let todos=JSON.parse(localStorage.getItem("crm_todos"))||
+  [
   {text:"1-soat: Dasturlash nima? Dasturchi kim?",done:false},
   {text:"2-soat: Kompyuter va dasturchi ish muhiti",done:false},
   {text:"3-soat: Algoritmlar va dasturlash mantiqi",done:false},
