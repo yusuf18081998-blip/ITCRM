@@ -428,30 +428,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
       </div>
     </div>
 
-    <div id="liveSec" class="card-content" style="display:none">
-      <div class="live-header">
-        <div class="live-icon">🎥</div>
-        <div>
-          <h1>Jonli darslar</h1>
-          <p>Sizning guruhlaringiz va jadval</p>
-        </div>
-      </div>
-
-      <div class="live-card">
-        <div class="live-status">Faol</div>
-        <h2>F-5</h2>
-        <div class="live-teacher">Navi Pro</div>
-
-        <div class="live-info">
-          <span>▣ &nbsp; Toq kunlar (Du, Chor, Ju)</span>
-          <span>◷ &nbsp; 18:00 · 50 daqiqa</span>
-        </div>
-
-        <button class="join-live-btn" onclick="joinLiveLesson()">
-          ▣ &nbsp; Darsga kirish
-        </button>
-      </div>
-    </div>
+    
 
   </div></div><div id="certTemplate">
   <div class="cert-border">
@@ -560,7 +537,8 @@ CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.di
 
 // ============================================================
 //  CRM LOGIC
-// ============================================================let savedDays = JSON.parse(localStorage.getItem("crm_days"));
+// ============================================================
+let savedDays = JSON.parse(localStorage.getItem("crm_days"));
 let days = Array.isArray(savedDays) && savedDays.length ? savedDays : ["1-dars"];
 
 let savedStudents = JSON.parse(localStorage.getItem("crm_stds"));
@@ -775,8 +753,12 @@ function renderAll(){
   document.getElementById("hA").innerHTML=h;
   let bJ="",bA="",cL="",sL="";
   students.forEach((s,si)=>{
+    s.scores = Array.isArray(s.scores) ? s.scores : [];
+    s.attend = Array.isArray(s.attend) ? s.attend : [];
+    while(s.scores.length < days.length) s.scores.push("");
+    while(s.attend.length < days.length) s.attend.push("");
     sL+=`<tr><td>${s.name}</td><td>${s.login}</td><td>${s.pass}</td><td><button class="btn btn-danger" onclick="deleteStudent(${si})">O'chirish</button></td></tr>`;
-    if(currentUser.role==='student'&&s.login!==currentUser.login)return;
+    if(currentUser && currentUser.role==='student'&&s.login!==currentUser.login)return;
     bJ+=`<tr><td>${s.name}</td>${days.map((_,di)=>`<td onclick="edit(${si},${di},'scores')">${s.scores[di]||'—'}</td>`).join("")}</tr>`;
     bA+=`<tr><td>${s.name}</td>${days.map((_,di)=>`<td onclick="edit(${si},${di},'attend')">${s.attend[di]||'—'}</td>`).join("")}</tr>`;
     cL+=`<tr><td>${s.name}</td><td><button class="btn btn-primary" onclick="makeCert('${s.name}')">📜 PDF</button></td></tr>`;
@@ -788,16 +770,16 @@ function renderAll(){
   document.getElementById("todoList").innerHTML=todos.map((t,i)=>`
     <div class="todo-item ${t.done?'todo-done':''}">
       <span>${t.text}</span>
-      <input type="checkbox" ${t.done?'checked':''} ${currentUser.role==='admin'?`onclick="toggle(${i})"`:' disabled'}>
+      <input type="checkbox" ${t.done?'checked':''} ${currentUser && currentUser.role==='admin'?`onclick="toggle(${i})"`:' disabled'}>
     </div>`).join("");
   updateStats();
 }
 
 function updateStats(){
-  const scs=students.flatMap(s=>s.scores).filter(v=>v!==""&&!isNaN(v)).map(Number);
+  const scs=students.flatMap(s=>s.scores||[]).filter(v=>v!==""&&!isNaN(v)).map(Number);
   document.getElementById("avgTotal").innerText=(scs.length?(scs.reduce((a,b)=>a+b,0)/scs.length).toFixed(1):0)+"%";
   document.getElementById("lessonCount").innerText=days.length;
-  const top=[...students].sort((a,b)=>b.scores.reduce((t,c)=>t+(+c||0),0)-a.scores.reduce((t,c)=>t+(+c||0),0))[0];
+  const top=[...students].sort((a,b)=>(b.scores||[]).reduce((t,c)=>t+(+c||0),0)-(a.scores||[]).reduce((t,c)=>t+(+c||0),0))[0];
   document.getElementById("topStudent").innerText=(top&&top.name)?top.name.split(" ").slice(0,2).join(" "):"—";
 }
 function edit(si,di,type){
