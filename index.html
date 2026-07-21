@@ -281,6 +281,38 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
   .live-info span{font-size:14px}
 }
 
+/* ====== BUGUNGI MAVZU (TODAY'S TOPIC) ====== */
+.today-lesson-card{
+  background:linear-gradient(135deg,rgba(90,25,190,0.35),rgba(20,10,45,0.55));
+  border:1px solid rgba(160,80,255,0.35);
+  border-radius:24px;
+  padding:22px 26px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+}
+.today-lesson-card::before{
+  content:'';position:absolute;top:0;left:6%;right:6%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,120,255,0.55),transparent);
+}
+.today-lesson-label{
+  font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2.5px;
+  color:#cc88ff;margin-bottom:10px;font-weight:700;
+}
+.today-lesson-topic{
+  font-size:19px;color:#f1e4ff;font-weight:600;line-height:1.5;
+}
+.today-lesson-sub{
+  font-size:13px;color:rgba(200,170,240,0.6);margin-top:8px;
+}
+.today-lesson-setdate{
+  margin-top:14px;padding:7px 14px;border-radius:9px;
+  border:1px solid rgba(160,80,255,0.3);background:rgba(20,8,50,0.5);
+  color:rgba(200,140,255,0.75);font-family:'Exo 2',sans-serif;font-size:11px;
+  font-weight:600;cursor:pointer;transition:.2s;
+}
+.today-lesson-setdate:hover{background:rgba(60,20,120,0.6);color:#ddaaff}
+
 /* ====== KOD MAYDONI (CODE PLAYGROUND) ====== */
 .code-wrap{
   background:#0c0e16;border:1px solid rgba(140,60,255,0.2);border-radius:20px;
@@ -334,7 +366,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
     <div class="cn c-bl"></div><div class="cn c-br"></div>
     <div class="logo-wrap">
       <div class="logo-main">COMPUTER INSTITUTE</div>
-      <div class="logo-sub">GITHUB KURSI &middot; PORTAL</div>
+      <div class="logo-sub">DIPLOMATIYA KURSI &middot; PORTAL</div>
     </div>
     <div class="ldiv"></div>
     <label class="fl">LOGIN</label>
@@ -413,6 +445,8 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
         </div>
       </div>
 
+      <div class="today-lesson-card" id="todayLessonBox"></div>
+
       <div class="live-card">
         <div class="live-status">Faol</div>
         <h2>C-1</h2>
@@ -431,7 +465,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
 
     <div id="planSec" class="card-content" style="display:none">
       <div class="glass">
-        <div class="glass-title">📝 OYLIK KURS REJASI</div>
+        <div class="glass-title">📝 2 YILLIK KURS REJASI — RAQAMLI DIPLOMATIYA VA KOMPYUTER SOHASI</div>
         <div id="todoList"></div>
       </div>
     </div>
@@ -509,7 +543,7 @@ console.log("Salom, dunyo!");</textarea>
     <h1 style="font-size:60px;color:#7c3aed">SERTIFIKAT</h1>
     <p style="font-size:20px">Ushbu hujjat kursni muvaffaqiyatli tamomlaganini tasdiqlaydi:</p>
     <h2 id="pdfName" style="font-size:45px;margin:30px 0;border-bottom:2px solid #7c3aed;min-width:400px"></h2>
-    <p style="font-size:18px">Yo'nalish: <b>GitHub va Versiyalarni boshqarish kursi</b></p>
+    <p style="font-size:18px">Yo'nalish: <b>Diplomatiya kursi</b></p>
     <p style="margin-top:50px">Sana: <span id="currDate"></span></p>
   </div>
 </div>
@@ -682,63 +716,109 @@ let students = Array.isArray(savedStudents) && savedStudents.length ? savedStude
 let savedTodos=JSON.parse(localStorage.getItem("crm_todos"));
 let todos=(Array.isArray(savedTodos) && savedTodos.length ? savedTodos :
   [
-  {text:"1-soat: Kompyuter nima? Qismlari va ish tizimi bilan tanishish",done:false},
-  {text:"2-soat: Fayl va papkalar bilan ishlash (Windows/Mac asoslari)",done:false},
-  {text:"3-soat: Google Drive va bulutli saqlash",done:false},
-  {text:"4-soat: Klaviaturada tez va to'g'ri yozish mashqlari",done:false},
-  {text:"5-soat: MS Word / Google Docs — hujjat tayyorlash",done:false},
-  {text:"6-soat: Rasmiy xat va memorandum formatlash",done:false},
-  {text:"7-soat: MS Excel / Google Sheets asoslari",done:false},
-  {text:"8-soat: Excelda jadval va oddiy formulalar",done:false},
-  {text:"9-soat: Ma'lumotlarni diagramma va grafikda tasvirlash",done:false},
-  {text:"10-soat: MS PowerPoint / Canva — taqdimot dizayni asoslari",done:false},
-  {text:"11-soat: Professional taqdimot tayyorlash (rang, shrift, struktura)",done:false},
-  {text:"12-soat: Taqdimotni himoya qilish mashqi (jonli chiqish)",done:false},
+  {text:"— 1-YIL / 1-SEMESTR: RAQAMLI DIPLOMATIYA ASOSLARI —",done:false},
+  {text:"1-soat: Diplomatiya tushunchasi va uning zamonaviy transformatsiyasi",done:false},
+  {text:"2-soat: Raqamli diplomatiya nima? Ta'rifi va kelib chiqish tarixi",done:false},
+  {text:"3-soat: Kompyuter va internetning xalqaro munosabatlarga ta'siri",done:false},
+  {text:"4-soat: Xalqaro tashkilotlar bilan tanishish (BMT, ITU, ICANN)",done:false},
+  {text:"5-soat: Davlatlararo kiberxavfsizlik siyosati asoslari",done:false},
+  {text:"6-soat: Milliy raqamli suverenitet tushunchasi",done:false},
+  {text:"7-soat: Internet boshqaruvi (Internet Governance) modellari",done:false},
+  {text:"8-soat: Xalqaro huquq va kiberfazoning huquqiy maqomi",done:false},
+  {text:"9-soat: Elektron hukumat (e-government) tizimlari",done:false},
+  {text:"10-soat: Raqamli iqtisodiyot va xalqaro savdo aloqalari",done:false},
+  {text:"11-soat: Ijtimoiy tarmoqlar va ommaviy diplomatiya (public diplomacy)",done:false},
+  {text:"12-soat: Ijtimoiy tarmoqlardagi diplomatiya misollarini tahlil qilish",done:false},
+  {text:"13-soat: Axborot xavfsizligi va davlat siyosati",done:false},
+  {text:"14-soat: Kiberhujumlar turlari va ularning diplomatik oqibatlari",done:false},
+  {text:"15-soat: Davlatlararo kiberkonfliktlar tarixi (case-study tahlili)",done:false},
+  {text:"16-soat: BMT kiberxavfsizlik guruhlari (GGE, OEWG) faoliyati",done:false},
+  {text:"17-soat: Xalqaro shartnomalar: Budapesht konventsiyasi",done:false},
+  {text:"18-soat: Ma'lumotlarni himoya qilish bo'yicha xalqaro me'yorlar (GDPR)",done:false},
+  {text:"19-soat: Transchegaraviy ma'lumot oqimi muammolari",done:false},
+  {text:"20-soat: Raqamli diplomatiyada muzokara texnikalariga kirish",done:false},
+  {text:"21-soat: Rasmiy diplomatik yozishmalar va elektron pochta odob-axloqi",done:false},
+  {text:"22-soat: Xalqaro konferensiyalarda rasmiy nutq tayyorlash",done:false},
+  {text:"23-soat: Amaliy mashg'ulot — rasmiy bayonot loyihasini yozish",done:false},
+  {text:"24-soat: 1-semestr yakuniy loyihasi — davlat raqamli siyosatini tahlil qilish",done:false},
 
-  {text:"13-soat: Internetda qidiruv va ishonchli manba topish",done:false},
-  {text:"14-soat: Faktlarni tekshirish (fact-checking) usullari",done:false},
-  {text:"15-soat: OSINT (ochiq manba tahlili) asoslari",done:false},
-  {text:"16-soat: Onlayn xavfsizlik — kuchli parol va 2 bosqichli tasdiqlash",done:false},
-  {text:"17-soat: Fishing va firibgarlikdan himoyalanish",done:false},
-  {text:"18-soat: Shaxsiy ma'lumotlarni himoya qilish (maxfiylik sozlamalari)",done:false},
+  {text:"— 1-YIL / 2-SEMESTR: TEXNIK KO'NIKMALAR VA XALQARO HAMKORLIK —",done:false},
+  {text:"25-soat: Kompyuter tarmoqlari asoslari (diplomatlar uchun)",done:false},
+  {text:"26-soat: Internet protokollari (IP, DNS, HTTP) bilan tanishish",done:false},
+  {text:"27-soat: Kiberxavfsizlik asoslari — shifrlash tushunchasi",done:false},
+  {text:"28-soat: VPN va xavfsiz aloqa vositalari",done:false},
+  {text:"29-soat: Fishing va ijtimoiy muhandislik hujumlaridan himoyalanish",done:false},
+  {text:"30-soat: Davlat idoralari uchun axborot xavfsizligi siyosati",done:false},
+  {text:"31-soat: Xalqaro IT kompaniyalar bilan hamkorlik (Google, Microsoft, Meta)",done:false},
+  {text:"32-soat: Raqamli valyutalar va xalqaro moliyaviy diplomatiya",done:false},
+  {text:"33-soat: Blokcheyn texnologiyasi va uni xalqaro nazorat qilish",done:false},
+  {text:"34-soat: Sun'iy intellekt siyosati — xalqaro tartibga solish",done:false},
+  {text:"35-soat: AI Act va boshqa mintaqaviy AI qonunlari bilan tanishish",done:false},
+  {text:"36-soat: Kiberterrorizm va uning oldini olish strategiyalari",done:false},
+  {text:"37-soat: Xalqaro tashkilotlarda vakillik — delegatsiya tuzish",done:false},
+  {text:"38-soat: Davlat siyosati bo'yicha rasmiy multimedia taqdimot tayyorlash",done:false},
+  {text:"39-soat: Diplomatik muzokaralarda raqamli vositalardan foydalanish",done:false},
+  {text:"40-soat: Onlayn sammit va virtual muzokaralarni tashkil qilish",done:false},
+  {text:"41-soat: Inqiroz vaziyatlarida raqamli kommunikatsiya (crisis communication)",done:false},
+  {text:"42-soat: Dezinformatsiya va soxta yangiliklar bilan kurashish strategiyalari",done:false},
+  {text:"43-soat: Ijtimoiy tarmoqlarda davlat imijini boshqarish",done:false},
+  {text:"44-soat: Xalqaro huquqda kiberhujumga javob berish choralari",done:false},
+  {text:"45-soat: Amaliy mashg'ulot — simulyatsion muzokara (rol o'yini)",done:false},
+  {text:"46-soat: Amaliy mashg'ulot — kiberhujum stsenariysini tahlil qilish",done:false},
+  {text:"47-soat: Guruh loyihasi — raqamli diplomatiya strategiyasini ishlab chiqish",done:false},
+  {text:"48-soat: 2-semestr yakuniy taqdimoti va baholash",done:false},
 
-  {text:"19-soat: Sun'iy intellekt (AI) vositalari bilan tanishish",done:false},
-  {text:"20-soat: AI yordamida tadqiqot va matn tahlili",done:false},
-  {text:"21-soat: AI yordamida hisobot va referat tayyorlash",done:false},
-  {text:"22-soat: AI natijalarini tanqidiy baholash (ishonch va xatolar)",done:false},
+  {text:"— 2-YIL / 3-SEMESTR: XALQARO AMALIYOT VA TEXNOLOGIK CHUQURLASHTIRISH —",done:false},
+  {text:"49-soat: Dasturlash asoslari — Python bilan tanishish (diplomatlar uchun)",done:false},
+  {text:"50-soat: Ma'lumotlarni tahlil qilish vositalari (Excel, Google Sheets chuqur)",done:false},
+  {text:"51-soat: Xalqaro statistik ma'lumotlar bazalari (UN Data, World Bank) bilan ishlash",done:false},
+  {text:"52-soat: Ochiq ma'lumotlar (Open Data) siyosati",done:false},
+  {text:"53-soat: Raqamli huquqlar va inson huquqlari (digital rights)",done:false},
+  {text:"54-soat: Internetga kirish tengsizligi (digital divide) muammosi",done:false},
+  {text:"55-soat: Rivojlanayotgan davlatlar uchun raqamli diplomatiya strategiyalari",done:false},
+  {text:"56-soat: Kiberxavfsizlik bo'yicha ikki tomonlama shartnomalar tuzish",done:false},
+  {text:"57-soat: Elchixonalar va konsulliklar uchun raqamli xavfsizlik",done:false},
+  {text:"58-soat: Diplomatik protokolning raqamli davrga moslashuvi",done:false},
+  {text:"59-soat: Xalqaro missiyalar uchun video-konferensiya boshqaruvi",done:false},
+  {text:"60-soat: Ko'p tomonlama muzokaralarda raqamli platformalardan foydalanish",done:false},
+  {text:"61-soat: Kiberjosuslik (cyber espionage) va diplomatik immunitet",done:false},
+  {text:"62-soat: Xalqaro sud amaliyoti — kiberhujum ishlarini tahlil qilish",done:false},
+  {text:"63-soat: Milliy kiberxavfsizlik strategiyasini ishlab chiqish",done:false},
+  {text:"64-soat: Amaliy mashg'ulot — milliy strategiya loyihasini taqdim etish",done:false},
+  {text:"65-soat: Xalqaro IT standartlari (ISO, IEEE) bilan tanishish",done:false},
+  {text:"66-soat: Raqamli diplomatiyada media-monitoring vositalari",done:false},
+  {text:"67-soat: Sentiment-tahlil va jamoatchilik fikri monitoringi",done:false},
+  {text:"68-soat: Turli davlatlarning amaldagi kiberdiplomatiya siyosatlarini qiyoslash",done:false},
+  {text:"69-soat: AQSh, YEI va Xitoy raqamli diplomatiya modellarini taqqoslash",done:false},
+  {text:"70-soat: O'zbekistonning raqamli diplomatiya siyosatini tahlil qilish",done:false},
+  {text:"71-soat: Amaliy loyiha — milliy davlat uchun raqamli diplomatiya rejasi",done:false},
+  {text:"72-soat: 3-semestr yakuniy himoyasi",done:false},
 
-  {text:"23-soat: Zoom / Google Meet — onlayn konferensiya vositalari",done:false},
-  {text:"24-soat: Virtual muzokara va onlayn uchrashuvni tashkil qilish",done:false},
-  {text:"25-soat: Ekran ulashish va onlayn taqdimot o'tkazish",done:false},
-
-  {text:"26-soat: Algoritmik fikrlash — blok-sxema (flowchart) asoslari",done:false},
-  {text:"27-soat: Oddiy misollarda algoritm tuzish mashqlari",done:false},
-  {text:"28-soat: HTML nima? Veb-sahifa strukturasi",done:false},
-  {text:"29-soat: HTML asosiy teglar bilan tanishish",done:false},
-  {text:"30-soat: CSS bilan sahifani bezash asoslari",done:false},
-  {text:"31-soat: Shaxsiy portfolio-sahifa loyihasini boshlash",done:false},
-  {text:"32-soat: Portfolio sahifasiga ma'lumotlarni joylashtirish",done:false},
-  {text:"33-soat: Portfolio sahifasini yakunlash va sinovdan o'tkazish",done:false},
-
-  {text:"34-soat: CV (rezyume) tayyorlash qoidalari",done:false},
-  {text:"35-soat: LinkedIn profilini yaratish va to'ldirish",done:false},
-  {text:"36-soat: Raqamli portfolio va CVni bog'lash",done:false},
-
-  {text:"37-soat: Kiberdiplomatiya nima? Davlatlararo raqamli masalalar",done:false},
-  {text:"38-soat: Ijtimoiy tarmoqlarda rasmiy pozitsiyani yetkazish",done:false},
-  {text:"39-soat: Raqamli kommunikatsiya odob-axloqi (netiketka)",done:false},
-
-  {text:"40-soat: Video yozish va tahrirlash asoslari",done:false},
-  {text:"41-soat: O'z nutqini video orqali ko'rib chiqish va tahlil qilish",done:false},
-
-  {text:"42-soat: Ma'lumotlar tahlili — statistik ko'rsatkichlarni tushunish",done:false},
-  {text:"43-soat: Katta hajmdagi ma'lumotni jadvalga tizish",done:false},
-
-  {text:"44-soat: Yakuniy loyiha: mavzuni tanlash va reja tuzish",done:false},
-  {text:"45-soat: Yakuniy loyiha: taqdimot va portfolio ustida ishlash",done:false},
-  {text:"46-soat: Yakuniy loyiha: hisobot yozish",done:false},
-  {text:"47-soat: Yakuniy loyiha himoyasi — mashq",done:false},
-  {text:"48-soat: Yakuniy taqdimot va kurs yakuni",done:false}
+  {text:"— 2-YIL / 4-SEMESTR: YAKUNIY AMALIYOT VA PROFESSIONAL TAYYORGARLIK —",done:false},
+  {text:"73-soat: Xalqaro muzokaralar simulyatsiyasi — Model UN (Kiber qo'mita)",done:false},
+  {text:"74-soat: Rasmiy diplomatik hujjatlar — memorandum va bayonot yozish",done:false},
+  {text:"75-soat: Press-relizlar va rasmiy matbuot xabarlarini tayyorlash",done:false},
+  {text:"76-soat: Ingliz tilida diplomatik yozishmalar (professional email)",done:false},
+  {text:"77-soat: Xalqaro konferensiyada tarjimon bilan ishlash",done:false},
+  {text:"78-soat: Kiberxavfsizlik inqirozini boshqarish — amaliy mashq",done:false},
+  {text:"79-soat: Real vaqt rejimida inqiroz-muzokara simulyatsiyasi",done:false},
+  {text:"80-soat: Portfolio — shaxsiy diplomatik CV va faoliyat tarixini tuzish",done:false},
+  {text:"81-soat: LinkedIn va rasmiy profil — xalqaro tarmoqlarda ko'rinish",done:false},
+  {text:"82-soat: Amaliyot — xalqaro tashkilotga ariza va CV topshirish jarayoni",done:false},
+  {text:"83-soat: Case-study — yirik kiberdiplomatik kelishuvlarni tahlil qilish",done:false},
+  {text:"84-soat: Kelajakdagi texnologiyalar — kvant hisoblash va diplomatiya",done:false},
+  {text:"85-soat: Kosmik diplomatiya va raqamli texnologiyalar aloqasi",done:false},
+  {text:"86-soat: Metavers va virtual reallik diplomatiyasi — yangi yo'nalish",done:false},
+  {text:"87-soat: Yakuniy loyiha mavzusini tanlash va reja tuzish",done:false},
+  {text:"88-soat: Yakuniy loyiha — tadqiqot va ma'lumot yig'ish",done:false},
+  {text:"89-soat: Yakuniy loyiha — tahlil va yechim ishlab chiqish",done:false},
+  {text:"90-soat: Yakuniy loyiha — taqdimot slaydlarini tayyorlash",done:false},
+  {text:"91-soat: Yakuniy loyiha — yozma hisobot tayyorlash",done:false},
+  {text:"92-soat: Yakuniy loyiha himoyasiga tayyorgarlik — mashq",done:false},
+  {text:"93-soat: Yakuniy loyihaning rasmiy himoyasi",done:false},
+  {text:"94-soat: Bitiruv sertifikati uchun yakuniy test",done:false},
+  {text:"95-soat: Kurs yakuni — fikr-mulohaza va tavsiyalar",done:false},
+  {text:"96-soat: Bitiruv marosimi va sertifikatlarni topshirish",done:false}
 ]);
 let currentUser=null;
 
@@ -881,6 +961,7 @@ function renderAll(){
       <input type="checkbox" ${t.done?'checked':''} ${currentUser && currentUser.role==='admin'?`onclick="toggle(${i})"`:' disabled'}>
     </div>`).join("");
   updateStats();
+  renderTodayLesson();
 }
 
 function updateStats(){
@@ -912,6 +993,95 @@ function joinLiveLesson(){
   // Google Meet'da yaratilgan haqiqiy dars havolasini shu yerga qo'ying.
   const meetingLink = "https://meet.google.com/pat-cyfm-fpv";
   window.open(meetingLink, "_blank");
+}
+
+// ============================================================
+//  BUGUNGI MAVZU — Sesh/Pay/Shan 21:00-22:00 jadvaliga qarab
+//  kurs rejasidan (todos) o'tiladigan mavzuni aniqlaydi
+// ============================================================
+const LESSON_WEEKDAYS = [2,4,6]; // Seshanba, Payshanba, Shanba (Date.getDay(): 0=Yak...6=Shan)
+
+function getLessonTopics(){
+  return todos.filter(t=>!/^—/.test(t.text)).map(t=>t.text);
+}
+
+function getCourseStartDate(){
+  let s = localStorage.getItem("crm_course_start");
+  if(!s){
+    s = new Date().toISOString().slice(0,10);
+    localStorage.setItem("crm_course_start", s);
+  }
+  const d = new Date(s+"T00:00:00");
+  return isNaN(d.getTime()) ? new Date() : d;
+}
+
+function setCourseStartDate(){
+  if(!currentUser || currentUser.role!=='admin') return;
+  const cur = localStorage.getItem("crm_course_start") || new Date().toISOString().slice(0,10);
+  const v = prompt("Kurs boshlanish sanasini kiriting (YYYY-MM-DD):", cur);
+  if(v){
+    const test = new Date(v+"T00:00:00");
+    if(isNaN(test.getTime())){ alert("Sana formati noto'g'ri! Masalan: 2026-07-21"); return; }
+    localStorage.setItem("crm_course_start", v);
+    renderTodayLesson();
+  }
+}
+
+function countLessonDaysBetween(start,end){
+  let count=0;
+  const d=new Date(start); d.setHours(0,0,0,0);
+  const e=new Date(end); e.setHours(0,0,0,0);
+  while(d<=e){
+    if(LESSON_WEEKDAYS.includes(d.getDay())) count++;
+    d.setDate(d.getDate()+1);
+  }
+  return count;
+}
+
+function nextLessonDateFrom(date){
+  const d=new Date(date); d.setDate(d.getDate()+1);
+  while(!LESSON_WEEKDAYS.includes(d.getDay())) d.setDate(d.getDate()+1);
+  return d;
+}
+
+function renderTodayLesson(){
+  const box = document.getElementById("todayLessonBox");
+  if(!box) return;
+  const start = getCourseStartDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const topics = getLessonTopics();
+  const isAdmin = currentUser && currentUser.role==='admin';
+  const adminBtn = isAdmin ? `<button class="today-lesson-setdate" onclick="setCourseStartDate()">📅 Boshlanish sanasini o'zgartirish</button>` : '';
+
+  if(today < start){
+    box.innerHTML = `
+      <div class="today-lesson-label">🕐 KURS HALI BOSHLANMAGAN</div>
+      <div class="today-lesson-topic">Boshlanish sanasi: ${start.toLocaleDateString()}</div>
+      <div class="today-lesson-sub">Darslar: Seshanba, Payshanba, Shanba &middot; 21:00–22:00</div>
+      ${adminBtn}`;
+    return;
+  }
+
+  const day = today.getDay();
+  const isLessonDay = LESSON_WEEKDAYS.includes(day);
+  const idx = countLessonDaysBetween(start, today) - 1;
+
+  if(isLessonDay && idx>=0 && idx<topics.length){
+    box.innerHTML = `
+      <div class="today-lesson-label">📖 BUGUNGI DARS MAVZUSI &middot; 21:00–22:00</div>
+      <div class="today-lesson-topic">${topics[idx]}</div>
+      <div class="today-lesson-sub">Bugun shu mavzuni o'tasiz.</div>
+      ${adminBtn}`;
+  } else {
+    const nd = nextLessonDateFrom(today);
+    const nIdx = countLessonDaysBetween(start, nd) - 1;
+    const nTopic = (nIdx>=0 && nIdx<topics.length) ? topics[nIdx] : (idx>=topics.length ? "Kurs mavzulari tugadi 🎓" : "—");
+    box.innerHTML = `
+      <div class="today-lesson-label">🕐 BUGUN DARS YO'Q</div>
+      <div class="today-lesson-topic">Keyingi dars: ${nd.toLocaleDateString()}</div>
+      <div class="today-lesson-sub">Mavzu: ${nTopic}</div>
+      ${adminBtn}`;
+  }
 }
 
 function makeCert(n){
