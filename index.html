@@ -73,9 +73,6 @@ html,body{width:100%;height:100%;background:#000;font-family:'Exo 2',sans-serif;
   animation:logo-flow 5s linear infinite;
   padding:16px 0;white-space:nowrap;
 }
-.h-nav{display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:none;padding:12px 0}
-
-/* HAMBURGER + SIDE DRAWER */
 .hbtn{width:40px;height:40px;flex-shrink:0;border-radius:10px;border:1px solid rgba(140,60,255,0.28);background:rgba(20,8,50,0.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:.25s}
 .hbtn:hover{background:rgba(60,20,120,0.65);box-shadow:0 0 14px rgba(140,60,255,0.25)}
 .hbtn span{width:18px;height:2px;background:#dcb8ff;border-radius:2px;transition:transform .25s,opacity .25s}
@@ -168,7 +165,7 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
 #certTemplate{width:794px;height:1122px;background:white;position:absolute;left:-10000px;top:0;box-sizing:border-box}
 .cert-border{margin:40px;height:calc(100% - 80px);border:20px double #7c3aed;padding:60px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box}
 
-/* ====== LIVE LESSONS ====== */
+/* LIVE LESSONS */
 .live-header{display:flex;align-items:center;gap:16px;margin:8px 0 28px}
 .live-icon{width:56px;height:56px;border-radius:50%;background:#2457f5;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 24px rgba(36,87,245,.3)}
 .live-header h1{font-size:28px;color:#f3f4f6;margin-bottom:4px;letter-spacing:.2px}
@@ -182,16 +179,14 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
 .join-live-btn{border:0;border-radius:28px;padding:16px 27px;background:#2457f5;color:white;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(36,87,245,.3);transition:.25s}
 .join-live-btn:hover{transform:translateY(-2px);background:#3266ff;box-shadow:0 12px 28px rgba(36,87,245,.4)}
 
-/* ====== BUGUNGI MAVZU (TODAY'S TOPIC) ====== */
+/* BUGUNGI MAVZU */
 .today-lesson-card{background:linear-gradient(135deg,rgba(90,25,190,0.35),rgba(20,10,45,0.55));border:1px solid rgba(160,80,255,0.35);border-radius:24px;padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden}
 .today-lesson-card::before{content:'';position:absolute;top:0;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,rgba(200,120,255,0.55),transparent)}
 .today-lesson-label{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2.5px;color:#cc88ff;margin-bottom:10px;font-weight:700}
 .today-lesson-topic{font-size:19px;color:#f1e4ff;font-weight:600;line-height:1.5}
 .today-lesson-sub{font-size:13px;color:rgba(200,170,240,0.6);margin-top:8px}
-.today-lesson-setdate{margin-top:14px;padding:7px 14px;border-radius:9px;border:1px solid rgba(160,80,255,0.3);background:rgba(20,8,50,0.5);color:rgba(200,140,255,0.75);font-family:'Exo 2',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:.2s}
-.today-lesson-setdate:hover{background:rgba(60,20,120,0.6);color:#ddaaff}
 
-/* ====== KOD MAYDONI (CODE PLAYGROUND) ====== */
+/* KOD MAYDONI */
 .code-wrap{background:#0c0e16;border:1px solid rgba(140,60,255,0.2);border-radius:20px;overflow:hidden}
 .code-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
 @media(max-width:860px){.code-grid{grid-template-columns:1fr}}
@@ -223,6 +218,26 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
 ::-webkit-scrollbar-thumb{background:rgba(140,60,255,0.35);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(180,80,255,0.55)}
 </style>
+
+<!-- Firebase SDK Integratsiyasi -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAePIDE0PFXBWe9V9iSx2P757tYxmnv3YI",
+    authDomain: "suniyintelekt-1a8fc.firebaseapp.com",
+    projectId: "suniyintelekt-1a8fc",
+    storageBucket: "suniyintelekt-1a8fc.firebasestorage.app",
+    messagingSenderId: "815667161095",
+    appId: "1:815667161095:web:6cd8fd57d0f1a728a722a2",
+    measurementId: "G-3H1SL4GJ1V"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  window.firebaseApp = app;
+</script>
 </head>
 <body>
 
@@ -322,7 +337,7 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
         <div class="live-teacher">Jonli dars</div>
 
         <div class="live-info">
-          <span>📅 &nbsp; Sesh, Pay, Shan</span>
+          <span>📅 &nbsp; Dushanba, Chorshanba</span>
           <span>🕘 &nbsp; 21:00 – 22:00</span>
         </div>
 
@@ -334,7 +349,7 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
 
     <div id="planSec" class="card-content" style="display:none">
       <div class="glass">
-        <div class="glass-title">📝 2 YILLIK KURS REJASI — SUN'IY INTELLEKT VA NEYRON TARMOQLARI</div>
+        <div class="glass-title">📝 72 SOATLIK YILLIK ISH REJASI — SUN'IY INTELLEKT (10-15 YOSH)</div>
         <div id="todoList"></div>
       </div>
     </div>
@@ -359,11 +374,9 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
 <head>
   <meta charset="UTF-8">
   <title>Sun'iy Intellekt</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Sun'iy Intellekt Dunyosiga Xush Kelibsiz!</h1>
-  <script src="script.js"></script>
 </body>
 </html></textarea>
               <textarea class="code-editor" id="cpCss" style="display:none" spellcheck="false">h1 {
@@ -408,33 +421,12 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
     <h1 style="font-size:60px;color:#7c3aed">SERTIFIKAT</h1>
     <p style="font-size:20px">Ushbu hujjat kursni muvaffaqiyatli tamomlaganini tasdiqlaydi:</p>
     <h2 id="pdfName" style="font-size:45px;margin:30px 0;border-bottom:2px solid #7c3aed;min-width:400px"></h2>
-    <p style="font-size:18px">Yo'nalish: <b>Sun'iy Intellekt va Neyron Tarmoqlari</b></p>
+    <p style="font-size:18px">Yo'nalish: <b>Sun'iy Intellekt Kursi (72 soat)</b></p>
     <p style="margin-top:50px">Sana: <span id="currDate"></span></p>
   </div>
 </div>
 
 <script>
-// ============================================================
-//  SERVER & BACKEND INTEGRATION
-// ============================================================
-const SERVER_URL = "https://api.example.com"; // O'zingizning backend server URL manzilingizni qo'ying
-
-async function syncWithServer(endpoint, method = 'GET', payload = null) {
-  try {
-    const options = {
-      method,
-      headers: { 'Content-Type': 'application/json' }
-    };
-    if (payload) options.body = JSON.stringify(payload);
-    const res = await fetch(`${SERVER_URL}/${endpoint}`, options);
-    if (!res.ok) throw new Error("Server xatosi");
-    return await res.json();
-  } catch (err) {
-    console.warn("Serverga bog'lanishda xatolik! Ma'lumotlar maxalliy xotirada saqlanadi.", err);
-    return null;
-  }
-}
-
 // ============================================================
 //  3D PARTICLE NETWORK
 // ============================================================
@@ -447,7 +439,6 @@ resize(); window.addEventListener('resize',resize);
 let rotY=0, rotX=0.25, velY=0.006, velX=0;
 let dragging=false, lastX=0, lastY=0;
 let hue=270, zoom=1.0;
-const ZOOM_MIN=0.3, ZOOM_MAX=3.0;
 const N=160; const pts=[];
 
 function mkPt(){
@@ -515,7 +506,7 @@ window.addEventListener('mousemove',e=>onMove(e.clientX,e.clientY));
 window.addEventListener('mouseup',onUp);
 
 // ============================================================
-//  LOGIN BUTTON DODGE
+//  LOGIN DODGE
 // ============================================================
 (function(){
   const card = document.getElementById('loginCard');
@@ -566,120 +557,93 @@ window.addEventListener('mouseup',onUp);
 })();
 
 // ============================================================
-//  CRM & AI ISH REJASI LOGIC
+//  DATA & SYNC LOGIC
 // ============================================================
 let savedDays = JSON.parse(localStorage.getItem("crm_days"));
 let days = Array.isArray(savedDays) && savedDays.length ? savedDays : ["1-dars"];
 
+// O'QUVCHILAR RO'YXATI TO'LIQ TOZALANDI
 let savedStudents = JSON.parse(localStorage.getItem("crm_stds"));
-let students = Array.isArray(savedStudents) && savedStudents.length ? savedStudents :
-  [{name:"Nematova Gulsanam", login:"23870965", pass:"nematova", scores:[], attend:[]}];
+let students = Array.isArray(savedStudents) && savedStudents.length ? savedStudents : [];
 
+// FAYLDAGI 72 SOATLIK ISH REJA
 let savedTodos = JSON.parse(localStorage.getItem("crm_todos"));
 let todos = (Array.isArray(savedTodos) && savedTodos.length ? savedTodos : [
-  {text:"— 1-YIL / 1-SEMESTR: SUN'IY INTELLEKT VA PYTHON ASOSLARI —",done:false},
-  {text:"1-soat: Sun'iy intellektga kirish, tarixi va rivojlanish bosqichlari",done:false},
-  {text:"2-soat: AI, Machine Learning va Deep Learning o'rtasidagi farqlar",done:false},
-  {text:"3-soat: Python dasturlash tili va AI kutubxonalari muhitini sozlash",done:false},
-  {text:"4-soat: Python: Murakkab ma'lumotlar tuzilmalari va funksional dasturlash",done:false},
-  {text:"5-soat: NumPy kutubxonasi — Ko'p o'lchamli massivlar va vektorlashtirish",done:false},
-  {text:"6-soat: Pandas — Ma'lumotlarni tozalash, tahlil va qayta ishlash",done:false},
-  {text:"7-soat: Matplotlib va Seaborn orqali ma'lumotlarni vizuallashtirish",done:false},
-  {text:"8-soat: Chiziqli algebra: Vektorlar, matritsalar va ularning amallari",done:false},
-  {text:"9-soat: Matematik analiz va ehtimollar nazariyasi (AI uchun)",done:false},
-  {text:"10-soat: Machine Learning asoslari: Supervised vs Unsupervised learning",done:false},
-  {text:"11-soat: Chiziqli va logistik regressiya modellari",done:false},
-  {text:"12-soat: K-Nearest Neighbors (KNN) va Qaror daraxtlari (Decision Trees)",done:false},
-  {text:"13-soat: Support Vector Machines (SVM) va Naive Bayes algoritmlari",done:false},
-  {text:"14-soat: Random Forest va Ensemble usullari",done:false},
-  {text:"15-soat: Modellarni baholash: Precision, Recall, F1-Score, ROC-AUC",done:false},
-  {text:"16-soat: K-Means va Klasterlash algoritmlari",done:false},
-  {text:"17-soat: Principal Component Analysis (PCA) — O'lchamlilikni qisqartirish",done:false},
-  {text:"18-soat: Scikit-Learn bilan amaliy ML loyihasini qurish",done:false},
-  {text:"19-soat: Ma'lumotlar muhandisligi (Feature Engineering)",done:false},
-  {text:"20-soat: Amaliy mashg'ulot — Uy narxlarini bashorat qilish modelini yaratish",done:false},
-  {text:"21-soat: Gradient Descent algoritmi va optimallashtirish",done:false},
-  {text:"22-soat: Overfitting va Underfitting muammolari hamda Regularizatsiya",done:false},
-  {text:"23-soat: AutoML vositalari bilan tanishuv",done:false},
-  {text:"24-soat: 1-semestr yakuniy ML loyihasi va uni himoya qilish",done:false},
+  {text:"1-soat: Sun'iy intellekt nima? AI ning kundalik hayotdagi o'rni",done:false},
+  {text:"2-soat: AI turlari: tor AI, generativ AI va kelajak AI tushunchasi",done:false},
+  {text:"3-soat: ChatGPT bilan xavfsiz va samarali ishlash asoslari",done:false},
+  {text:"4-soat: Prompt anatomiyasi: rol, vazifa, kontekst va natija formati",done:false},
+  {text:"5-soat: Aniq topshiriq berish: noaniq va kuchli promptlar",done:false},
+  {text:"6-soat: Kontekst berish va AI javobining sifatini oshirish",done:false},
+  {text:"7-soat: Promptlarda cheklovlar va talablarni belgilash",done:false},
+  {text:"8-soat: Zero-shot va few-shot prompting tushunchalari",done:false},
+  {text:"9-soat: Chain-of-thought o'rniga bosqichma-bosqich vazifa dizayni",done:false},
+  {text:"10-soat: ChatGPTda matnni qayta ishlash va tahrirlash",done:false},
+  {text:"11-soat: Claude bilan hujjat va uzun matnlar ustida ishlash",done:false},
+  {text:"12-soat: Gemini bilan ma'lumot izlash va g'oya ishlab chiqish",done:false},
+  {text:"13-soat: ChatGPT, Claude va Gemini: vazifaga mos model tanlash",done:false},
+  {text:"14-soat: AI javoblarini tekshirish: fakt, taxmin va xatolar",done:false},
+  {text:"15-soat: AI bilan o'qish: konspekt, test va flashcard yaratish",done:false},
+  {text:"16-soat: AI yordamida ijodiy g'oya va hikoya yaratish",done:false},
+  {text:"17-soat: Prompt Engineering mini-loyihasi: muammodan natijagacha",done:false},
+  {text:"18-soat: 1-CHORAK AMALIY NAZORAT ISHI",done:false},
 
-  {text:"— 1-YIL / 2-SEMESTR: CHUQUR O'RGANISH (DEEP LEARNING) VA CHNN —",done:false},
-  {text:"25-soat: Neyron tarmoqlari asoslari: Perseptron va faollashtirish funksiyalari",done:false},
-  {text:"26-soat: Ko'p qatlamli perseptron (MLP) va Backpropagation algoritmi",done:false},
-  {text:"27-soat: PyTorch freymvorki asoslari va Tensorlar bilan ishlash",done:false},
-  {text:"28-soat: TensorFlow va Keras freymvorklariga kirish",done:false},
-  {text:"29-soat: Optimizatorlar: SGD, Adam, RMSprop",done:false},
-  {text:"30-soat: Computer Vision (Kompyuter qarashi) sohasi haqida umumiy tushuncha",done:false},
-  {text:"31-soat: Konvolyutsion neyron tarmoqlari (CNN) arxitekturasi",done:false},
-  {text:"32-soat: Pooling va Dropout qatlamlari",done:false},
-  {text:"33-soat: Mashhur CNN arxitekturalari: ResNet, VGG, EfficientNet",done:false},
-  {text:"34-soat: Transfer Learning (O'rgatilgan modellarni moslashtirish)",done:false},
-  {text:"35-soat: OpenCV bilan tasvirlarga ishlov berish",done:false},
-  {text:"36-soat: Obyektlarni aniqlash (Object Detection): YOLO modellari",done:false},
-  {text:"37-soat: Tasvirlarni segmentatsiya qilish (Semantic & Instance Segmentation)",done:false},
-  {text:"38-soat: Yuzni tanib olish va biometrik AI tizimlari",done:false},
-  {text:"39-soat: Ketma-ketlik ma'lumotlari va Rekurrent Neyron Tarmoqlari (RNN)",done:false},
-  {text:"40-soat: LSTM va GRU arxitekturalari",done:false},
-  {text:"41-soat: Vaqtli qatorlar (Time Series) ma'lumotlarini AI orqali tahlil qilish",done:false},
-  {text:"42-soat: Amaliy mashg'ulot — Video oqimida real-vaqt rejimida obyektlarni aniqlash",done:false},
-  {text:"43-soat: Generativ Modellar: Autoencoderlar va ularning tuzilishi",done:false},
-  {text:"44-soat: Generative Adversarial Networks (GAN) asoslari",done:false},
-  {text:"45-soat: Tasvir va matn yaratuvchi AI generatorlari",done:false},
-  {text:"46-soat: Model unumdorligini oshirish va giperparametrlarni sozlash",done:false},
-  {text:"47-soat: 2-semestr amaliy loyihasi — Aqlli kuzatuv AI tizimi",done:false},
-  {text:"48-soat: 2-semestr yakuniy taqdimoti va baholash",done:false},
+  {text:"19-soat: Generativ dizayn nima? Matnni tasvirga aylantirish",done:false},
+  {text:"20-soat: Midjourney asoslari: sahna, uslub va kompozitsiya",done:false},
+  {text:"21-soat: Midjourneyda uslub va vizual kayfiyatni boshqarish",done:false},
+  {text:"22-soat: DALL-E 3 bilan aniq obyekt va sahna yaratish",done:false},
+  {text:"23-soat: DALL-E 3 da kompozitsiya, rang va yorug'likni boshqarish",done:false},
+  {text:"24-soat: Leonardo AI: obraz va konsept-art yaratish",done:false},
+  {text:"25-soat: AI obrazining izchilligi: bir qahramonni turli sahnalarda tasvirlash",done:false},
+  {text:"26-soat: Canva AI: Magic Design va taqdimot dizayni",done:false},
+  {text:"27-soat: Canva AI yordamida poster va ijtimoiy media dizayni",done:false},
+  {text:"28-soat: Inpainting: tasvirning bir qismini AI bilan almashtirish",done:false},
+  {text:"29-soat: Outpainting: tasvir chegarasini kengaytirish",done:false},
+  {text:"30-soat: AI bilan fon yaratish va fonni almashtirish",done:false},
+  {text:"31-soat: Vizual promptlarda kamera, rakurs va kadr tushunchalari",done:false},
+  {text:"32-soat: AI yordamida infografika va ma'lumotni vizuallashtirish",done:false},
+  {text:"33-soat: Generativ dizaynda mualliflik huquqi va manba ko'rsatish",done:false},
+  {text:"34-soat: 2-CHORAK AMALIY NAZORAT ISHI",done:false},
 
-  {text:"— 2-YIL / 3-SEMESTR: NATURAL LANGUAGE PROCESSING (NLP) VA LLM —",done:false},
-  {text:"49-soat: Tabiiy tilga ishlov berish (NLP) kirish va matnlarni tokenizatsiya qilish",done:false},
-  {text:"50-soat: Word Embeddings: Word2Vec, GloVe va FastText",done:false},
-  {text:"51-soat: Attention Mexanizmi va Transformerlar arxitekturasi",done:false},
-  {text:"52-soat: BERT modellari va ularni matnni tasniflashda qo'llash",done:false},
-  {text:"53-soat: GPT modellari va Katta Til Modellari (LLM) arxitekturasi",done:false},
-  {text:"54-soat: Hugging Face ecosystemasi bilan ishlash",done:false},
-  {text:"55-soat: Prompt Engineering texnikalari",done:false},
-  {text:"56-soat: LLM modellarni fine-tune qilish (LoRA, QLoRA)",done:false},
-  {text:"57-soat: Retrieval-Augmented Generation (RAG) tizimlarini qurish",done:false},
-  {text:"58-soat: Vektor ma'lumotlar bazalari (Pinecone, ChromaDB, Qdrant)",done:false},
-  {text:"59-soat: AI Chatbotlar va Agentlar yaratish (LangChain va LlamaIndex)",done:false},
-  {text:"60-soat: O'zbek tili uchun NLP modellarini ishlab chiqish xususiyatlari",done:false},
-  {text:"61-soat: Ovoz bilan ishlash: Speech-to-Text (Whisper) va Text-to-Speech",done:false},
-  {text:"62-soat: Multimodal AI modellar (Tasvir + Matn + Ovoz)",done:false},
-  {text:"63-soat: AI etikasi, xavfsizlik va xatoliklarni kamaytirish (Hallucination)",done:false},
-  {text:"64-soat: Amaliy mashg'ulot — Tashkilot uchun shaxsiy AI assistent yaratish",done:false},
-  {text:"65-soat: Mustahkamlovchi ta'lim (Reinforcement Learning) asoslari",done:false},
-  {text:"66-soat: Q-Learning va Deep Q-Networks (DQN)",done:false},
-  {text:"67-soat: RLHF (Reinforcement Learning from Human Feedback)",done:false},
-  {text:"68-soat: O'yin va robototexnika sohasida AI agentlar",done:false},
-  {text:"69-soat: AI loyihalarining unumdorligini va tezligini optimallashtirish",done:false},
-  {text:"70-soat: AI modelini API holatiga keltirish (FastAPI, Flask)",done:false},
-  {text:"71-soat: Amaliy loyiha — Intellektual korporativ bilimlar bazasi botini yaratish",done:false},
-  {text:"72-soat: 3-semestr yakuniy loyiha himoyasi",done:false},
+  {text:"35-soat: AI audio texnologiyalari: ovoz, nutq va sintetik audio",done:false},
+  {text:"36-soat: ElevenLabs: matndan nutq yaratish asoslari",done:false},
+  {text:"37-soat: AI ovozida talaffuz, pauza va intonatsiyani boshqarish",done:false},
+  {text:"38-soat: Audio ssenariy yozish: kirish, asosiy qism va yakun",done:false},
+  {text:"39-soat: AI video tushunchasi va video promptlar",done:false},
+  {text:"40-soat: Runway asoslari: generativ video imkoniyatlari",done:false},
+  {text:"41-soat: Runwayda kamera harakati va sahna davomiyligi",done:false},
+  {text:"42-soat: HeyGen avatarlari: raqamli boshlovchi tushunchasi",done:false},
+  {text:"43-soat: HeyGen video ssenariysi va vizual nutq madaniyati",done:false},
+  {text:"44-soat: AI video uchun storyboard va kadrlar ketma-ketligi",done:false},
+  {text:"45-soat: Gamma.app: AI yordamida taqdimot yaratish",done:false},
+  {text:"46-soat: Gamma taqdimotini tahrirlash va vizual ierarxiya",done:false},
+  {text:"47-soat: Excelda AI yordamida jadval va formulalar bilan ishlash",done:false},
+  {text:"48-soat: Excel ma'lumotlarini tahlil qilish va diagramma g'oyasi",done:false},
+  {text:"49-soat: Code AI: kodni tushuntirish va xatoni topish",done:false},
+  {text:"50-soat: AI yordamida kichik HTML/CSS sahifa yaratish",done:false},
+  {text:"51-soat: Avtomatlashtirish tushunchasi: trigger, action va natija",done:false},
+  {text:"52-soat: AI yordamida ish jarayonini optimallashtirish",done:false},
+  {text:"53-soat: Multimedia AI mini-loyihasi: audio + video + slayd",done:false},
+  {text:"54-soat: 3-CHORAK AMALIY NAZORAT ISHI",done:false},
 
-  {text:"— 2-YIL / 4-SEMESTR: MLOPS, AIMO ODEPLOYMENT VA YAKUNIY LOYIHA —",done:false},
-  {text:"73-soat: MLOps ga kirish va AI loyihalarini hayotiy sikli",done:false},
-  {text:"74-soat: Modellar va ma'lumotlarni versiyalash (DVC, MLflow)",done:false},
-  {text:"75-soat: Docker konteynerizatsiyasi (AI ilovalari uchun)",done:false},
-  {text:"76-soat: AI modellarni bulutli platformalarga joylashtirish (AWS, GCP, Azure)",done:false},
-  {text:"77-soat: CI/CD quvurlarini AI loyihalarida yo'lga qo'yish",done:false},
-  {text:"78-soat: Edge AI va Modellarni qisqartirish (Quantization, Pruning, ONNX)",done:false},
-  {text:"79-soat: Mobil va IoT qurilmalarda AI modellarini ishga tushirish (TFLite)",done:false},
-  {text:"80-soat: AI tizimlarining monitoringi hamda Model Drift tahlili",done:false},
-  {text:"81-soat: Shaxsiy AI startup g'oyasi va loyiha arxitekturasini tuzish",done:false},
-  {text:"82-soat: Startup va Enterprise darajadagi AI loyihalar xavfsizligi",done:false},
-  {text:"83-soat: AI sohasidagi xalqaro tadqiqotlar va ilmiy maqolalarni o'rganish",done:false},
-  {text:"84-soat: Yakuniy bitiruv loyihasi mavzusini tasdiqlash",done:false},
-  {text:"85-soat: Bitiruv loyihasi — Ma'lumotlar yig'ish va tayyorlash",done:false},
-  {text:"86-soat: Bitiruv loyihasi — Model tanlash va uni o'rgatish",done:false},
-  {text:"87-soat: Bitiruv loyihasi — Veb va Backend interfeysini bog'lash",done:false},
-  {text:"88-soat: Bitiruv loyihasi — MLOps va Bulutga joylashtirish (Deployment)",done:false},
-  {text:"89-soat: Bitiruv loyihasi — Hujjatlashtirish va Texnik pasportini tayyorlash",done:false},
-  {text:"90-soat: Bitiruv loyihasi — Taqdimot va Demo versiyani tayyorlash",done:false},
-  {text:"91-soat: Loyiha test va xatoliklarni to'g'rilash",done:false},
-  {text:"92-soat: Dastlabki himoya va taqdimot simulyatsiyasi",done:false},
-  {text:"93-soat: Rasmiy bitiruv AI loyihasini himoya qilish",done:false},
-  {text:"94-soat: Bitiruv sertifikati uchun kompleks imtihon",done:false},
-  {text:"95-soat: AI sohasida karyera va frilanserlik bo'yicha tavsiyalar",done:false},
-  {text:"96-soat: Bitiruv marosimi va sertifikatlarni topshirish",done:false}
+  {text:"55-soat: No-code tushunchasi va Telegram bot arxitekturasi",done:false},
+  {text:"56-soat: Telegram botning vazifalari va foydalanuvchi menyusi",done:false},
+  {text:"57-soat: No-code bot platformalarida ish jarayoni",done:false},
+  {text:"58-soat: Telegram botda savol-javob ssenariysi",done:false},
+  {text:"59-soat: Botga AI yordamida FAQ va bilim bazasi g'oyasini berish",done:false},
+  {text:"60-soat: AI etikasi: halollik, plagiat va o'quvchi mas'uliyati",done:false},
+  {text:"61-soat: AI va shaxsiy ma'lumotlar: maxfiylik asoslari",done:false},
+  {text:"62-soat: AI xatolari va algoritmik tarafkashlik",done:false},
+  {text:"63-soat: Deepfake va sintetik media savodxonligi",done:false},
+  {text:"64-soat: AI kontentini tekshirish va ishonchli manbalar",done:false},
+  {text:"65-soat: Yillik amaliy loyiha: muammo va loyiha g'oyasini tanlash",done:false},
+  {text:"66-soat: Yillik loyiha: AI vositalari va texnik reja",done:false},
+  {text:"67-soat: Yillik loyiha: kontent va dizayn prototipi",done:false},
+  {text:"68-soat: Yillik loyiha: funksiyalarni ishlab chiqish",done:false},
+  {text:"69-soat: Yillik loyiha: testlash va xatolarni tuzatish",done:false},
+  {text:"70-soat: Yillik loyiha: taqdimot va demo tayyorlash",done:false},
+  {text:"71-soat: Yillik loyiha: yakuniy tahrir va portfel",done:false},
+  {text:"72-soat: 4-CHORAK AMALIY NAZORAT ISHI — YILLIK LOYIHA HIMOYASI",done:false}
 ]);
 
 let currentUser=null;
@@ -829,8 +793,6 @@ function save(){
   localStorage.setItem("crm_stds",JSON.stringify(students));
   localStorage.setItem("crm_days",JSON.stringify(days));
   localStorage.setItem("crm_todos",JSON.stringify(todos));
-  // Serverga sinxronizatsiya yuborish
-  syncWithServer('data', 'POST', { students, days, todos });
 }
 
 function joinLiveLesson(){
@@ -838,8 +800,8 @@ function joinLiveLesson(){
   window.open(meetingLink, "_blank");
 }
 
-const LESSON_WEEKDAYS = [2,4,6];
-function getLessonTopics(){ return todos.filter(t=>!/^—/.test(t.text)).map(t=>t.text); }
+const LESSON_WEEKDAYS = [1,3]; // Dushanba va Chorshanba
+function getLessonTopics(){ return todos.map(t=>t.text); }
 
 function getCourseStartDate(){
   let s = localStorage.getItem("crm_course_start");
