@@ -116,7 +116,7 @@ html,body{width:100%;height:100%;background:#000;font-family:'Exo 2',sans-serif;
 }
 .stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(140,60,255,0.2)}
 .stat-card h3{font-size:9px;letter-spacing:3px;color:rgba(180,100,255,0.45);font-weight:700;margin-bottom:10px}
-.stat-card p{font-size:28px;font-weight:900;font-family:'Orbitron',sans-serif;color:#dd88ff;text-shadow:0 0 20px rgba(200,100,255,0.4)}
+.stat-card p{font-size:24px;font-weight:900;font-family:'Orbitron',sans-serif;color:#dd88ff;text-shadow:0 0 20px rgba(200,100,255,0.4)}
 
 /* GLASS PANELS */
 .glass{
@@ -154,6 +154,10 @@ td{padding:12px 14px;text-align:center;background:rgba(14,5,40,0.8);border-top:1
 td:hover{background:rgba(30,10,70,0.85)}
 td:first-child{border-radius:11px 0 0 11px;text-align:left;font-weight:600;border-left:1px solid rgba(100,40,200,0.12);border-left-width:3px;border-left-color:rgba(140,60,255,0.3)}
 td:last-child{border-radius:0 11px 11px 0;border-right:1px solid rgba(100,40,200,0.12)}
+
+/* BADGES */
+.badge-paid{background:rgba(20,180,100,0.25);color:#8affc1;border:1px solid rgba(50,200,120,0.4);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:bold;}
+.badge-unpaid{background:rgba(220,50,80,0.25);color:#ff9ad6;border:1px solid rgba(220,50,80,0.4);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:bold;}
 
 /* TODO */
 .todo-item{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:rgba(14,5,40,0.8);border-radius:11px;margin-bottom:8px;border-left:3px solid rgba(140,60,255,0.5);color:#cdb8f0;transition:.2s}
@@ -283,6 +287,7 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
     <div class="sd-logo">SUN'IY INTELLEKT</div>
     <button class="side-tab-btn active" onclick="switchTab('journal',this)">📊 Baholar</button>
     <button class="side-tab-btn" onclick="switchTab('attend',this)">✅ Davomat</button>
+    <button class="side-tab-btn" onclick="switchTab('payments',this)">💳 Kurs To'lovi (100k)</button>
     <button id="admSt" class="side-tab-btn" style="display:none" onclick="switchTab('students',this)">👥 O'quvchilar</button>
     <button class="side-tab-btn" onclick="switchTab('plan',this)">📝 Ish reja</button>
     <button class="side-tab-btn" onclick="switchTab('live',this)">🎥 Jonli darslar</button>
@@ -295,6 +300,7 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
       <div class="stat-card"><h3>GURUH O'RTACHA</h3><p id="avgTotal">0%</p></div>
       <div class="stat-card"><h3>LIDER</h3><p id="topStudent" style="font-size:18px">—</p></div>
       <div class="stat-card"><h3>JAMI DARSLAR</h3><p id="lessonCount">0</p></div>
+      <div class="stat-card"><h3>JAMI TUSHUM</h3><p id="totalRevenue" style="font-size:18px;color:#8affc1">0 UZS</p></div>
     </div>
 
     <div id="studentsSec" class="card-content" style="display:none">
@@ -302,6 +308,25 @@ input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
         <div class="glass-title">👥 O'QUVCHILAR RO'YXATI</div>
         <div style="margin-bottom:14px"><button class="btn btn-success" onclick="addStudent()">+ Yangi O'quvchi</button></div>
         <div class="tbl-wrap"><table><thead><tr><th>F.I.SH</th><th>Login</th><th>Parol</th><th>Amal</th></tr></thead><tbody id="stList"></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="paymentsSec" class="card-content" style="display:none">
+      <div class="glass">
+        <div class="glass-title">💳 OYLIK KURS TO'LOVLARI (100 000 UZS)</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>F.I.SH</th>
+                <th>Oylik Tarif</th>
+                <th>To'lov Statusi</th>
+                <th>Amal / Holat</th>
+              </tr>
+            </thead>
+            <tbody id="pList"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -562,11 +587,9 @@ window.addEventListener('mouseup',onUp);
 let savedDays = JSON.parse(localStorage.getItem("crm_days"));
 let days = Array.isArray(savedDays) && savedDays.length ? savedDays : ["1-dars"];
 
-// O'QUVCHILAR RO'YXATI TO'LIQ TOZALANDI
 let savedStudents = JSON.parse(localStorage.getItem("crm_stds"));
 let students = Array.isArray(savedStudents) && savedStudents.length ? savedStudents : [];
 
-// FAYLDAGI 72 SOATLIK ISH REJA
 let savedTodos = JSON.parse(localStorage.getItem("crm_todos"));
 let todos = (Array.isArray(savedTodos) && savedTodos.length ? savedTodos : [
   {text:"1-soat: Sun'iy intellekt nima? AI ning kundalik hayotdagi o'rni",done:false},
@@ -742,22 +765,46 @@ function renderAll(){
   const h=`<th>O'QUVCHI</th>`+days.map(d=>`<th>${d}</th>`).join("");
   document.getElementById("hJ").innerHTML=h;
   document.getElementById("hA").innerHTML=h;
-  let bJ="",bA="",cL="",sL="";
+  let bJ="",bA="",cL="",sL="",pL="";
+  let totalPaidAmount = 0;
+
   students.forEach((s,si)=>{
     s.scores = Array.isArray(s.scores) ? s.scores : [];
     s.attend = Array.isArray(s.attend) ? s.attend : [];
+    s.paid = typeof s.paid === "boolean" ? s.paid : false;
+
+    if(s.paid) totalPaidAmount += 100000;
+
     while(s.scores.length < days.length) s.scores.push("");
     while(s.attend.length < days.length) s.attend.push("");
     sL+=`<tr><td>${s.name}</td><td>${s.login}</td><td>${s.pass}</td><td><button class="btn btn-danger" onclick="deleteStudent(${si})">O'chirish</button></td></tr>`;
+    
+    // To'lov jadvali
+    if (!currentUser || currentUser.role==='admin' || s.login===currentUser.login) {
+      const statusBadge = s.paid 
+        ? `<span class="badge-paid">To'langan (100k)</span>` 
+        : `<span class="badge-unpaid">To'lanmagan</span>`;
+      
+      const actionBtn = currentUser && currentUser.role==='admin'
+        ? `<button class="btn ${s.paid?'btn-danger':'btn-success'}" onclick="togglePayment(${si})">${s.paid?'Bekor qilish':'To\'landi qilish'}</button>`
+        : (s.paid ? `<span style="color:#8affc1;font-size:12px">✅ Qabul qilingan</span>` : `<button class="btn btn-success" onclick="payClick(${si})">💳 Click/Payme To'lov</button>`);
+
+      pL += `<tr><td>${s.name}</td><td>100 000 UZS</td><td>${statusBadge}</td><td>${actionBtn}</td></tr>`;
+    }
+
     if(currentUser && currentUser.role==='student'&&s.login!==currentUser.login)return;
     bJ+=`<tr><td>${s.name}</td>${days.map((_,di)=>`<td onclick="edit(${si},${di},'scores')">${s.scores[di]||'—'}</td>`).join("")}</tr>`;
     bA+=`<tr><td>${s.name}</td>${days.map((_,di)=>`<td onclick="edit(${si},${di},'attend')">${s.attend[di]||'—'}</td>`).join("")}</tr>`;
     cL+=`<tr><td>${s.name}</td><td><button class="btn btn-primary" onclick="makeCert('${s.name}')">📜 PDF</button></td></tr>`;
   });
+
   document.getElementById("bJ").innerHTML=bJ;
   document.getElementById("bA").innerHTML=bA;
   document.getElementById("certList").innerHTML=cL;
   document.getElementById("stList").innerHTML=sL;
+  document.getElementById("pList").innerHTML=pL || `<tr><td colspan="4">O'quvchilar yo'q</td></tr>`;
+  document.getElementById("totalRevenue").innerText = totalPaidAmount.toLocaleString("uz-UZ") + " UZS";
+
   document.getElementById("todoList").innerHTML=todos.map((t,i)=>`
     <div class="todo-item ${t.done?'todo-done':''}">
       <span>${t.text}</span>
@@ -775,6 +822,19 @@ function updateStats(){
   document.getElementById("topStudent").innerText=(top&&top.name)?top.name.split(" ").slice(0,2).join(" "):"—";
 }
 
+function togglePayment(si){
+  students[si].paid = !students[si].paid;
+  save();
+  renderAll();
+}
+
+function payClick(si){
+  alert("Click / Payme to'lov tizimiga yo'naltirilmoqda: 100 000 UZS");
+  students[si].paid = true;
+  save();
+  renderAll();
+}
+
 function edit(si,di,type){
   if(currentUser.role!=='admin')return;
   const v=prompt("Qiymat:");if(v!==null){students[si][type][di]=v;save();renderAll();}
@@ -784,7 +844,7 @@ function addNewDay(){
 }
 function addStudent(){
   const name=prompt("F.I.SH:"),login=prompt("Login:"),pass=prompt("Parol:");
-  if(name&&login&&pass){students.push({name,login,pass,scores:new Array(days.length).fill(""),attend:new Array(days.length).fill("")});save();renderAll();}
+  if(name&&login&&pass){students.push({name,login,pass,paid:false,scores:new Array(days.length).fill(""),attend:new Array(days.length).fill("")});save();renderAll();}
 }
 function deleteStudent(i){if(confirm("O'chirishni tasdiqlaysizmi?")){students.splice(i,1);save();renderAll();}}
 function toggle(i){todos[i].done=!todos[i].done;save();renderAll();}
