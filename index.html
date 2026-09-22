@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COMPUTER INSTITUTE</title>
+<title>Sun'iy Intellekt</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@200;300;400;600;700&display=swap');
@@ -27,7 +27,7 @@ html,body{width:100%;height:100%;background:#000;font-family:'Exo 2',sans-serif;
 .c-bl{bottom:10px;left:10px;border-width:0 0 2px 2px;border-radius:0 0 0 3px}
 .c-br{bottom:10px;right:10px;border-width:0 2px 2px 0;border-radius:0 0 3px 0}
 .logo-wrap{text-align:center;margin-bottom:26px}
-.logo-main{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,#cc88ff,#ff44ee,#8844ff,#44eeff,#cc88ff);background-size:400% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:logo-flow 5s linear infinite}
+.logo-main{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,#cc88ff,#ff44ee,#8844ff,#44eeff,#cc88ff);background-size:400% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:logo-flow 5s linear infinite}
 @keyframes logo-flow{to{background-position:400% center}}
 .logo-sub{font-family:'Exo 2',sans-serif;font-size:10px;letter-spacing:4px;color:rgba(180,100,255,0.4);margin-top:5px;font-weight:300}
 .ldiv{height:1px;background:linear-gradient(90deg,transparent,rgba(160,80,255,0.3),transparent);margin:0 0 22px}
@@ -90,20 +90,6 @@ html,body{width:100%;height:100%;background:#000;font-family:'Exo 2',sans-serif;
 .side-tab-btn{width:100%;text-align:left;padding:12px 14px;border-radius:10px;border:1px solid rgba(140,60,255,0.16);background:rgba(20,8,50,0.4);color:rgba(200,140,255,0.7);font-weight:600;cursor:pointer;transition:.2s;font-family:'Exo 2',sans-serif;font-size:13px;letter-spacing:.3px}
 .side-tab-btn.active{background:rgba(110,35,210,0.75);color:#eeccff;border-color:rgba(180,80,255,0.5);box-shadow:0 0 16px rgba(140,60,255,0.25)}
 .side-tab-btn:hover:not(.active){background:rgba(60,20,120,0.55);color:#ddaaff}
-.tab-btn{
-  padding:9px 18px;border-radius:10px;
-  border:1px solid rgba(140,60,255,0.18);
-  background:rgba(20,8,50,0.5);
-  color:rgba(200,140,255,0.65);
-  font-weight:600;cursor:pointer;transition:.25s;white-space:nowrap;
-  font-family:'Exo 2',sans-serif;font-size:12px;letter-spacing:.5px;
-}
-.tab-btn.active{
-  background:rgba(110,35,210,0.75);color:#eeccff;
-  border-color:rgba(180,80,255,0.5);
-  box-shadow:0 0 16px rgba(140,60,255,0.25);
-}
-.tab-btn:hover:not(.active){background:rgba(60,20,120,0.55);color:#ddaaff}
 .h-exit{
   padding:9px 16px;border-radius:10px;
   border:1px solid rgba(200,40,80,0.3);
@@ -178,146 +164,35 @@ td:last-child{border-radius:0 11px 11px 0;border-right:1px solid rgba(100,40,200
 .todo-done{opacity:.45;text-decoration:line-through;border-left-color:rgba(50,180,100,0.5)}
 input[type=checkbox]{accent-color:#aa44ff;width:16px;height:16px;cursor:pointer}
 
-/* FORM INPUTS inside app */
-.app-input{padding:11px 14px;border-radius:9px;border:1px solid rgba(140,60,255,0.2);background:rgba(10,4,35,0.75);color:#d8b4ff;font-family:'Exo 2',sans-serif;font-size:14px;outline:none;transition:border-color .3s;width:100%}
-.app-input:focus{border-color:rgba(200,80,255,0.55);box-shadow:0 0 0 2px rgba(160,60,255,0.08)}
-textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
-
 /* CERT */
 #certTemplate{width:794px;height:1122px;background:white;position:absolute;left:-10000px;top:0;box-sizing:border-box}
 .cert-border{margin:40px;height:calc(100% - 80px);border:20px double #7c3aed;padding:60px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box}
 
 /* ====== LIVE LESSONS ====== */
-.live-header{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  margin:8px 0 28px;
-}
-.live-icon{
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  background:#2457f5;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  box-shadow:0 8px 24px rgba(36,87,245,.3);
-}
-.live-header h1{
-  font-size:28px;
-  color:#f3f4f6;
-  margin-bottom:4px;
-  letter-spacing:.2px;
-}
-.live-header p{
-  color:#9aa0b2;
-  font-size:16px;
-}
-.live-card{
-  background:#181c24;
-  border:1px solid #2b303b;
-  border-radius:32px;
-  padding:32px 30px 30px;
-  min-height:330px;
-  box-shadow:0 15px 40px rgba(0,0,0,.18),0 0 25px rgba(120,40,255,.12),inset 0 0 30px rgba(120,40,255,.04);
-}
-.live-status{
-  display:inline-block;
-  padding:7px 16px;
-  border-radius:18px;
-  background:rgba(0,180,145,.16);
-  color:#00e0b2;
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:16px;
-}
-.live-card h2{
-  font-size:32px;
-  color:#f1f3f7;
-  margin-bottom:10px;
-}
-.live-teacher{
-  font-size:21px;
-  color:#9aa4ba;
-  margin-bottom:28px;
-}
-.live-info{
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-  margin-bottom:26px;
-}
-.live-info span{
-  display:inline-flex;
-  align-items:center;
-  padding:13px 17px;
-  border:1px solid #2a303b;
-  border-radius:24px;
-  color:#9ca6bb;
-  font-size:16px;
-}
-.join-live-btn{
-  border:0;
-  border-radius:28px;
-  padding:16px 27px;
-  background:#2457f5;
-  color:white;
-  font-size:17px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 8px 20px rgba(36,87,245,.3);
-  transition:.25s;
-}
-.join-live-btn:hover{
-  transform:translateY(-2px);
-  background:#3266ff;
-  box-shadow:0 12px 28px rgba(36,87,245,.4);
-}
-@media(max-width:600px){
-  .live-card{padding:24px 20px}
-  .live-header h1{font-size:24px}
-  .live-info span{font-size:14px}
-}
+.live-header{display:flex;align-items:center;gap:16px;margin:8px 0 28px}
+.live-icon{width:56px;height:56px;border-radius:50%;background:#2457f5;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 24px rgba(36,87,245,.3)}
+.live-header h1{font-size:28px;color:#f3f4f6;margin-bottom:4px;letter-spacing:.2px}
+.live-header p{color:#9aa0b2;font-size:16px}
+.live-card{background:#181c24;border:1px solid #2b303b;border-radius:32px;padding:32px 30px 30px;min-height:330px;box-shadow:0 15px 40px rgba(0,0,0,.18),0 0 25px rgba(120,40,255,.12),inset 0 0 30px rgba(120,40,255,.04)}
+.live-status{display:inline-block;padding:7px 16px;border-radius:18px;background:rgba(0,180,145,.16);color:#00e0b2;font-size:14px;font-weight:700;margin-bottom:16px}
+.live-card h2{font-size:32px;color:#f1f3f7;margin-bottom:10px}
+.live-teacher{font-size:21px;color:#9aa4ba;margin-bottom:28px}
+.live-info{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.live-info span{display:inline-flex;align-items:center;padding:13px 17px;border:1px solid #2a303b;border-radius:24px;color:#9ca6bb;font-size:16px}
+.join-live-btn{border:0;border-radius:28px;padding:16px 27px;background:#2457f5;color:white;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(36,87,245,.3);transition:.25s}
+.join-live-btn:hover{transform:translateY(-2px);background:#3266ff;box-shadow:0 12px 28px rgba(36,87,245,.4)}
 
 /* ====== BUGUNGI MAVZU (TODAY'S TOPIC) ====== */
-.today-lesson-card{
-  background:linear-gradient(135deg,rgba(90,25,190,0.35),rgba(20,10,45,0.55));
-  border:1px solid rgba(160,80,255,0.35);
-  border-radius:24px;
-  padding:22px 26px;
-  margin-bottom:20px;
-  position:relative;
-  overflow:hidden;
-}
-.today-lesson-card::before{
-  content:'';position:absolute;top:0;left:6%;right:6%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(200,120,255,0.55),transparent);
-}
-.today-lesson-label{
-  font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2.5px;
-  color:#cc88ff;margin-bottom:10px;font-weight:700;
-}
-.today-lesson-topic{
-  font-size:19px;color:#f1e4ff;font-weight:600;line-height:1.5;
-}
-.today-lesson-sub{
-  font-size:13px;color:rgba(200,170,240,0.6);margin-top:8px;
-}
-.today-lesson-setdate{
-  margin-top:14px;padding:7px 14px;border-radius:9px;
-  border:1px solid rgba(160,80,255,0.3);background:rgba(20,8,50,0.5);
-  color:rgba(200,140,255,0.75);font-family:'Exo 2',sans-serif;font-size:11px;
-  font-weight:600;cursor:pointer;transition:.2s;
-}
+.today-lesson-card{background:linear-gradient(135deg,rgba(90,25,190,0.35),rgba(20,10,45,0.55));border:1px solid rgba(160,80,255,0.35);border-radius:24px;padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden}
+.today-lesson-card::before{content:'';position:absolute;top:0;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,rgba(200,120,255,0.55),transparent)}
+.today-lesson-label{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2.5px;color:#cc88ff;margin-bottom:10px;font-weight:700}
+.today-lesson-topic{font-size:19px;color:#f1e4ff;font-weight:600;line-height:1.5}
+.today-lesson-sub{font-size:13px;color:rgba(200,170,240,0.6);margin-top:8px}
+.today-lesson-setdate{margin-top:14px;padding:7px 14px;border-radius:9px;border:1px solid rgba(160,80,255,0.3);background:rgba(20,8,50,0.5);color:rgba(200,140,255,0.75);font-family:'Exo 2',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:.2s}
 .today-lesson-setdate:hover{background:rgba(60,20,120,0.6);color:#ddaaff}
 
 /* ====== KOD MAYDONI (CODE PLAYGROUND) ====== */
-.code-wrap{
-  background:#0c0e16;border:1px solid rgba(140,60,255,0.2);border-radius:20px;
-  overflow:hidden;
-}
+.code-wrap{background:#0c0e16;border:1px solid rgba(140,60,255,0.2);border-radius:20px;overflow:hidden}
 .code-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
 @media(max-width:860px){.code-grid{grid-template-columns:1fr}}
 .code-pane{border-right:1px solid rgba(140,60,255,0.15);display:flex;flex-direction:column;min-width:0}
@@ -331,11 +206,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
 .code-run-btn:hover{background:rgba(25,170,110,0.55);box-shadow:0 0 14px rgba(50,200,140,0.3)}
 .code-reset-btn{padding:8px 14px;border-radius:9px;border:1px solid rgba(140,60,255,0.28);background:rgba(20,8,50,0.5);color:rgba(200,140,255,0.7);font-weight:600;font-size:12px;cursor:pointer;transition:.2s}
 .code-reset-btn:hover{background:rgba(60,20,120,0.6);color:#ddaaff}
-.code-editor{
-  flex:1;min-height:340px;width:100%;resize:none;border:none;outline:none;
-  background:#0c0e16;color:#d8b4ff;font-family:'Consolas','Courier New',monospace;
-  font-size:13.5px;line-height:1.6;padding:16px 18px;tab-size:2;
-}
+.code-editor{flex:1;min-height:340px;width:100%;resize:none;border:none;outline:none;background:#0c0e16;color:#d8b4ff;font-family:'Consolas','Courier New',monospace;font-size:13.5px;line-height:1.6;padding:16px 18px;tab-size:2}
 .code-editor::placeholder{color:rgba(140,80,200,0.3)}
 .code-result-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(140,60,255,0.15);background:rgba(14,6,40,0.6)}
 .code-result-title{display:flex;align-items:center;gap:8px;color:#cc88ff;font-size:13px;font-weight:700;letter-spacing:.5px}
@@ -347,7 +218,6 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
 .code-clear-btn{background:none;border:none;color:rgba(200,140,255,0.5);cursor:pointer;font-size:14px}
 .code-clear-btn:hover{color:#ffaacc}
 
-/* SCROLLBAR */
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:rgba(10,4,35,0.5)}
 ::-webkit-scrollbar-thumb{background:rgba(140,60,255,0.35);border-radius:3px}
@@ -365,8 +235,8 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
     <div class="cn c-tl"></div><div class="cn c-tr"></div>
     <div class="cn c-bl"></div><div class="cn c-br"></div>
     <div class="logo-wrap">
-      <div class="logo-main">COMPUTER INSTITUTE</div>
-      <div class="logo-sub">DIPLOMATIYA KURSI &middot; PORTAL</div>
+      <div class="logo-main">SUN'IY INTELLEKT</div>
+      <div class="logo-sub">AMALIY VA NAZARIY KURSLAR PORTALI</div>
     </div>
     <div class="ldiv"></div>
     <label class="fl">LOGIN</label>
@@ -377,7 +247,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
     <div class="dodge-msg" id="dodgeMsg"></div>
     <div class="lfoot">
       <div><span class="pd"></span><span class="pt">ONLINE &middot; XAVFSIZ</span></div>
-      <span class="vr">v2.0.1</span>
+      <span class="vr">v3.0.0</span>
     </div>
   </div>
 </div>
@@ -388,14 +258,14 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
 
   <div class="app-header">
     <button class="hbtn" id="hbtn" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
-    <div class="h-logo">COMPUTER INSTITUTE</div>
+    <div class="h-logo">SUN'IY INTELLEKT</div>
     <div style="flex:1"></div>
     <button class="h-exit" onclick="location.reload()">⏻ Chiqish</button>
   </div>
 
   <div class="side-overlay" id="sideOverlay" onclick="toggleDrawer(false)"></div>
   <div class="side-drawer" id="sideDrawer">
-    <div class="sd-logo">COMPUTER INSTITUTE</div>
+    <div class="sd-logo">SUN'IY INTELLEKT</div>
     <button class="side-tab-btn active" onclick="switchTab('journal',this)">📊 Baholar</button>
     <button class="side-tab-btn" onclick="switchTab('attend',this)">✅ Davomat</button>
     <button id="admSt" class="side-tab-btn" style="display:none" onclick="switchTab('students',this)">👥 O'quvchilar</button>
@@ -435,7 +305,6 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
       </div>
     </div>
 
-
     <div id="liveSec" class="card-content" style="display:none">
       <div class="live-header">
         <div class="live-icon">🎥</div>
@@ -449,7 +318,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
 
       <div class="live-card">
         <div class="live-status">Faol</div>
-        <h2>C-1</h2>
+        <h2>AI-1</h2>
         <div class="live-teacher">Jonli dars</div>
 
         <div class="live-info">
@@ -465,7 +334,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
 
     <div id="planSec" class="card-content" style="display:none">
       <div class="glass">
-        <div class="glass-title">📝 2 YILLIK KURS REJASI — RAQAMLI DIPLOMATIYA VA KOMPYUTER SOHASI</div>
+        <div class="glass-title">📝 2 YILLIK KURS REJASI — SUN'IY INTELLEKT VA NEYRON TARMOQLARI</div>
         <div id="todoList"></div>
       </div>
     </div>
@@ -473,7 +342,7 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
     <div id="codeSec" class="card-content" style="display:none">
       <div class="glass" style="padding:20px 20px 24px">
         <div class="glass-title" style="margin-bottom:6px">💻 KOD MAYDONI</div>
-        <p style="font-size:12px;color:rgba(200,160,255,0.55);margin-bottom:16px">HTML va CSS jonli yangilanadi (&lt;link&gt; bilan ulab). JS ishlashi uchun &lt;script&gt; bilan ulab, <b style="color:#8affc1">Ishga tushur</b>ni bosing.</p>
+        <p style="font-size:12px;color:rgba(200,160,255,0.55);margin-bottom:16px">HTML va CSS jonli yangilanadi. JS ishlashi uchun <b style="color:#8affc1">Ishga tushur</b>ni bosing.</p>
         <div class="code-wrap">
           <div class="code-grid">
             <div class="code-pane">
@@ -486,18 +355,14 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
                 <button class="code-reset-btn" onclick="cpReset()">↺ Boshidan</button>
               </div>
               <textarea class="code-editor" id="cpHtml" spellcheck="false"><!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <!-- CSS fayl shu yerda ulanadi -->
+  <title>Sun'iy Intellekt</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Salom, dunyo!</h1>
-
-  <!-- JS fayl shu yerda ulanadi -->
+  <h1>Sun'iy Intellekt Dunyosiga Xush Kelibsiz!</h1>
   <script src="script.js"></script>
 </body>
 </html></textarea>
@@ -505,10 +370,9 @@ textarea.app-input{margin:10px 0;resize:vertical;min-height:100px}
   text-align: center;
   margin-top: 80px;
   font-family: sans-serif;
-  color: #5b21e0;
+  color: #a855f7;
 }</textarea>
-              <textarea class="code-editor" id="cpJs" style="display:none" spellcheck="false">// console.log(...) natijasi pastdagi Console bo'limida ko'rinadi
-console.log("Salom, dunyo!");</textarea>
+              <textarea class="code-editor" id="cpJs" style="display:none" spellcheck="false">console.log("Sun'iy intellekt moduli yuklandi.");</textarea>
             </div>
             <div class="code-pane">
               <div class="code-result-head">
@@ -536,21 +400,43 @@ console.log("Salom, dunyo!");</textarea>
       </div>
     </div>
 
-    
+  </div>
+</div>
 
-  </div></div><div id="certTemplate">
+<div id="certTemplate">
   <div class="cert-border">
     <h1 style="font-size:60px;color:#7c3aed">SERTIFIKAT</h1>
     <p style="font-size:20px">Ushbu hujjat kursni muvaffaqiyatli tamomlaganini tasdiqlaydi:</p>
     <h2 id="pdfName" style="font-size:45px;margin:30px 0;border-bottom:2px solid #7c3aed;min-width:400px"></h2>
-    <p style="font-size:18px">Yo'nalish: <b>Diplomatiya kursi</b></p>
+    <p style="font-size:18px">Yo'nalish: <b>Sun'iy Intellekt va Neyron Tarmoqlari</b></p>
     <p style="margin-top:50px">Sana: <span id="currDate"></span></p>
   </div>
 </div>
 
 <script>
 // ============================================================
-//  PARTICLE NETWORK  3D + DRAG + SCROLL ZOOM
+//  SERVER & BACKEND INTEGRATION
+// ============================================================
+const SERVER_URL = "https://api.example.com"; // O'zingizning backend server URL manzilingizni qo'ying
+
+async function syncWithServer(endpoint, method = 'GET', payload = null) {
+  try {
+    const options = {
+      method,
+      headers: { 'Content-Type': 'application/json' }
+    };
+    if (payload) options.body = JSON.stringify(payload);
+    const res = await fetch(`${SERVER_URL}/${endpoint}`, options);
+    if (!res.ok) throw new Error("Server xatosi");
+    return await res.json();
+  } catch (err) {
+    console.warn("Serverga bog'lanishda xatolik! Ma'lumotlar maxalliy xotirada saqlanadi.", err);
+    return null;
+  }
+}
+
+// ============================================================
+//  3D PARTICLE NETWORK
 // ============================================================
 const CV = document.getElementById('bgCanvas');
 const cx = CV.getContext('2d');
@@ -616,12 +502,6 @@ function draw(){
     cx.fillStyle=g; cx.beginPath();cx.arc(sx,sy,s*7,0,Math.PI*2);cx.fill();
     cx.beginPath();cx.arc(sx,sy,s,0,Math.PI*2);
     cx.fillStyle=`hsla(${hue},95%,92%,${Math.min(1,alpha*2.2)})`;cx.fill();
-    if(p.bright>0.75){
-      cx.save();cx.translate(sx,sy);cx.rotate(frame*0.008+p.phase);
-      cx.strokeStyle=`hsla(${hue},95%,88%,${alpha*0.9})`;cx.lineWidth=0.9;
-      for(let k=0;k<4;k++){cx.beginPath();cx.moveTo(0,0);cx.lineTo(0,-s*4.5);cx.stroke();cx.rotate(Math.PI/2);}
-      cx.restore();
-    }
   });
   requestAnimationFrame(draw);
 }
@@ -633,18 +513,9 @@ function onUp(){dragging=false;CV.style.cursor='grab'}
 CV.addEventListener('mousedown',e=>onDown(e.clientX,e.clientY));
 window.addEventListener('mousemove',e=>onMove(e.clientX,e.clientY));
 window.addEventListener('mouseup',onUp);
-CV.addEventListener('touchstart',e=>{e.preventDefault();onDown(e.touches[0].clientX,e.touches[0].clientY)},{passive:false});
-window.addEventListener('touchmove',e=>{if(dragging){e.preventDefault();onMove(e.touches[0].clientX,e.touches[0].clientY)}},{passive:false});
-window.addEventListener('touchend',onUp);
-CV.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,zoom*(e.deltaY>0?0.92:1.09)))},{passive:false});
-let lastPinch=null;
-CV.addEventListener('touchstart',e=>{if(e.touches.length===2)lastPinch=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)},{passive:true});
-window.addEventListener('touchmove',e=>{if(e.touches.length===2&&lastPinch){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);zoom=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,zoom*(d/lastPinch)));lastPinch=d;}},{passive:true});
-window.addEventListener('touchend',()=>lastPinch=null);
-CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.display='none',{once:true});
 
 // ============================================================
-//  LOGIN BUTTON DODGE (parol bo'sh bo'lsa tugma qochadi)
+//  LOGIN BUTTON DODGE
 // ============================================================
 (function(){
   const card = document.getElementById('loginCard');
@@ -657,10 +528,8 @@ CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.di
     const cardRect = card.getBoundingClientRect();
     const maxLeft = cardRect.width - btn.offsetWidth - 16;
     const maxTop = cardRect.height - btn.offsetHeight - 16;
-    const left = Math.max(8, Math.random() * maxLeft);
-    const top = Math.max(8, Math.random() * maxTop);
-    btn.style.left = left + 'px';
-    btn.style.top = top + 'px';
+    btn.style.left = Math.max(8, Math.random() * maxLeft) + 'px';
+    btn.style.top = Math.max(8, Math.random() * maxTop) + 'px';
   }
 
   function runAway(){
@@ -678,21 +547,15 @@ CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.di
       randomSpot();
     }
     msg.textContent = 'Parolni yozmasangiz, tugmani ushlay olmaysiz 😄';
-    msg.className = 'dodge-msg';
   }
 
   btn.addEventListener('mouseenter', runAway);
-  btn.addEventListener('mousemove', runAway);
-  btn.addEventListener('touchstart', function(e){ e.preventDefault(); runAway(); }, {passive:false});
-
   passEl.addEventListener('input', function(){
     if (passEl.value.length > 0){
       if (dodging){
         dodging = false;
         btn.classList.remove('dodging');
-        btn.style.left = '';
-        btn.style.top = '';
-        btn.style.width = '';
+        btn.style.left = ''; btn.style.top = ''; btn.style.width = '';
       }
       msg.textContent = 'Ajoyib! Endi tizimga kirishingiz mumkin ✅';
       msg.className = 'dodge-msg ok';
@@ -703,131 +566,123 @@ CV.addEventListener('mousedown',()=>document.getElementById('dragHint').style.di
 })();
 
 // ============================================================
-//  CRM LOGIC
+//  CRM & AI ISH REJASI LOGIC
 // ============================================================
 let savedDays = JSON.parse(localStorage.getItem("crm_days"));
 let days = Array.isArray(savedDays) && savedDays.length ? savedDays : ["1-dars"];
 
 let savedStudents = JSON.parse(localStorage.getItem("crm_stds"));
 let students = Array.isArray(savedStudents) && savedStudents.length ? savedStudents :
-  [
-    {name:"Nematova Gulsanam", login:"23870965", pass:"nematova", scores:[], attend:[]}
-  ];
-let savedTodos=JSON.parse(localStorage.getItem("crm_todos"));
-let todos=(Array.isArray(savedTodos) && savedTodos.length ? savedTodos :
-  [
-  {text:"— 1-YIL / 1-SEMESTR: RAQAMLI DIPLOMATIYA ASOSLARI —",done:false},
-  {text:"1-soat: Diplomatiya tushunchasi va uning zamonaviy transformatsiyasi",done:false},
-  {text:"2-soat: Raqamli diplomatiya nima? Ta'rifi va kelib chiqish tarixi",done:false},
-  {text:"3-soat: Kompyuter va internetning xalqaro munosabatlarga ta'siri",done:false},
-  {text:"4-soat: Xalqaro tashkilotlar bilan tanishish (BMT, ITU, ICANN)",done:false},
-  {text:"5-soat: Davlatlararo kiberxavfsizlik siyosati asoslari",done:false},
-  {text:"6-soat: Milliy raqamli suverenitet tushunchasi",done:false},
-  {text:"7-soat: Internet boshqaruvi (Internet Governance) modellari",done:false},
-  {text:"8-soat: Xalqaro huquq va kiberfazoning huquqiy maqomi",done:false},
-  {text:"9-soat: Elektron hukumat (e-government) tizimlari",done:false},
-  {text:"10-soat: Raqamli iqtisodiyot va xalqaro savdo aloqalari",done:false},
-  {text:"11-soat: Ijtimoiy tarmoqlar va ommaviy diplomatiya (public diplomacy)",done:false},
-  {text:"12-soat: Ijtimoiy tarmoqlardagi diplomatiya misollarini tahlil qilish",done:false},
-  {text:"13-soat: Axborot xavfsizligi va davlat siyosati",done:false},
-  {text:"14-soat: Kiberhujumlar turlari va ularning diplomatik oqibatlari",done:false},
-  {text:"15-soat: Davlatlararo kiberkonfliktlar tarixi (case-study tahlili)",done:false},
-  {text:"16-soat: BMT kiberxavfsizlik guruhlari (GGE, OEWG) faoliyati",done:false},
-  {text:"17-soat: Xalqaro shartnomalar: Budapesht konventsiyasi",done:false},
-  {text:"18-soat: Ma'lumotlarni himoya qilish bo'yicha xalqaro me'yorlar (GDPR)",done:false},
-  {text:"19-soat: Transchegaraviy ma'lumot oqimi muammolari",done:false},
-  {text:"20-soat: Raqamli diplomatiyada muzokara texnikalariga kirish",done:false},
-  {text:"21-soat: Rasmiy diplomatik yozishmalar va elektron pochta odob-axloqi",done:false},
-  {text:"22-soat: Xalqaro konferensiyalarda rasmiy nutq tayyorlash",done:false},
-  {text:"23-soat: Amaliy mashg'ulot — rasmiy bayonot loyihasini yozish",done:false},
-  {text:"24-soat: 1-semestr yakuniy loyihasi — davlat raqamli siyosatini tahlil qilish",done:false},
+  [{name:"Nematova Gulsanam", login:"23870965", pass:"nematova", scores:[], attend:[]}];
 
-  {text:"— 1-YIL / 2-SEMESTR: TEXNIK KO'NIKMALAR VA XALQARO HAMKORLIK —",done:false},
-  {text:"25-soat: Kompyuter tarmoqlari asoslari (diplomatlar uchun)",done:false},
-  {text:"26-soat: Internet protokollari (IP, DNS, HTTP) bilan tanishish",done:false},
-  {text:"27-soat: Kiberxavfsizlik asoslari — shifrlash tushunchasi",done:false},
-  {text:"28-soat: VPN va xavfsiz aloqa vositalari",done:false},
-  {text:"29-soat: Fishing va ijtimoiy muhandislik hujumlaridan himoyalanish",done:false},
-  {text:"30-soat: Davlat idoralari uchun axborot xavfsizligi siyosati",done:false},
-  {text:"31-soat: Xalqaro IT kompaniyalar bilan hamkorlik (Google, Microsoft, Meta)",done:false},
-  {text:"32-soat: Raqamli valyutalar va xalqaro moliyaviy diplomatiya",done:false},
-  {text:"33-soat: Blokcheyn texnologiyasi va uni xalqaro nazorat qilish",done:false},
-  {text:"34-soat: Sun'iy intellekt siyosati — xalqaro tartibga solish",done:false},
-  {text:"35-soat: AI Act va boshqa mintaqaviy AI qonunlari bilan tanishish",done:false},
-  {text:"36-soat: Kiberterrorizm va uning oldini olish strategiyalari",done:false},
-  {text:"37-soat: Xalqaro tashkilotlarda vakillik — delegatsiya tuzish",done:false},
-  {text:"38-soat: Davlat siyosati bo'yicha rasmiy multimedia taqdimot tayyorlash",done:false},
-  {text:"39-soat: Diplomatik muzokaralarda raqamli vositalardan foydalanish",done:false},
-  {text:"40-soat: Onlayn sammit va virtual muzokaralarni tashkil qilish",done:false},
-  {text:"41-soat: Inqiroz vaziyatlarida raqamli kommunikatsiya (crisis communication)",done:false},
-  {text:"42-soat: Dezinformatsiya va soxta yangiliklar bilan kurashish strategiyalari",done:false},
-  {text:"43-soat: Ijtimoiy tarmoqlarda davlat imijini boshqarish",done:false},
-  {text:"44-soat: Xalqaro huquqda kiberhujumga javob berish choralari",done:false},
-  {text:"45-soat: Amaliy mashg'ulot — simulyatsion muzokara (rol o'yini)",done:false},
-  {text:"46-soat: Amaliy mashg'ulot — kiberhujum stsenariysini tahlil qilish",done:false},
-  {text:"47-soat: Guruh loyihasi — raqamli diplomatiya strategiyasini ishlab chiqish",done:false},
+let savedTodos = JSON.parse(localStorage.getItem("crm_todos"));
+let todos = (Array.isArray(savedTodos) && savedTodos.length ? savedTodos : [
+  {text:"— 1-YIL / 1-SEMESTR: SUN'IY INTELLEKT VA PYTHON ASOSLARI —",done:false},
+  {text:"1-soat: Sun'iy intellektga kirish, tarixi va rivojlanish bosqichlari",done:false},
+  {text:"2-soat: AI, Machine Learning va Deep Learning o'rtasidagi farqlar",done:false},
+  {text:"3-soat: Python dasturlash tili va AI kutubxonalari muhitini sozlash",done:false},
+  {text:"4-soat: Python: Murakkab ma'lumotlar tuzilmalari va funksional dasturlash",done:false},
+  {text:"5-soat: NumPy kutubxonasi — Ko'p o'lchamli massivlar va vektorlashtirish",done:false},
+  {text:"6-soat: Pandas — Ma'lumotlarni tozalash, tahlil va qayta ishlash",done:false},
+  {text:"7-soat: Matplotlib va Seaborn orqali ma'lumotlarni vizuallashtirish",done:false},
+  {text:"8-soat: Chiziqli algebra: Vektorlar, matritsalar va ularning amallari",done:false},
+  {text:"9-soat: Matematik analiz va ehtimollar nazariyasi (AI uchun)",done:false},
+  {text:"10-soat: Machine Learning asoslari: Supervised vs Unsupervised learning",done:false},
+  {text:"11-soat: Chiziqli va logistik regressiya modellari",done:false},
+  {text:"12-soat: K-Nearest Neighbors (KNN) va Qaror daraxtlari (Decision Trees)",done:false},
+  {text:"13-soat: Support Vector Machines (SVM) va Naive Bayes algoritmlari",done:false},
+  {text:"14-soat: Random Forest va Ensemble usullari",done:false},
+  {text:"15-soat: Modellarni baholash: Precision, Recall, F1-Score, ROC-AUC",done:false},
+  {text:"16-soat: K-Means va Klasterlash algoritmlari",done:false},
+  {text:"17-soat: Principal Component Analysis (PCA) — O'lchamlilikni qisqartirish",done:false},
+  {text:"18-soat: Scikit-Learn bilan amaliy ML loyihasini qurish",done:false},
+  {text:"19-soat: Ma'lumotlar muhandisligi (Feature Engineering)",done:false},
+  {text:"20-soat: Amaliy mashg'ulot — Uy narxlarini bashorat qilish modelini yaratish",done:false},
+  {text:"21-soat: Gradient Descent algoritmi va optimallashtirish",done:false},
+  {text:"22-soat: Overfitting va Underfitting muammolari hamda Regularizatsiya",done:false},
+  {text:"23-soat: AutoML vositalari bilan tanishuv",done:false},
+  {text:"24-soat: 1-semestr yakuniy ML loyihasi va uni himoya qilish",done:false},
+
+  {text:"— 1-YIL / 2-SEMESTR: CHUQUR O'RGANISH (DEEP LEARNING) VA CHNN —",done:false},
+  {text:"25-soat: Neyron tarmoqlari asoslari: Perseptron va faollashtirish funksiyalari",done:false},
+  {text:"26-soat: Ko'p qatlamli perseptron (MLP) va Backpropagation algoritmi",done:false},
+  {text:"27-soat: PyTorch freymvorki asoslari va Tensorlar bilan ishlash",done:false},
+  {text:"28-soat: TensorFlow va Keras freymvorklariga kirish",done:false},
+  {text:"29-soat: Optimizatorlar: SGD, Adam, RMSprop",done:false},
+  {text:"30-soat: Computer Vision (Kompyuter qarashi) sohasi haqida umumiy tushuncha",done:false},
+  {text:"31-soat: Konvolyutsion neyron tarmoqlari (CNN) arxitekturasi",done:false},
+  {text:"32-soat: Pooling va Dropout qatlamlari",done:false},
+  {text:"33-soat: Mashhur CNN arxitekturalari: ResNet, VGG, EfficientNet",done:false},
+  {text:"34-soat: Transfer Learning (O'rgatilgan modellarni moslashtirish)",done:false},
+  {text:"35-soat: OpenCV bilan tasvirlarga ishlov berish",done:false},
+  {text:"36-soat: Obyektlarni aniqlash (Object Detection): YOLO modellari",done:false},
+  {text:"37-soat: Tasvirlarni segmentatsiya qilish (Semantic & Instance Segmentation)",done:false},
+  {text:"38-soat: Yuzni tanib olish va biometrik AI tizimlari",done:false},
+  {text:"39-soat: Ketma-ketlik ma'lumotlari va Rekurrent Neyron Tarmoqlari (RNN)",done:false},
+  {text:"40-soat: LSTM va GRU arxitekturalari",done:false},
+  {text:"41-soat: Vaqtli qatorlar (Time Series) ma'lumotlarini AI orqali tahlil qilish",done:false},
+  {text:"42-soat: Amaliy mashg'ulot — Video oqimida real-vaqt rejimida obyektlarni aniqlash",done:false},
+  {text:"43-soat: Generativ Modellar: Autoencoderlar va ularning tuzilishi",done:false},
+  {text:"44-soat: Generative Adversarial Networks (GAN) asoslari",done:false},
+  {text:"45-soat: Tasvir va matn yaratuvchi AI generatorlari",done:false},
+  {text:"46-soat: Model unumdorligini oshirish va giperparametrlarni sozlash",done:false},
+  {text:"47-soat: 2-semestr amaliy loyihasi — Aqlli kuzatuv AI tizimi",done:false},
   {text:"48-soat: 2-semestr yakuniy taqdimoti va baholash",done:false},
 
-  {text:"— 2-YIL / 3-SEMESTR: XALQARO AMALIYOT VA TEXNOLOGIK CHUQURLASHTIRISH —",done:false},
-  {text:"49-soat: Dasturlash asoslari — Python bilan tanishish (diplomatlar uchun)",done:false},
-  {text:"50-soat: Ma'lumotlarni tahlil qilish vositalari (Excel, Google Sheets chuqur)",done:false},
-  {text:"51-soat: Xalqaro statistik ma'lumotlar bazalari (UN Data, World Bank) bilan ishlash",done:false},
-  {text:"52-soat: Ochiq ma'lumotlar (Open Data) siyosati",done:false},
-  {text:"53-soat: Raqamli huquqlar va inson huquqlari (digital rights)",done:false},
-  {text:"54-soat: Internetga kirish tengsizligi (digital divide) muammosi",done:false},
-  {text:"55-soat: Rivojlanayotgan davlatlar uchun raqamli diplomatiya strategiyalari",done:false},
-  {text:"56-soat: Kiberxavfsizlik bo'yicha ikki tomonlama shartnomalar tuzish",done:false},
-  {text:"57-soat: Elchixonalar va konsulliklar uchun raqamli xavfsizlik",done:false},
-  {text:"58-soat: Diplomatik protokolning raqamli davrga moslashuvi",done:false},
-  {text:"59-soat: Xalqaro missiyalar uchun video-konferensiya boshqaruvi",done:false},
-  {text:"60-soat: Ko'p tomonlama muzokaralarda raqamli platformalardan foydalanish",done:false},
-  {text:"61-soat: Kiberjosuslik (cyber espionage) va diplomatik immunitet",done:false},
-  {text:"62-soat: Xalqaro sud amaliyoti — kiberhujum ishlarini tahlil qilish",done:false},
-  {text:"63-soat: Milliy kiberxavfsizlik strategiyasini ishlab chiqish",done:false},
-  {text:"64-soat: Amaliy mashg'ulot — milliy strategiya loyihasini taqdim etish",done:false},
-  {text:"65-soat: Xalqaro IT standartlari (ISO, IEEE) bilan tanishish",done:false},
-  {text:"66-soat: Raqamli diplomatiyada media-monitoring vositalari",done:false},
-  {text:"67-soat: Sentiment-tahlil va jamoatchilik fikri monitoringi",done:false},
-  {text:"68-soat: Turli davlatlarning amaldagi kiberdiplomatiya siyosatlarini qiyoslash",done:false},
-  {text:"69-soat: AQSh, YEI va Xitoy raqamli diplomatiya modellarini taqqoslash",done:false},
-  {text:"70-soat: O'zbekistonning raqamli diplomatiya siyosatini tahlil qilish",done:false},
-  {text:"71-soat: Amaliy loyiha — milliy davlat uchun raqamli diplomatiya rejasi",done:false},
-  {text:"72-soat: 3-semestr yakuniy himoyasi",done:false},
+  {text:"— 2-YIL / 3-SEMESTR: NATURAL LANGUAGE PROCESSING (NLP) VA LLM —",done:false},
+  {text:"49-soat: Tabiiy tilga ishlov berish (NLP) kirish va matnlarni tokenizatsiya qilish",done:false},
+  {text:"50-soat: Word Embeddings: Word2Vec, GloVe va FastText",done:false},
+  {text:"51-soat: Attention Mexanizmi va Transformerlar arxitekturasi",done:false},
+  {text:"52-soat: BERT modellari va ularni matnni tasniflashda qo'llash",done:false},
+  {text:"53-soat: GPT modellari va Katta Til Modellari (LLM) arxitekturasi",done:false},
+  {text:"54-soat: Hugging Face ecosystemasi bilan ishlash",done:false},
+  {text:"55-soat: Prompt Engineering texnikalari",done:false},
+  {text:"56-soat: LLM modellarni fine-tune qilish (LoRA, QLoRA)",done:false},
+  {text:"57-soat: Retrieval-Augmented Generation (RAG) tizimlarini qurish",done:false},
+  {text:"58-soat: Vektor ma'lumotlar bazalari (Pinecone, ChromaDB, Qdrant)",done:false},
+  {text:"59-soat: AI Chatbotlar va Agentlar yaratish (LangChain va LlamaIndex)",done:false},
+  {text:"60-soat: O'zbek tili uchun NLP modellarini ishlab chiqish xususiyatlari",done:false},
+  {text:"61-soat: Ovoz bilan ishlash: Speech-to-Text (Whisper) va Text-to-Speech",done:false},
+  {text:"62-soat: Multimodal AI modellar (Tasvir + Matn + Ovoz)",done:false},
+  {text:"63-soat: AI etikasi, xavfsizlik va xatoliklarni kamaytirish (Hallucination)",done:false},
+  {text:"64-soat: Amaliy mashg'ulot — Tashkilot uchun shaxsiy AI assistent yaratish",done:false},
+  {text:"65-soat: Mustahkamlovchi ta'lim (Reinforcement Learning) asoslari",done:false},
+  {text:"66-soat: Q-Learning va Deep Q-Networks (DQN)",done:false},
+  {text:"67-soat: RLHF (Reinforcement Learning from Human Feedback)",done:false},
+  {text:"68-soat: O'yin va robototexnika sohasida AI agentlar",done:false},
+  {text:"69-soat: AI loyihalarining unumdorligini va tezligini optimallashtirish",done:false},
+  {text:"70-soat: AI modelini API holatiga keltirish (FastAPI, Flask)",done:false},
+  {text:"71-soat: Amaliy loyiha — Intellektual korporativ bilimlar bazasi botini yaratish",done:false},
+  {text:"72-soat: 3-semestr yakuniy loyiha himoyasi",done:false},
 
-  {text:"— 2-YIL / 4-SEMESTR: YAKUNIY AMALIYOT VA PROFESSIONAL TAYYORGARLIK —",done:false},
-  {text:"73-soat: Xalqaro muzokaralar simulyatsiyasi — Model UN (Kiber qo'mita)",done:false},
-  {text:"74-soat: Rasmiy diplomatik hujjatlar — memorandum va bayonot yozish",done:false},
-  {text:"75-soat: Press-relizlar va rasmiy matbuot xabarlarini tayyorlash",done:false},
-  {text:"76-soat: Ingliz tilida diplomatik yozishmalar (professional email)",done:false},
-  {text:"77-soat: Xalqaro konferensiyada tarjimon bilan ishlash",done:false},
-  {text:"78-soat: Kiberxavfsizlik inqirozini boshqarish — amaliy mashq",done:false},
-  {text:"79-soat: Real vaqt rejimida inqiroz-muzokara simulyatsiyasi",done:false},
-  {text:"80-soat: Portfolio — shaxsiy diplomatik CV va faoliyat tarixini tuzish",done:false},
-  {text:"81-soat: LinkedIn va rasmiy profil — xalqaro tarmoqlarda ko'rinish",done:false},
-  {text:"82-soat: Amaliyot — xalqaro tashkilotga ariza va CV topshirish jarayoni",done:false},
-  {text:"83-soat: Case-study — yirik kiberdiplomatik kelishuvlarni tahlil qilish",done:false},
-  {text:"84-soat: Kelajakdagi texnologiyalar — kvant hisoblash va diplomatiya",done:false},
-  {text:"85-soat: Kosmik diplomatiya va raqamli texnologiyalar aloqasi",done:false},
-  {text:"86-soat: Metavers va virtual reallik diplomatiyasi — yangi yo'nalish",done:false},
-  {text:"87-soat: Yakuniy loyiha mavzusini tanlash va reja tuzish",done:false},
-  {text:"88-soat: Yakuniy loyiha — tadqiqot va ma'lumot yig'ish",done:false},
-  {text:"89-soat: Yakuniy loyiha — tahlil va yechim ishlab chiqish",done:false},
-  {text:"90-soat: Yakuniy loyiha — taqdimot slaydlarini tayyorlash",done:false},
-  {text:"91-soat: Yakuniy loyiha — yozma hisobot tayyorlash",done:false},
-  {text:"92-soat: Yakuniy loyiha himoyasiga tayyorgarlik — mashq",done:false},
-  {text:"93-soat: Yakuniy loyihaning rasmiy himoyasi",done:false},
-  {text:"94-soat: Bitiruv sertifikati uchun yakuniy test",done:false},
-  {text:"95-soat: Kurs yakuni — fikr-mulohaza va tavsiyalar",done:false},
+  {text:"— 2-YIL / 4-SEMESTR: MLOPS, AIMO ODEPLOYMENT VA YAKUNIY LOYIHA —",done:false},
+  {text:"73-soat: MLOps ga kirish va AI loyihalarini hayotiy sikli",done:false},
+  {text:"74-soat: Modellar va ma'lumotlarni versiyalash (DVC, MLflow)",done:false},
+  {text:"75-soat: Docker konteynerizatsiyasi (AI ilovalari uchun)",done:false},
+  {text:"76-soat: AI modellarni bulutli platformalarga joylashtirish (AWS, GCP, Azure)",done:false},
+  {text:"77-soat: CI/CD quvurlarini AI loyihalarida yo'lga qo'yish",done:false},
+  {text:"78-soat: Edge AI va Modellarni qisqartirish (Quantization, Pruning, ONNX)",done:false},
+  {text:"79-soat: Mobil va IoT qurilmalarda AI modellarini ishga tushirish (TFLite)",done:false},
+  {text:"80-soat: AI tizimlarining monitoringi hamda Model Drift tahlili",done:false},
+  {text:"81-soat: Shaxsiy AI startup g'oyasi va loyiha arxitekturasini tuzish",done:false},
+  {text:"82-soat: Startup va Enterprise darajadagi AI loyihalar xavfsizligi",done:false},
+  {text:"83-soat: AI sohasidagi xalqaro tadqiqotlar va ilmiy maqolalarni o'rganish",done:false},
+  {text:"84-soat: Yakuniy bitiruv loyihasi mavzusini tasdiqlash",done:false},
+  {text:"85-soat: Bitiruv loyihasi — Ma'lumotlar yig'ish va tayyorlash",done:false},
+  {text:"86-soat: Bitiruv loyihasi — Model tanlash va uni o'rgatish",done:false},
+  {text:"87-soat: Bitiruv loyihasi — Veb va Backend interfeysini bog'lash",done:false},
+  {text:"88-soat: Bitiruv loyihasi — MLOps va Bulutga joylashtirish (Deployment)",done:false},
+  {text:"89-soat: Bitiruv loyihasi — Hujjatlashtirish va Texnik pasportini tayyorlash",done:false},
+  {text:"90-soat: Bitiruv loyihasi — Taqdimot va Demo versiyani tayyorlash",done:false},
+  {text:"91-soat: Loyiha test va xatoliklarni to'g'rilash",done:false},
+  {text:"92-soat: Dastlabki himoya va taqdimot simulyatsiyasi",done:false},
+  {text:"93-soat: Rasmiy bitiruv AI loyihasini himoya qilish",done:false},
+  {text:"94-soat: Bitiruv sertifikati uchun kompleks imtihon",done:false},
+  {text:"95-soat: AI sohasida karyera va frilanserlik bo'yicha tavsiyalar",done:false},
   {text:"96-soat: Bitiruv marosimi va sertifikatlarni topshirish",done:false}
 ]);
-let currentUser=null;
 
-function restoreDefaultData(){
-  localStorage.removeItem("crm_days");
-  localStorage.removeItem("crm_stds");
-  localStorage.removeItem("crm_todos");
-  location.reload();
-}
+let currentUser=null;
 
 function auth(){
   const u=document.getElementById("user").value, p=document.getElementById("pass").value;
@@ -841,7 +696,6 @@ function auth(){
   }
   renderAll();
 }
-
 
 function switchTab(id,btn){
   document.querySelectorAll('.card-content').forEach(c=>c.style.display='none');
@@ -861,7 +715,7 @@ function toggleDrawer(force){
 }
 
 // ============================================================
-//  KOD MAYDONI (CODE PLAYGROUND)
+//  CODE PLAYGROUND
 // ============================================================
 const cpDefaults = {};
 function cpSwitch(lang){
@@ -885,24 +739,10 @@ function cpRun(){
       window.onerror=function(msg){ send('error',[msg]); };
     })();
   <\/script>`;
-  if(doc.includes('<link rel="stylesheet" href="style.css">')){
-    doc = doc.replace('<link rel="stylesheet" href="style.css">', `<style>${css}<\/style>`);
-  } else if(doc.includes('</head>')){
-    doc = doc.replace('</head>', `<style>${css}<\/style></head>`);
-  } else {
-    doc = `<style>${css}<\/style>` + doc;
-  }
-  if(doc.includes('<script src="script.js"><\/script>')){
-    doc = doc.replace('<script src="script.js"><\/script>', `<script>${js}<\/script>`);
-  } else if(doc.includes('</body>')){
-    doc = doc.replace('</body>', `<script>${js}<\/script></body>`);
-  } else {
-    doc += `<script>${js}<\/script>`;
-  }
+  doc = doc.replace('</head>', `<style>${css}<\/style></head>`).replace('</body>', `<script>${js}<\/script></body>`);
   doc = doc.replace('<head>', `<head>${consoleBridge}`);
   cpClearConsole(true);
-  const frame = document.getElementById('cpFrame');
-  frame.srcdoc = doc;
+  document.getElementById('cpFrame').srcdoc = doc;
 }
 window.addEventListener('message', function(e){
   const d = e.data;
@@ -911,13 +751,12 @@ window.addEventListener('message', function(e){
   if(box.dataset.empty==='1'){ box.innerHTML=''; box.dataset.empty='0'; }
   const line = document.createElement('div');
   line.className='cl';
-  const prefix = d.type==='error' ? '❌ ' : d.type==='warn' ? '⚠️ ' : '';
-  line.textContent = prefix + d.args.join(' ');
+  line.textContent = (d.type==='error' ? '❌ ' : d.type==='warn' ? '⚠️ ' : '') + d.args.join(' ');
   if(d.type==='error') line.style.color='#ff9ad6';
   box.appendChild(line);
   box.scrollTop = box.scrollHeight;
 });
-function cpClearConsole(silent){
+function cpClearConsole(){
   const box = document.getElementById('cpConsole');
   box.innerHTML = '<span style="opacity:.5;font-style:italic">console.log(...) natijasi shu yerda ko\'rinadi</span>';
   box.dataset.empty='1';
@@ -971,6 +810,7 @@ function updateStats(){
   const top=[...students].sort((a,b)=>(b.scores||[]).reduce((t,c)=>t+(+c||0),0)-(a.scores||[]).reduce((t,c)=>t+(+c||0),0))[0];
   document.getElementById("topStudent").innerText=(top&&top.name)?top.name.split(" ").slice(0,2).join(" "):"—";
 }
+
 function edit(si,di,type){
   if(currentUser.role!=='admin')return;
   const v=prompt("Qiymat:");if(v!==null){students[si][type][di]=v;save();renderAll();}
@@ -984,26 +824,22 @@ function addStudent(){
 }
 function deleteStudent(i){if(confirm("O'chirishni tasdiqlaysizmi?")){students.splice(i,1);save();renderAll();}}
 function toggle(i){todos[i].done=!todos[i].done;save();renderAll();}
+
 function save(){
   localStorage.setItem("crm_stds",JSON.stringify(students));
   localStorage.setItem("crm_days",JSON.stringify(days));
   localStorage.setItem("crm_todos",JSON.stringify(todos));
+  // Serverga sinxronizatsiya yuborish
+  syncWithServer('data', 'POST', { students, days, todos });
 }
+
 function joinLiveLesson(){
-  // Google Meet'da yaratilgan haqiqiy dars havolasini shu yerga qo'ying.
   const meetingLink = "https://meet.google.com/pat-cyfm-fpv";
   window.open(meetingLink, "_blank");
 }
 
-// ============================================================
-//  BUGUNGI MAVZU — Sesh/Pay/Shan 21:00-22:00 jadvaliga qarab
-//  kurs rejasidan (todos) o'tiladigan mavzuni aniqlaydi
-// ============================================================
-const LESSON_WEEKDAYS = [2,4,6]; // Seshanba, Payshanba, Shanba (Date.getDay(): 0=Yak...6=Shan)
-
-function getLessonTopics(){
-  return todos.filter(t=>!/^—/.test(t.text)).map(t=>t.text);
-}
+const LESSON_WEEKDAYS = [2,4,6];
+function getLessonTopics(){ return todos.filter(t=>!/^—/.test(t.text)).map(t=>t.text); }
 
 function getCourseStartDate(){
   let s = localStorage.getItem("crm_course_start");
@@ -1011,20 +847,7 @@ function getCourseStartDate(){
     s = new Date().toISOString().slice(0,10);
     localStorage.setItem("crm_course_start", s);
   }
-  const d = new Date(s+"T00:00:00");
-  return isNaN(d.getTime()) ? new Date() : d;
-}
-
-function setCourseStartDate(){
-  if(!currentUser || currentUser.role!=='admin') return;
-  const cur = localStorage.getItem("crm_course_start") || new Date().toISOString().slice(0,10);
-  const v = prompt("Kurs boshlanish sanasini kiriting (YYYY-MM-DD):", cur);
-  if(v){
-    const test = new Date(v+"T00:00:00");
-    if(isNaN(test.getTime())){ alert("Sana formati noto'g'ri! Masalan: 2026-07-21"); return; }
-    localStorage.setItem("crm_course_start", v);
-    renderTodayLesson();
-  }
+  return new Date(s+"T00:00:00");
 }
 
 function countLessonDaysBetween(start,end){
@@ -1038,30 +861,12 @@ function countLessonDaysBetween(start,end){
   return count;
 }
 
-function nextLessonDateFrom(date){
-  const d=new Date(date); d.setDate(d.getDate()+1);
-  while(!LESSON_WEEKDAYS.includes(d.getDay())) d.setDate(d.getDate()+1);
-  return d;
-}
-
 function renderTodayLesson(){
   const box = document.getElementById("todayLessonBox");
   if(!box) return;
   const start = getCourseStartDate();
   const today = new Date(); today.setHours(0,0,0,0);
   const topics = getLessonTopics();
-  const isAdmin = currentUser && currentUser.role==='admin';
-  const adminBtn = isAdmin ? `<button class="today-lesson-setdate" onclick="setCourseStartDate()">📅 Boshlanish sanasini o'zgartirish</button>` : '';
-
-  if(today < start){
-    box.innerHTML = `
-      <div class="today-lesson-label">🕐 KURS HALI BOSHLANMAGAN</div>
-      <div class="today-lesson-topic">Boshlanish sanasi: ${start.toLocaleDateString()}</div>
-      <div class="today-lesson-sub">Darslar: Seshanba, Payshanba, Shanba &middot; 21:00–22:00</div>
-      ${adminBtn}`;
-    return;
-  }
-
   const day = today.getDay();
   const isLessonDay = LESSON_WEEKDAYS.includes(day);
   const idx = countLessonDaysBetween(start, today) - 1;
@@ -1070,17 +875,11 @@ function renderTodayLesson(){
     box.innerHTML = `
       <div class="today-lesson-label">📖 BUGUNGI DARS MAVZUSI &middot; 21:00–22:00</div>
       <div class="today-lesson-topic">${topics[idx]}</div>
-      <div class="today-lesson-sub">Bugun shu mavzuni o'tasiz.</div>
-      ${adminBtn}`;
+      <div class="today-lesson-sub">Bugun shu mavzuni o'tasiz.</div>`;
   } else {
-    const nd = nextLessonDateFrom(today);
-    const nIdx = countLessonDaysBetween(start, nd) - 1;
-    const nTopic = (nIdx>=0 && nIdx<topics.length) ? topics[nIdx] : (idx>=topics.length ? "Kurs mavzulari tugadi 🎓" : "—");
     box.innerHTML = `
       <div class="today-lesson-label">🕐 BUGUN DARS YO'Q</div>
-      <div class="today-lesson-topic">Keyingi dars: ${nd.toLocaleDateString()}</div>
-      <div class="today-lesson-sub">Mavzu: ${nTopic}</div>
-      ${adminBtn}`;
+      <div class="today-lesson-topic">Navbatdagi mashg'ulotlarga tayyorgarlik ko'ring.</div>`;
   }
 }
 
